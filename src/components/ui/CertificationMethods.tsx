@@ -1,10 +1,10 @@
 import phone from "@/asset/images/phone-certification.png"
 import creditcard from "@/asset/images/creditcard-certification.png"
-import Image from "next/image"
+import Image, { StaticImageData } from "next/image"
 import Link from "next/link"
 
 interface CertificationMethod {
-  imageSrc: string
+  imageSrc: StaticImageData
   altText: string
   title: string
 }
@@ -24,9 +24,10 @@ const CertificationMethods: React.FC = () => {
   ]
 
   return (
-    <Link href={"#"} className="flex gap-2 mx-3 text-sm leading-4 text-black">
+    <div className="flex gap-2 mx-3 text-sm leading-4 text-black bg-white">
       {methods.map((method, index) => (
-        <div
+        <Link
+          href={"#"}
           key={index}
           className="text-center py-5 w-full border border-solid border-slate-300"
         >
@@ -36,9 +37,9 @@ const CertificationMethods: React.FC = () => {
             className="relative self-center left-[50%] translate-x-[-50%] bottom-2"
           />
           {method.title}
-        </div>
+        </Link>
       ))}
-    </Link>
+    </div>
   )
 }
 
