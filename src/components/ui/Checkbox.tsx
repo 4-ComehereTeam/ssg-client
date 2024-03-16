@@ -1,13 +1,15 @@
 type CheckboxProps = {
   id: string
+  text: string
 }
 
-export default function Checkbox({ id }: CheckboxProps) {
+export default function Checkbox({ id, text }: CheckboxProps) {
   return (
-    <input
-      id={id}
-      type="checkbox"
-      className="
+    <div className="flex gap-1">
+      <input
+        id={id}
+        type="checkbox"
+        className="
         appearance-none
         w-[17px] h-[17px]
         border border-gray-300 rounded-full 
@@ -19,6 +21,8 @@ export default function Checkbox({ id }: CheckboxProps) {
         checked:bg-center
         checked:bg-[url('/asset/images/check.svg')]
         "
-    />
+      />
+      <label htmlFor={id}>{text}</label>
+    </div>
   )
 }
