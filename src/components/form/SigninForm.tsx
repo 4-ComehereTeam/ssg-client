@@ -31,10 +31,7 @@ function SigninForm() {
         className="flex mt-[13.5px] px-[15px]"
         onClick={() => onClickKeepId()}
       >
-        <Checkbox id="keepId" />
-        <label htmlFor="keepId" className="pl-[5px] text-sm">
-          아이디 저장
-        </label>
+        <Checkbox id="keepId" text="아이디 저장" />
       </span>
       {/* --------아이디 저장--------- */}
       <button className="mt-[33px] justify-center items-center px-16 py-5 leading-[10px] font-medium text-white whitespace-nowrap bg-[#FF5452] h-[50px]">
