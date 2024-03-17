@@ -4,6 +4,8 @@ import kakaoLogo from "@/asset/images/kakao.png"
 import appleLogo from "@/asset/images/apple.png"
 import tossLogo from "@/asset/images/toss.png"
 import phoneLogo from "@/asset/images/phone.png"
+import eamilLogo from "@/asset/images/simple-signup-email.png"
+import Link from "next/link"
 
 type SocialButtonProps = {
   src: string | StaticImageData
@@ -16,7 +18,7 @@ export const SocialButton: React.FC<SocialButtonProps> = ({
   alt,
   text,
 }) => (
-  <button className="flex flex-col">
+  <Link href={"#"} className="flex flex-col">
     <Image
       className="self-center rounded-full aspect-square"
       loading="lazy"
@@ -26,10 +28,10 @@ export const SocialButton: React.FC<SocialButtonProps> = ({
       height={51}
     />
     <p className="mt-2 text-center w-full">{text}</p>
-  </button>
+  </Link>
 )
 
-export const socials = [
+export const socialSignin = [
   {
     src: naverLogo,
     alt: "네이버 로그인",
@@ -54,5 +56,28 @@ export const socials = [
     src: phoneLogo,
     alt: "휴대폰 로그인",
     text: "휴대폰",
+  },
+]
+
+export const socialSignup = [
+  {
+    src: eamilLogo,
+    alt: "이메일 회원가입",
+    text: "이메일",
+  },
+  {
+    src: naverLogo,
+    alt: "네이버 회원가입",
+    text: "네이버",
+  },
+  {
+    src: kakaoLogo,
+    alt: "카카오 회원가입",
+    text: "카카오",
+  },
+  {
+    src: appleLogo,
+    alt: "애플 회원가입",
+    text: "애플",
   },
 ]
