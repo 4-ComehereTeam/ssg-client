@@ -3,6 +3,7 @@ type CheckboxProps = {
   text: string
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
   checked?: boolean
+  checkboxShape?: string
 }
 
 export default function Checkbox({
@@ -10,6 +11,7 @@ export default function Checkbox({
   text,
   onChange,
   checked,
+  checkboxShape = "rounded-full",
 }: CheckboxProps) {
   return (
     <div className="flex gap-2 items-center">
@@ -18,10 +20,10 @@ export default function Checkbox({
         type="checkbox"
         onChange={onChange}
         checked={checked}
-        className="
+        className={`
         appearance-none
         w-[17px] h-[17px]
-        border border-gray-300 rounded-full 
+        border border-gray-300 ${checkboxShape} 
         bg-[url('/assets/images/check.svg')]
         bg-no-repeat
         bg-center
@@ -29,7 +31,7 @@ export default function Checkbox({
         checked:bg-no-repeat
         checked:bg-center
         checked:bg-[url('/asset/images/check.svg')]
-        "
+        `}
       />
       <label htmlFor={id}>{text}</label>
     </div>
