@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import Agreement from "../ui/Agreement"
+import Checkbox from "../ui/Checkbox"
 
 export default function AgreeForm() {
   const [checkedState, setCheckedState] = useState([
@@ -12,60 +12,49 @@ export default function AgreeForm() {
     false,
   ])
 
-  const handleLastCheckboxClick = () => {
-    setCheckedState([true, true, true, true, true])
-  }
+  const agreements = [
+    { num: 0, id: "agree1", text: "개인정보 이용 및 제공 동의" },
+    { num: 1, id: "agree2", text: "통신사 이용약관 동의" },
+    { num: 2, id: "agree3", text: "고유식별정보 처리 동의" },
+    { num: 3, id: "agree4", text: "서비스 이용약관 동의" },
+    { num: 4, id: "agree5", text: "전체 동의" },
+  ]
 
   const handleCheckboxChange = (position: number) => {
-    const updatedCheckedState = checkedState.map((item, index) =>
-      index === position ? !item : item,
-    )
-    setCheckedState(updatedCheckedState)
-  }
+    if (position === agreements.length - 1) {
+      const areAllChecked = checkedState.every(Boolean)
+      setCheckedState(checkedState.map(() => !areAllChecked))
+    } else {
+      // 전체동의 아닐때 체크박스 업데이트
 
-  const agreements = [
-    { num: 0, text: "개인정보 이용 및 제공 동의" },
-    { num: 1, text: "통신사 이용약관 동의" },
-    { num: 2, text: "고유식별정보 처리 동의" },
-    { num: 3, text: "서비스 이용약관 동의" },
-    { num: 4, text: "전체 동의" },
-  ]
+      // 전체동의 제외 모두 true면 전체동의도 true
+      // 하나라도 false면 전체동의 false
+      let updatedCheckedState = checkedState.map((check, index) =>
+        index === position ? !check : check,
+      )
+      const isRestChecked = updatedCheckedState.slice(0, -1).every(Boolean)
+      updatedCheckedState[agreements.length - 1] = isRestChecked ? true : false
+      setCheckedState(updatedCheckedState)
+    }
+  }
 
   return (
     <section className="flex flex-col px-4 py-5 text-sm leading-4 bg-zinc-100">
       {agreements.map((agreement) => (
-        <>
-          <div className="flex justify-between items-start px-4 py-3.5 w-full whitespace-nowrap bg-white border-t border-solid text-zinc-600">
-            <div className="flex gap-1">
-              <input
-                id={agreement.num.toString()}
-                type="checkbox"
-                value={agreement.num}
-                checked={checkedState[agreement.num]}
-                onChange={() => handleCheckboxChange(agreement.num)}
-                onClick={
-                  agreement.num === 4 ? handleLastCheckboxClick : undefined
-                }
-                className="
-           appearance-none
-           w-[17px] h-[17px]
-           border border-gray-300 rounded-full 
-           bg-[url('/assets/images/check.svg')]
-           bg-no-repeat
-           bg-center
-           checked:bg-[#FE5B5B] focus:outline-none
-           checked:bg-no-repeat
-           checked:bg-center
-           checked:bg-[url('/asset/images/check.svg')]
-           "
-              />
-              <label htmlFor={agreement.num.toString()}>{agreement.text}</label>
-            </div>
-            <button className="bg-[#F8F8F8] border border-slate-400 w-[50px] h-[17px] text-xs">
-              내용보기
-            </button>
-          </div>
-        </>
+        <div
+          key={agreement.num}
+          className="flex justify-between items-start px-4 py-3.5 w-full whitespace-nowrap bg-white border-t border-solid text-zinc-600 text-[0.7rem]"
+        >
+          <Checkbox
+            id={agreement.id}
+            text={agreement.text}
+            onChange={() => handleCheckboxChange(agreement.num)}
+            checked={checkedState[agreement.num]}
+          />
+          <button className="w-[50px] h-[17px] text-[0.6rem] text-center bg-[#F8F8F8] border border-slate-300">
+            내용보기
+          </button>
+        </div>
       ))}
     </section>
   )

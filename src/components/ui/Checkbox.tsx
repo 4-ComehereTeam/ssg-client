@@ -1,14 +1,23 @@
 type CheckboxProps = {
   id: string
   text: string
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+  checked?: boolean
 }
 
-export default function Checkbox({ id, text }: CheckboxProps) {
+export default function Checkbox({
+  id,
+  text,
+  onChange,
+  checked,
+}: CheckboxProps) {
   return (
-    <div className="flex gap-1">
+    <div className="flex gap-2 items-center">
       <input
         id={id}
         type="checkbox"
+        onChange={onChange}
+        checked={checked}
         className="
         appearance-none
         w-[17px] h-[17px]
