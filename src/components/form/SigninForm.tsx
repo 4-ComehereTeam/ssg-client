@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useState } from "react"
 
-import { SocialButton, socials } from "../ui/SocialButton"
+import { SocialButton, socialSignin } from "../ui/SocialButton"
 import Checkbox from "../ui/Checkbox"
 
 function SigninForm() {
@@ -44,8 +44,8 @@ function SigninForm() {
         <Link href="#">| 비밀번호 찾기 |</Link>
         <Link href="#">회원가입</Link>
       </nav>
-      <ul className="flex gap-5 justify-center mt-11 flex-nowrap text-xs text-center whitespace-nowrap text-neutral-600">
-        {socials.map((button, index) => (
+      <div className="flex gap-5 justify-center mt-11 flex-nowrap text-xs text-center whitespace-nowrap text-neutral-600">
+        {socialSignin.map((button, index) => (
           <SocialButton
             key={index}
             src={button.src}
@@ -53,7 +53,7 @@ function SigninForm() {
             text={button.text}
           />
         ))}
-      </ul>
+      </div>
       {/* ----------광고------------ */}
       <button className="mt-[100px] justify-center text-center relative border border-solid bg-neutral-800 border-neutral-800 h-[52px] cursor-pointer text-white text-[14px]">
         <span className="absolute top-0 right-0 px-[6px] text-[11px] text-white bg-black bg-opacity-0">
