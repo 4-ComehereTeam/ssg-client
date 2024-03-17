@@ -19,32 +19,32 @@ export default function CertificationForm() {
           <input placeholder="이름" className="text-zinc-600" />
           <GenderSelectionButton />
         </section>
-        <section className="flex justify-between px-3 py-3 bg-white border-t border-solid border-zinc-100 text-zinc-600">
+        <section className="flex gap-2 px-3 py-3 bg-white border-t border-solid border-zinc-100 text-zinc-600">
           <input
-            className="w-70 h-8"
+            className="h-8 basis-3/4"
             placeholder="생년월일 8자리(예. 20100101)"
           />
-
           <Dropdown
             options={[
               { label: "내국인", value: "내국인" },
               { label: "외국인", value: "외국인" },
             ]}
-            style="py-1.7 h-8 text-black bg-white w-full"
+            style="py-1.7 h-8 basis-1/4 text-black"
           />
         </section>
-        <section className="px-3 py-3 bg-white border-t border-solid border-zinc-100">
+        <section className="flex flex-row gap-2 px-3 py-3 bg-white border-t border-solid border-zinc-100">
           <Dropdown
             options={[
               { label: "SKT", value: "SKT" },
               { label: "KT", value: "KT" },
               { label: "LGU+", value: "LGU+" },
             ]}
-            style="py-1.7 h-8 text-black bg-white w-full"
+            style="py-1.7 h-8 text-black basis-1/4"
           />
-        </section>
-        <section className="py-3 px-3 bg-white border-t border-solid border-zinc-100 text-zinc-600">
-          <input className="w-full h-8" placeholder="-없이 휴대폰번호 입력" />
+          <input
+            className="h-8 basis-3/4"
+            placeholder="-없이 휴대폰번호 입력"
+          />
         </section>
         {showVerificationInput ? (
           <section className="py-3 px-3 bg-white border-t border-solid border-zinc-100 text-zinc-600">
@@ -59,7 +59,7 @@ export default function CertificationForm() {
           </button>
         )}
       </form>
-      <ul className="mt-4 ml-3 text-xs tracking-tight leading-2 text-neutral-800">
+      <ul className="mt-4 ml-3 text-[0.7rem] tracking-tight leading-2 text-neutral-800">
         <li className="flex items-center mt-2">
           <span className="inline-block w-[2px] h-[2px] rounded-full bg-[#FE5B5B] mr-1">
             &nbsp;
