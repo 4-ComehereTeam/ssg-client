@@ -25,6 +25,7 @@ export default function SignupAgreeForm({}) {
   const [checkedState, setCheckedState] = useState(
     Array.from({ length: agreements.length }, () => false),
   )
+  const [isClickNext, setClickNext] = useState(false)
 
   const handleCheckboxChange = (position: number, id: string) => {
     const agreeAllIndex = agreements.findIndex(
@@ -49,6 +50,14 @@ export default function SignupAgreeForm({}) {
 
       setCheckedState(updatedCheckedState)
     }
+  }
+
+  const handleClickNext = () => {
+    for (const agreement of agreements.slice(1, agreements.length))
+      if (!checkedState[agreement.num]) {
+        alert(`'${agreement.text}'에 동의해주세요.`)
+        break
+      }
   }
 
   return (
@@ -96,7 +105,10 @@ export default function SignupAgreeForm({}) {
           </div>
         ))}
       </div>
-      <button className="w-full h-[48px] bg-[#FF5452] text-white text-lg font-semibold">
+      <button
+        className="w-full h-[48px] bg-[#FF5452] text-white text-lg font-semibold"
+        onClick={() => handleClickNext()}
+      >
         다음
       </button>
     </section>
