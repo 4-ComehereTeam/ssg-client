@@ -14,7 +14,7 @@ export default function Checkbox({
   checkboxShape = "rounded-full",
 }: CheckboxProps) {
   return (
-    <div className="flex gap-2 items-center">
+    <div className="basis-3/4 flex flex-row gap-2">
       <input
         id={id}
         type="checkbox"
@@ -33,7 +33,9 @@ export default function Checkbox({
         checked:bg-[url('/asset/images/check.svg')]
         `}
       />
-      <label htmlFor={id}>{text}</label>
+      <label htmlFor={id} className="basis-3/4">
+        {text}
+      </label>
     </div>
   )
 }
