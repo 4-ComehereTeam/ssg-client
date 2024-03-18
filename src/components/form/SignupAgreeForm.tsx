@@ -25,7 +25,6 @@ export default function SignupAgreeForm({}) {
   const [checkedState, setCheckedState] = useState(
     Array.from({ length: agreements.length }, () => false),
   )
-  const [isClickNext, setClickNext] = useState(false)
 
   const handleCheckboxChange = (position: number, id: string) => {
     const agreeAllIndex = agreements.findIndex(
