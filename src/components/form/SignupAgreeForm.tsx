@@ -71,7 +71,7 @@ export default function SignupAgreeForm({}) {
                 onChange={() =>
                   handleCheckboxChange(agreement.num, agreement.id)
                 }
-                checked={checkedState[0]}
+                checked={checkedState[agreement.num]}
                 checkboxShape=""
               />
             )}
