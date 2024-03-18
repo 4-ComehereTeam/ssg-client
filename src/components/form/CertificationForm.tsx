@@ -16,7 +16,7 @@ export default function CertificationForm() {
     <section className="px-4 bg-zinc-100">
       <form className="flex flex-col text-sm leading-4 ">
         <section className="flex gap-px justify-between px-3 py-3.5 mt-6 bg-white border-t border-solid border-zinc-100">
-          <input placeholder="이름" className="text-zinc-600" />
+          <input placeholder="이름" className="basis-3/4 text-zinc-600" />
           <GenderSelectionButton />
         </section>
         <section className="flex gap-2 px-3 py-3 bg-white border-t border-solid border-zinc-100 text-zinc-600">
