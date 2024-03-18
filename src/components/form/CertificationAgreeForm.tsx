@@ -57,7 +57,7 @@ export default function CertificationAgreeForm({
       {agreements.map((agreement) => (
         <div
           key={agreement.num}
-          className="flex justify-between items-start px-4 py-3.5 w-full bg-white border-t border-solid text-zinc-600 text-[0.7rem]"
+          className="flex justify-between items-start px-4 py-3.5 w-full bg-white border-t border-solid text-zinc-600 text-xs"
         >
           <Checkbox
             id={agreement.id}
@@ -66,7 +66,7 @@ export default function CertificationAgreeForm({
             checked={checkedState[agreement.num]}
             checkboxShape={checkboxShape}
           />
-          <button className="w-[50px] h-[17px] text-[0.6rem] text-center bg-[#F8F8F8] border border-slate-300">
+          <button className="w-[58px] h-[20px] text-xs text-center bg-[#F8F8F8] border border-slate-300">
             내용보기
           </button>
         </div>
