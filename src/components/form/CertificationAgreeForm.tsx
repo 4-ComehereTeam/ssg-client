@@ -18,29 +18,20 @@ export default function CertificationAgreeForm({
   )
 
   const handleCheckboxChange = (position: number, id: string) => {
-    // agreements props 중 id 속성이 "agreeAll"인 요소의 인덱스 찾기
     const agreeAllIndex = agreements.findIndex(
       (agreement) => agreement.id === "agreeAll",
     )
-    // agreements 중 id 속성이 "agreeAll"인 요소가 존재하면 true 아니면 false
+
     const isAgreeAllPresent = agreeAllIndex !== -1
 
     if (id === "agreeAll") {
-      // onChange 이벤트에서 전달받은 id값이 "agreeAll"이라면 checkedState 일괄 변경
       const areAllChecked = checkedState.every(Boolean)
       setCheckedState(checkedState.map(() => !areAllChecked))
     } else {
-      // onChange 이벤트에서 전달받은 id값이 "agreeAll"이 아니면 checkedState 개별 변경
       let updatedCheckedState = checkedState.map((item, index) =>
         index === position ? !item : item,
       )
 
-      /*
-      agreements 중 id 속성이 "agreeAll"인 요소가 존재하면 
-      "agreeAll"을 제외한 나머지 요소들의 checkedState가 모두 true인지 확인
-
-      모두 true면 "agreeAll"인 요소의 checkedState 값 변경
-      */
       if (isAgreeAllPresent) {
         const isRestChecked =
           updatedCheckedState.slice(0, agreeAllIndex).every(Boolean) &&
