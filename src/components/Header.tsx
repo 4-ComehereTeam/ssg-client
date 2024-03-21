@@ -1,9 +1,12 @@
 import Image from "next/image"
 import Link from "next/link"
-import React from "react"
 import backArrow from "@/asset/images/backArrow.svg"
 
-function Header() {
+type HeaderPropsType = {
+  title: string
+}
+
+function Header({ title }: HeaderPropsType) {
   return (
     <div className="flex justify-between pr-[49px] w-full h-[42px] text-sm text-center text-black whitespace-nowrap border-b border-solid border-stone-300">
       <Link href="#" className="w-[50px] flex item-center justify-center">
@@ -15,7 +18,7 @@ function Header() {
           alt="뒤로가기"
         />
       </Link>
-      <div className="flex-auto my-auto">로그인</div>
+      <div className="flex-auto my-auto">{title}</div>
     </div>
   )
 }

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import Checkbox from "../ui/Checkbox"
+import Checkbox from "../../ui/Checkbox"
 import { AgreementsType } from "@/types/agreementType"
 
 type AgreeFormProps = {
