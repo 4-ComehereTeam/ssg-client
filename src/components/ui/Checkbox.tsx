@@ -3,6 +3,7 @@ type CheckboxProps = {
   text: string
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
   checked?: boolean
+  isDisabled?: boolean
   checkboxShape?: string
 }
 
@@ -11,6 +12,7 @@ export default function Checkbox({
   text,
   onChange,
   checked,
+  isDisabled,
   checkboxShape = "rounded-full",
 }: CheckboxProps) {
   return (
@@ -20,17 +22,17 @@ export default function Checkbox({
         type="checkbox"
         onChange={onChange}
         checked={checked}
+        disabled={isDisabled}
         className={`
         flex-none w-[17px] h-[17px]
         appearance-none
         border border-gray-300 ${checkboxShape} 
         bg-no-repeat
         bg-center
-        checked:bg-[#FE5B5B] focus:outline-none
-        checked:bg-no-repeat
-        checked:bg-center
-        checked:bg-[url('/asset/images/check.svg')]
-        disabled: bg-[url('/asset/images/check.svg')]
+        bg-[url('/asset/images/check.svg')]
+        focus:outline-none
+        checked:${isDisabled ? "bg-zinc-500" : "bg-[#FE5B5B]"} 
+        
         `}
       />
       <label htmlFor={id} className=" pl-2">
