@@ -44,7 +44,7 @@ export default function CertificationAgreeForm({
   }
 
   return (
-    <section className="flex flex-col px-4 py-5 text-sm leading-4 bg-zinc-100">
+    <section className="flex flex-col py-5 text-sm leading-4 bg-zinc-100">
       {agreements.map((agreement) => (
         <div
           key={agreement.num}
