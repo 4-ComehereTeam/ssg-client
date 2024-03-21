@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import CertificationMethods from "../ui/CertificationMethods"
+import CertificationMethods from "../../ui/CertificationMethods"
 import FindIdForm from "./FindIdForm"
 import FindPwForm from "./FindPwForm"
 

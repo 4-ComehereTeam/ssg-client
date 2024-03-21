@@ -56,13 +56,13 @@ function SignupIntroPage() {
         </ul>
         <div className="flex flex-col text-sm text-white font-black">
           <Link
-            href={"#"}
+            href={"/member/signup/agree"}
             className="flex items-center justify-center h-[52px] bg-[#FF5452]"
           >
             멤버십 혜택 받고 통합회원 가입하기
           </Link>
           <Link
-            href={"#"}
+            href={"/member/signup/agree"}
             className="flex items-center justify-center mt-3 h-[52px] bg-[#CCCCCC]"
           >
             통합회원만 가입하기

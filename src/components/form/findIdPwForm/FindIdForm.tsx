@@ -1,6 +1,6 @@
 import smartPhone from "@/asset/images/smartphone.svg"
 import Image from "next/image"
-import { Dropdown } from "../ui/Dropdown"
+import { Dropdown } from "../../ui/Dropdown"
 
 type FindIdFormProps = {
   isSimpleMember: boolean

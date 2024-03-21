@@ -1,11 +1,10 @@
 import Header from "@/components/Header"
-import SigninForm from "@/components/form/SigninForm"
-import React from "react"
+import SigninForm from "@/components/form/signinForm/SigninForm"
 
 function Page() {
   return (
     <>
-      <Header/>
+      <Header title={"로그인"} />
       <SigninForm />
     </>
   )

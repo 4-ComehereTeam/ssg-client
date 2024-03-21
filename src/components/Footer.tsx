@@ -47,11 +47,11 @@ const Footer: React.FC = () => {
       <div className="relative h-[3em] px-[13px] text-xs text-center bg-[#DBDBE0] text-neutral-600">
         <ul className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] flex flex-row justify-around w-[100%]">
           <li className="pl-[20px]">
-            <Link href={"#"}>로그인</Link>
+            <Link href={"/member/signin"}>로그인</Link>
           </li>
           <Separator />
           <li>
-            <Link href={"#"}>회원가입</Link>
+            <Link href={"/member/signupIntro"}>회원가입</Link>
           </li>
           <Separator />
           <li>
