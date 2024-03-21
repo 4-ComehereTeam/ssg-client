@@ -1,7 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import Checkbox from "../ui/Checkbox"
+import Checkbox from "../../ui/Checkbox"
+import { redirect, useRouter } from "next/navigation"
 
 const agreements = [
   { num: 0, id: "allAgreeSignup", text: "약관 전체 동의" },
@@ -22,6 +23,7 @@ const agreements = [
 ]
 
 export default function SignupAgreeForm({}) {
+  const router = useRouter()
   const [checkedState, setCheckedState] = useState(
     Array.from({ length: agreements.length }, () => false),
   )
@@ -55,9 +57,11 @@ export default function SignupAgreeForm({}) {
     for (const agreement of agreements.slice(1, agreements.length))
       if (!checkedState[agreement.num]) {
         alert(`'${agreement.text}'에 동의해주세요.`)
-        break
+      } else {
+        router.push("/member/signup/form")
       }
   }
+  console.log(checkedState)
 
   return (
     <section className="flex flex-col px-5 mb-7 text-xs leading-4">
@@ -72,7 +76,8 @@ export default function SignupAgreeForm({}) {
                   handleCheckboxChange(agreement.num, agreement.id)
                 }
                 checked={checkedState[agreement.num]}
-                checkboxShape=""
+                isDisabled={false}
+                checkboxShape="square"
               />
             )}
             {agreement.num == 1 && (
@@ -94,7 +99,8 @@ export default function SignupAgreeForm({}) {
                     handleCheckboxChange(agreement.num, agreement.id)
                   }
                   checked={checkedState[agreement.num]}
-                  checkboxShape=""
+                  isDisabled={false}
+                  checkboxShape="square"
                 />
                 <button className="w-[68px] h-[22px] text-xs text-center bg-[#F8F8F8] border border-slate-300 font-[550]">
                   내용보기

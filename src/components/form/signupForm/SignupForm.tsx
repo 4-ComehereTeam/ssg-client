@@ -2,7 +2,7 @@
 
 import React, { useState } from "react"
 import { Member } from "@/types/memberType"
-import MarketingAgreeForm from "../MarketingAgreeForm"
+import MarketingAgreeForm from "./MarketingAgreeForm"
 import {
   ssgPointMktAgreements,
   ssgcomMktAgreements,
@@ -16,10 +16,13 @@ import AddressForm from "../AddressForm"
 import { createUser } from "@/actions/signup/createUser"
 
 type SignupFormPropsType = {
-  member: Member
+  userInfo: {
+    name: string
+    phone: string
+  }
 }
 
-export default function SignupForm({ member }: SignupFormPropsType) {
+export default function SignupForm({ userInfo }: SignupFormPropsType) {
   const [memberId, setMemberId] = useState("")
   const [password, setPassword] = useState<string>("")
   const [confirmPassword, setConfirmPassword] = useState<string>("")
@@ -91,7 +94,7 @@ export default function SignupForm({ member }: SignupFormPropsType) {
                 value={memberId}
                 onChange={(e) => setMemberId(e.target.value)}
               />
-              <IdDuplCheckButton signId={member.signinId} />
+              <IdDuplCheckButton signId={memberId} />
             </dd>
           </dl>
         </section>
@@ -124,7 +127,7 @@ export default function SignupForm({ member }: SignupFormPropsType) {
             <dt className="w-20">
               <span className="text-[#FF5452]">*</span>이름
             </dt>
-            <dd className="flex items-center">{member.name}</dd>
+            <dd className="flex items-center">{userInfo.name}</dd>
           </dl>
         </section>
         <section className="py-4 border-b">
@@ -159,7 +162,7 @@ export default function SignupForm({ member }: SignupFormPropsType) {
             <dt className="w-20">
               <span className="text-[#FF5452]">*</span>휴대폰번호
             </dt>
-            <dd className="flex items-center text-sm text">{member.phone}</dd>
+            <dd className="flex items-center text-sm text">{userInfo.phone}</dd>
           </dl>
         </section>
         <section className="py-4">

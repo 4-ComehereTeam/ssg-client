@@ -3,8 +3,8 @@
 import Link from "next/link"
 import { useState } from "react"
 
-import { SocialButton, socialSignin } from "../ui/SocialButton"
-import Checkbox from "../ui/Checkbox"
+import { SocialButton, socialSignin } from "../../ui/SocialButton"
+import Checkbox from "../../ui/Checkbox"
 
 function SigninForm() {
   const [isKeepId, setIsKeepId] = useState<boolean>(false)
@@ -38,11 +38,11 @@ function SigninForm() {
         로그인
       </button>
       <nav className="flex gap-1.5 self-center mt-4 text-sm text-center text-[13px] text-neutral-600">
-        <Link href="#" className="grow whitespace-nowrap">
+        <Link href="/member/findIdPw" className="grow whitespace-nowrap">
           아이디 찾기
         </Link>
-        <Link href="#">| 비밀번호 찾기 |</Link>
-        <Link href="#">회원가입</Link>
+        <Link href="/member/findIdPw">| 비밀번호 찾기 |</Link>
+        <Link href="/member/signupIntro">회원가입</Link>
       </nav>
       <div className="flex gap-5 justify-center mt-11 flex-nowrap text-xs text-center whitespace-nowrap text-neutral-600">
         {socialSignin.map((button, index) => (

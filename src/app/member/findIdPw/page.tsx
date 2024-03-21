@@ -1,4 +1,4 @@
-import FindIdPwForm from "@/components/form/FindIdPwForm"
+import FindIdPwForm from "@/components/form/findIdPwForm/FindIdPwForm"
 import React from "react"
 
 function Page() {
