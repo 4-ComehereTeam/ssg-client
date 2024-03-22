@@ -31,7 +31,11 @@ export default function Checkbox({
         bg-center
         bg-[url('/asset/images/check.svg')]
         focus:outline-none
-        checked:${isDisabled ? "bg-zinc-500" : "bg-[#FE5B5B]"} 
+        ${
+          checked
+            ? "bg-[url('/asset/images/check.svg')] bg-[#FE5B5B]"
+            : "bg-white"
+        }
         
         `}
       />
