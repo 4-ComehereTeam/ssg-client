@@ -2,15 +2,17 @@ import BottomNav from "@/components/BottomNav";
 import QuickMenu from "@/components/QuickMenu";
 import SearchBar from "@/components/SearchBar";
 import TopNav from "@/components/TopNav";
-import AddBox from "@/components/ui/AddBox";
+import AdBox from "@/components/ui/AdBox";
+import Swiper from "@/components/ui/Swiper";
 
 export default function Home() {
   return (
     <>
       <SearchBar />
       <TopNav />
+      <Swiper />
       <QuickMenu />
-      <AddBox />
+      <AdBox />
       <BottomNav />
     </>
   );
