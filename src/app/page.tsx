@@ -2,7 +2,7 @@ import BottomNav from "@/components/BottomNav";
 import QuickMenu from "@/components/QuickMenu";
 import SearchBar from "@/components/SearchBar";
 import TopNav from "@/components/TopNav";
-import AddBox from "@/components/ui/AdBox";
+import AdBox from "@/components/ui/AdBox";
 
 export default function Home() {
   return (
@@ -10,7 +10,7 @@ export default function Home() {
       <SearchBar />
       <TopNav />
       <QuickMenu />
-      <AddBox />
+      <AdBox />
       <BottomNav />
     </>
   );
