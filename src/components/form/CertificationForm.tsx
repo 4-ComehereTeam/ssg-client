@@ -3,6 +3,8 @@
 import { useState } from "react"
 import GenderSelectionButton from "../ui/GenderSelectionButton"
 import { Dropdown } from "../ui/Dropdown"
+import CertificationAgreeForm from "./CertificationAgreeForm"
+import { certificationAgreements } from "@/data/agreements"
 
 export default function CertificationForm() {
   const [showVerificationInput, setShowVerificationInput] = useState(false)
@@ -15,6 +17,7 @@ export default function CertificationForm() {
   return (
     <section className="px-4 bg-zinc-100">
       <form className="flex flex-col text-sm leading-4 ">
+        <CertificationAgreeForm agreements={certificationAgreements} />
         <section className="flex gap-px justify-between px-3 py-3.5 mt-6 bg-white border-t border-solid border-zinc-100">
           <input placeholder="이름" className="basis-3/4 text-zinc-600" />
           <GenderSelectionButton />
