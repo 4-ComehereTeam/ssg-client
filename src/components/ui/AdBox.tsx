@@ -1,4 +1,4 @@
-export default function AddBox(){
+export default function AdBox(){
     return(
         <>
             <div className="w-[calc(100%-2rem)] m-4">
