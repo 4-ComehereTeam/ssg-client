@@ -1,41 +1,53 @@
+import { ItemType } from "@/types/itemType"
 import Image from "next/image"
 import * as React from "react"
 
-interface ItemCardProps {
-  thumbnailUrl: string
-  alt: string
-  itemName: string
-  brand: string
-  price: number
-  //아래는 없어도 0으로 받음
-  discountRate: number
-  star: number
-  totalReviews: number
+//받은 item의 id로 필요한 데이터 서버에서 받아 조합하기
+const mockitem: ItemType = {
+  id: 11,
+  thumbnailUrl:
+    "https://sitem.ssgcdn.com/31/71/12/item/1000533127131_i1_500.jpg",
+  alt: "",
+  name: "[당일수확발송] 무농약 대추방울토마토 2kg (1-3번과/로얄과) 농협 로컬푸드",
+  brand: "달찐과일",
+  price: 29900,
+  discountRate: 10,
+  star: 4.5,
+  totalReviews: 61,
+}
+
+interface ItemCardPropsType {
+  itemId: number
   cardWidth?: string
   cardHeight?: string
 }
 
 export default function ItemCard({
-  thumbnailUrl,
-  alt,
-  itemName,
-  brand,
-  price,
-  discountRate,
-  star,
-  totalReviews,
-  cardWidth = "w-36",
-  cardHeight = "h-36",
-}: ItemCardProps) {
+  itemId,
+  cardWidth = "w-48",
+  cardHeight,
+}: ItemCardPropsType) {
+  const item = mockitem
+
   const discountPrice =
-    discountRate !== 0 ? price * ((100 - discountRate) / 100) : price
+    item.discountRate !== 0
+      ? item.price * ((100 - item.discountRate) / 100)
+      : item.price
   const finalPrice = new Intl.NumberFormat().format(Math.round(discountPrice))
-  const originalPrice = new Intl.NumberFormat().format(price)
+  const originalPrice = new Intl.NumberFormat().format(item.price)
+
   return (
-    <div className={`flex flex-col pt-2 pb-5 ${cardWidth}`}>
-      {/* <Image src={thumbnailUrl} alt={alt} width={cardWidth} /> */}
-      <div className={`bg-violet-400 ${cardWidth} ${cardHeight}`}></div>
-      <div className="flex flex-row justify-end w-full items-center">
+    <div className={`flex flex-col pt-2 pb-5`}>
+      <div className={`bg-violet-400`}>
+        <Image
+          src={item.thumbnailUrl}
+          alt={item.alt}
+          width={200}
+          height={200}
+          priority
+        />
+      </div>
+      <div className="flex flex-row justify-end items-center">
         <button className="w-[28px] h-[28px]">
           <svg
             width="20px"
@@ -83,20 +95,28 @@ export default function ItemCard({
         </button>
       </div>
       <div>
-        <p className="text-xs">
-          <span className="font-extrabold">{brand} </span>
-          {itemName}원
+        <p
+          className="text-xs"
+          style={{
+            overflow: "hidden",
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+          }}
+        >
+          <span className="font-extrabold">{item.brand} </span>
+          {item.name}
         </p>
       </div>
       <div className="w-full">
-        {discountRate !== 0 && (
-          <span className="text-xs line-through">{originalPrice}</span>
+        {item.discountRate !== 0 && (
+          <span className="text-xs line-through">{originalPrice}원</span>
         )}
-        <div className="text-base font-bold">
-          <span className="text-[#FF5452]">{discountRate}%</span>
+        <div className="text-base font-semibold">
+          <span className="text-[#FF5452]">{item.discountRate}%</span>
           <span className="ml-1">{finalPrice}원</span>
         </div>
-        {star && totalReviews && (
+        {item.star && item.totalReviews && (
           <div className="flex flex-row gap-1 text-xs">
             <svg
               width={11}
@@ -109,9 +129,9 @@ export default function ItemCard({
                 d="m2.089 13 .906-4.073L0 6.205l3.94-.35L5.5 2l1.56 3.856 3.94.349-2.995 2.722L8.911 13 5.5 10.838 2.089 13Z"
               ></path>
             </svg>
-            <span className="text-[#777777]">{star}</span>
+            <span className="text-[#777777]">{item.star}</span>
             <div className="bg-[#E5E5E5] border w-0 h-[12px] mt-[3px]"></div>
-            <span>{totalReviews}건</span>
+            <span>{item.totalReviews}건</span>
           </div>
         )}
       </div>

@@ -4,6 +4,9 @@ import { useState } from "react"
 import ItemCard from "../ui/ItemCard"
 import Checkbox from "../ui/Checkbox"
 
+//items는 서버에서 받아와야함
+const itemIds = [1, 2, 3, 4]
+
 type ClipItemsType = {
   id: number
 }[]
@@ -52,7 +55,7 @@ export default function ClipItems({ clipItems }: ClipItemsPropsType) {
   }
 
   return (
-    <section>
+    <section className="relative">
       <div className="mt-3 px-4">
         {editMode ? (
           <ul className="flex flex-row justify-between items-center text-xs text-center h-6">
@@ -63,7 +66,7 @@ export default function ClipItems({ clipItems }: ClipItemsPropsType) {
                 onChange={handleAllclicks}
                 checked={allCheck}
                 isDisabled={false}
-                checkboxShape="square rounded w-[19px] h-[19px]"
+                checkboxShape="square w-[19px] h-[19px]"
               />
               <span>
                 {count}/{clipItems.length}
@@ -147,31 +150,34 @@ export default function ClipItems({ clipItems }: ClipItemsPropsType) {
             </li>
           </ul>
         )}
-
-        <div className="flex flex-row gap-2 flex-wrap justify-between">
-          {clipItems.map((item, index) => (
-            <div key={item.id} className="relative">
+        {editMode && (
+          <div className="z-10 right-0 fixed bottom-0 w-full grid grid-cols-2 h-12 text-white tracking-tighter">
+            <button className="bg-[#222222]">폴더에 추가</button>
+            <button className="bg-[#FF5452]">삭제</button>
+            {/* 
+            좋아요 삭제는 clicks배열과 itemIds배열을 인덱스로 매칭해서
+            삭제할 상품 id가 담긴 배열을 만들고 서버에 보내줌
+            그 다음 페이지 리로딩
+            */}
+          </div>
+        )}
+        <div className="flex flex-row gap-1 flex-wrap justify-between">
+          {itemIds.map((itemId, index) => (
+            <div key={itemId} className="w-[49%]">
               {editMode && (
                 <Checkbox
-                  id={item.id.toString()}
+                  id={"item" + itemId.toString()}
                   text=""
                   onChange={() => handleClick(index)}
                   checked={allCheck || clicks[index]}
                   isDisabled={false}
-                  checkboxShape="square rounded absolute top-2 w-[19px] h-[19px]"
+                  checkboxShape="square absolute mt-2 w-[19px] h-[19px]"
                 />
               )}
               <ItemCard
-                thumbnailUrl=""
-                alt=""
-                itemName="사조 안심따개 살코기참치 150g*8입"
-                brand="사조대림"
-                price={13580}
-                discountRate={18}
-                star={4.7}
-                totalReviews={690}
-                cardWidth="w-[190px]"
-                // cardHeight="h-[50%]"
+                itemId={itemId}
+                // cardWidth="w-[190px]"
+                cardHeight="h-[50%]"
               />
             </div>
           ))}
