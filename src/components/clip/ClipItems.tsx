@@ -174,11 +174,7 @@ export default function ClipItems({ clipItems }: ClipItemsPropsType) {
                   checkboxShape="square absolute mt-2 w-[19px] h-[19px]"
                 />
               )}
-              <ItemCard
-                itemId={itemId}
-                // cardWidth="w-[190px]"
-                cardHeight="h-[50%]"
-              />
+              <ItemCard itemId={itemId} />
             </div>
           ))}
         </div>

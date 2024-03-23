@@ -18,15 +18,9 @@ const mockitem: ItemType = {
 
 interface ItemCardPropsType {
   itemId: number
-  cardWidth?: string
-  cardHeight?: string
 }
 
-export default function ItemCard({
-  itemId,
-  cardWidth = "w-48",
-  cardHeight,
-}: ItemCardPropsType) {
+export default function ItemCard({ itemId }: ItemCardPropsType) {
   const item = mockitem
 
   const discountPrice =
