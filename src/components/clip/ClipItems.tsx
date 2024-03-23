@@ -7,19 +7,11 @@ import Checkbox from "../ui/Checkbox"
 //items는 서버에서 받아와야함
 const itemIds = [1, 2, 3, 4]
 
-type ClipItemsType = {
-  id: number
-}[]
-
-type ClipItemsPropsType = {
-  clipItems: ClipItemsType
-}
-
-export default function ClipItems({ clipItems }: ClipItemsPropsType) {
+export default function ClipItems() {
   const [editMode, setEditMode] = useState<boolean>(false)
   const [count, setCount] = useState<number>(0)
   const [clicks, setClicks] = useState<boolean[]>(
-    Array.from({ length: clipItems.length }, () => false),
+    Array.from({ length: itemIds.length }, () => false),
   )
   const [allCheck, setAllCheck] = useState<boolean>(false)
 
@@ -43,7 +35,7 @@ export default function ClipItems({ clipItems }: ClipItemsPropsType) {
     const updatedClicks = clicks.map(() => newAllCheck)
     setAllCheck(newAllCheck)
     setClicks(updatedClicks)
-    setCount(newAllCheck ? clipItems.length : 0)
+    setCount(newAllCheck ? itemIds.length : 0)
   }
 
   const handleEditMode = () => {
@@ -69,7 +61,7 @@ export default function ClipItems({ clipItems }: ClipItemsPropsType) {
                 checkboxShape="square w-[19px] h-[19px]"
               />
               <span>
-                {count}/{clipItems.length}
+                {count}/{itemIds.length}
               </span>
             </li>
             <li>

@@ -5,15 +5,19 @@ type ClipNumsType = {
   [kind: string]: number
 }
 
-type ClipNavbarPropsType = {
-  clipNums: ClipNumsType
+//상품, 브랜드, 카테고리 별 좋아요 개수
+//서버에서 받아와야함
+const clipNums = {
+  item: 2,
+  brand: 0,
+  category: 0,
 }
 
 type ClickStateType = {
   [key: string]: boolean
 }
 
-export default function ClipNavbar({ clipNums }: ClipNavbarPropsType) {
+export default function ClipNavbar() {
   const [clickState, setClickState] = useState<ClickStateType>(() =>
     Object.keys(clipNums).reduce((acc, key) => {
       acc[key] = false // 모든 키를 false로 초기화
