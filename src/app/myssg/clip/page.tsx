@@ -1,7 +1,6 @@
 import ClipHeader from "@/components/clip/ClipHeader"
 import ClipItems from "@/components/clip/ClipItems"
 import ClipNavbar from "@/components/clip/ClipNavbar"
-import ItemCard from "@/components/ui/ItemCard"
 import React from "react"
 
 //좋아요 개수 임시 데이터
