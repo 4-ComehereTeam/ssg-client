@@ -20,6 +20,7 @@ export default function Checkbox({
       <input
         id={id}
         type="checkbox"
+        name={id}
         onChange={onChange}
         checked={checked}
         disabled={isDisabled}
