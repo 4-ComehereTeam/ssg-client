@@ -54,14 +54,15 @@ export default function SignupAgreeForm({}) {
   }
 
   const handleClickNext = () => {
-    for (const agreement of agreements.slice(1, agreements.length))
-      if (!checkedState[agreement.num]) {
-        alert(`'${agreement.text}'에 동의해주세요.`)
-      } else {
-        router.push("/member/signup/form")
-      }
+    //TODO: shardui 모달창으로 바꾸기
+    const anyUnchecked = checkedState.some((state) => state === false)
+
+    if (anyUnchecked) {
+      alert("약관에 동의해주세요.")
+    } else {
+      router.push("/member/signup/form")
+    }
   }
-  console.log(checkedState)
 
   return (
     <section className="flex flex-col px-5 mb-7 text-xs leading-4">
