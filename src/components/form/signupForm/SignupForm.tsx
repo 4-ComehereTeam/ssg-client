@@ -25,6 +25,7 @@ import {
 } from "@/components/shadcnUI/alert-dialog"
 import { Button } from "@/components/shadcnUI/button"
 import { AgreementsType, MktReceiveMethodsType } from "@/types/agreementType"
+import { useRouter } from "next/navigation"
 
 export default function SignupForm() {
   const [signinId, setSigninId] = useState("")
@@ -49,8 +50,7 @@ export default function SignupForm() {
   const [state, formAction] = useFormState(createUser, {
     error: "",
   })
-  const [error, setError] = useState<string | undefined>("")
-  const [success, setSuccess] = useState<string | undefined>("")
+  const router = useRouter()
 
   //아이디 중복 확인
   const checkIdDuplicate = async (
@@ -124,6 +124,10 @@ export default function SignupForm() {
     }
 
     return result
+  }
+
+  const handleRoute = () => {
+    if (!state?.error) router.push("/member/signin")
   }
 
   return (
@@ -316,7 +320,7 @@ export default function SignupForm() {
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogDescription className="text-pretty">
+            <AlertDialogDescription>
               {state?.error ? (
                 state?.error
               ) : (
@@ -339,8 +343,11 @@ export default function SignupForm() {
               )}
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter className="items-center">
-            <AlertDialogCancel className="bg-[#FF5452] text-white">
+          <AlertDialogFooter>
+            <AlertDialogCancel
+              className="bg-[#FF5452] text-white"
+              onClick={() => handleRoute()}
+            >
               확인
             </AlertDialogCancel>
           </AlertDialogFooter>

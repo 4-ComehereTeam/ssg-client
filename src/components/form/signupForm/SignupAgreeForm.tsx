@@ -2,34 +2,26 @@
 
 import { useState } from "react"
 import Checkbox from "../../ui/Checkbox"
-import { redirect, useRouter } from "next/navigation"
-
-const agreements = [
-  { num: 0, id: "allAgreeSignup", text: "약관 전체 동의" },
-  { num: 1, id: "ssgPointAgree1", text: "(필수) 신세계포인트 회원 이용약관" },
-  { num: 2, id: "ssgPointAgree2", text: "(필수) 개인정보 수집 및 이용 동의" },
-  {
-    num: 3,
-    id: "ssgPointAgree3",
-    text: "(필수) 필수 정보 이마트/신세계백화점 공동 개인정보 수집 이용 동의",
-  },
-  {
-    num: 4,
-    id: "ssgPointAgree4",
-    text: "(필수) 통합회원 서비스 제공을 위한 개인정보 제3자 제공 동의",
-  },
-  { num: 5, id: "ssgcomAgree1", text: "(필수) SSG.COM회원 이용약관" },
-  { num: 6, id: "ssgcomAgree2", text: "(필수) 개인정보 수집 및 이용 동의" },
-]
+import { useRouter } from "next/navigation"
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTrigger,
+} from "@/components/shadcnUI/alert-dialog"
+import { signupAgreements } from "@/data/agreements"
 
 export default function SignupAgreeForm({}) {
   const router = useRouter()
   const [checkedState, setCheckedState] = useState(
-    Array.from({ length: agreements.length }, () => false),
+    Array.from({ length: signupAgreements.length }, () => false),
   )
 
   const handleCheckboxChange = (position: number, id: string) => {
-    const agreeAllIndex = agreements.findIndex(
+    const agreeAllIndex = signupAgreements.findIndex(
       (agreement) => agreement.id === "allAgreeSignup",
     )
 
@@ -53,21 +45,16 @@ export default function SignupAgreeForm({}) {
     }
   }
 
-  const handleClickNext = () => {
-    //TODO: shardui 모달창으로 바꾸기
-    const anyUnchecked = checkedState.some((state) => state === false)
+  const anyUnchecked = checkedState.some((state) => state === false)
 
-    if (anyUnchecked) {
-      alert("약관에 동의해주세요.")
-    } else {
-      router.push("/member/signup/form")
-    }
+  const handleRoute = () => {
+    if (!anyUnchecked) router.push("/member/signup/form")
   }
 
   return (
     <section className="flex flex-col px-5 mb-7 text-xs leading-4">
       <div className="py-5">
-        {agreements.map((agreement) => (
+        {signupAgreements.map((agreement) => (
           <div key={agreement.num} className="font-bold">
             {agreement.num == 0 && (
               <Checkbox
@@ -111,12 +98,31 @@ export default function SignupAgreeForm({}) {
           </div>
         ))}
       </div>
-      <button
-        className="w-full h-[48px] bg-[#FF5452] text-white text-lg font-semibold"
-        onClick={() => handleClickNext()}
-      >
-        다음
-      </button>
+
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <button
+            className="w-full h-[48px] bg-[#FF5452] text-white text-lg font-semibold"
+            onClick={() => handleRoute()}
+          >
+            다음
+          </button>
+        </AlertDialogTrigger>
+        {anyUnchecked && (
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogDescription>
+                약관에 동의해주세요.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="bg-[#FF5452] text-white">
+                확인
+              </AlertDialogCancel>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        )}
+      </AlertDialog>
     </section>
   )
 }
