@@ -28,6 +28,7 @@ export const SignupSchema = z.object({
       "비밀번호는 영문, 숫자 조합 8~20자리여야 합니다.",
     )
     .trim(),
+
   name: z.string().min(1, {
     message: "이름은 필수 입력 항목입니다.",
   }),
