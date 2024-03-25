@@ -7,6 +7,7 @@ import { useState } from "react";
 import Header2 from "@/components/Header2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
+import Header2 from "@/components/Header2";
 
 export default function OrderPage(){
 
