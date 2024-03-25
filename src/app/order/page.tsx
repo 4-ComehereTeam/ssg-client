@@ -6,6 +6,7 @@ import backArrow from "@/asset/images/backArrow.svg"
 import {useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
+import Header2 from "@/components/Header2";
 
 export default function OrderPage(){
 
@@ -15,7 +16,7 @@ export default function OrderPage(){
     return(
         <>
 
-                
+            <Header2 />
             <div className="bg-[#f5f5f5]">
 
                 <div className="bg-white m-4 p-4 rounded-xl">
