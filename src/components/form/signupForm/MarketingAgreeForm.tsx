@@ -1,12 +1,19 @@
 import { useState } from "react"
 import Checkbox from "../../ui/Checkbox"
-import { AgreementsType } from "@/types/agreementType"
+import {
+  AgreementsType,
+  AgreementType,
+  MktReceiveMethodsType,
+} from "@/types/agreementType"
 
 type MarketingAgreeFormPropsType = {
   agreements: AgreementsType
   receiveMethods: AgreementsType
   notice: string
-  onChangeAgrees: (type: "agrees" | "methods", values: boolean[]) => void
+  onChangeAgrees: (
+    type: keyof MktReceiveMethodsType,
+    isChecked: boolean,
+  ) => void
 }
 
 export default function MarketingAgreeForm({
@@ -25,12 +32,12 @@ export default function MarketingAgreeForm({
 
   const [isDisabled, setDisabled] = useState(true)
 
-  const handleAgree = (num: number) => {
-    const updatedAgree = agrees.map((agree, index) =>
-      index === num ? !agree : agree,
+  const handleAgree = (agreement: AgreementType) => {
+    const updatedAgrees = agrees.map((agree, index) =>
+      index === agreement.num ? !agree : agree,
     )
 
-    const allUnChecked = updatedAgree.every((agree) => agree === false)
+    const allUnChecked = updatedAgrees.every((agree) => agree === false)
 
     if (allUnChecked) {
       const updatedMethods = methodChecks.map(() => false)
@@ -38,17 +45,17 @@ export default function MarketingAgreeForm({
     }
 
     setDisabled(allUnChecked)
-    setAgrees(updatedAgree)
-    onChangeAgrees("agrees", updatedAgree)
+    setAgrees(updatedAgrees)
+    onChangeAgrees(agreement.id, updatedAgrees[agreement.num])
   }
 
-  const handleMethodCheck = (num: number) => {
-    const updatedCheck = methodChecks.map((check, index) =>
-      index === num ? !check : check,
+  const handleMethodCheck = (method: AgreementType) => {
+    const updatedChecks = methodChecks.map((check, index) =>
+      index === method.num ? !check : check,
     )
 
-    setMethodCheck(updatedCheck)
-    onChangeAgrees("methods", updatedCheck)
+    setMethodCheck(updatedChecks)
+    onChangeAgrees(method.id, updatedChecks[method.num])
   }
 
   return (
@@ -61,7 +68,7 @@ export default function MarketingAgreeForm({
           <Checkbox
             id={agreement.id}
             text={agreement.text}
-            onChange={() => handleAgree(agreement.num)}
+            onChange={() => handleAgree(agreement)}
             checked={agrees[agreement.num]}
             isDisabled={false}
             checkboxShape="square"
@@ -77,7 +84,7 @@ export default function MarketingAgreeForm({
             <Checkbox
               id={method.id}
               text={method.text}
-              onChange={() => handleMethodCheck(method.num)}
+              onChange={() => handleMethodCheck(method)}
               checked={methodChecks[method.num]}
               isDisabled={isDisabled}
               checkboxShape="square"
