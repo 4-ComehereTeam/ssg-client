@@ -1,29 +1,40 @@
 "use server"
 
 import { SignupSchema } from "@/lib/schemas"
+import { SafeParseError } from "zod"
 
-export async function createUser(iniialState: any, formData: FormData) {
+export type initialStateType = {
+  error: SafeParseError<{
+    signinId: string
+    password: string
+    name: string
+    address: string
+    phone: string
+    email: string
+  }>
+}
+
+export async function createUser(initialState: any, formData: FormData) {
   const validateFields = SignupSchema.safeParse({
     signinId: formData.get("signinId"),
+    checkId: formData.get("checkId"),
+    isDuplId: formData.get("isDuplId"),
     password: formData.get("password"),
     name: formData.get("name"),
     address: formData.get("address"),
     phone: formData.get("phone"),
     email: formData.get("email"),
   })
-  console.log(formData)
-
-  if (formData.get("isDuplId")?.toString() === "0") {
-    return
-  }
 
   if (formData.get("password") !== formData.get("confirmPassword")) {
-    return
+    return { error: "비밀번호가 일치하지 않습니다." }
   }
 
   if (!validateFields.success) {
     const errors = validateFields.error.flatten().fieldErrors
-    if (typeof validateFields !== "string") return { error: validateFields }
+    console.log(errors)
+    const firstError = Object.values(errors)[0]
+    return { error: firstError }
   }
 
   const { signinId, password, name, phone, email, address } =
