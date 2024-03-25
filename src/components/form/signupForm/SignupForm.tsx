@@ -14,6 +14,17 @@ import AddressForm from "../AddressForm"
 import { createUser } from "@/actions/signup/createUser"
 import { idDuplCheck } from "@/actions/signup/idduplCheckAction"
 import { useFormState } from "react-dom"
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTrigger,
+} from "@/components/shadcnUI/alert-dialog"
+import { Button } from "@/components/shadcnUI/button"
+import { AgreementsType, MktReceiveMethodsType } from "@/types/agreementType"
 
 export default function SignupForm() {
   const [signinId, setSigninId] = useState("")
@@ -23,8 +34,21 @@ export default function SignupForm() {
   const [confirmPassword, setConfirmPassword] = useState<string>("")
   const [isOpenAddress, setOpenAddress] = useState<boolean>(false)
   const [address, setAddress] = useState<string>("")
-  const [ssgcomAgrees, setSsgcomAgrees] = useState({ agrees: [], methods: [] })
-  const [state, formAction] = useFormState(createUser, { error: "" })
+  const [ssgPointAgrees, setSsgPointAgrees] = useState<MktReceiveMethodsType>(
+    ssgPointMktReceiveMethods.reduce((acc, { id }) => {
+      acc[id] = false
+      return acc
+    }, {} as MktReceiveMethodsType),
+  )
+  const [ssgcomAgrees, setSsgcomAgrees] = useState<MktReceiveMethodsType>(
+    ssgcomMktReceiveMethods.reduce((acc, { id }) => {
+      acc[id] = false
+      return acc
+    }, {} as MktReceiveMethodsType),
+  )
+  const [state, formAction] = useFormState(createUser, {
+    error: "",
+  })
   const [error, setError] = useState<string | undefined>("")
   const [success, setSuccess] = useState<string | undefined>("")
 
@@ -47,27 +71,61 @@ export default function SignupForm() {
   }
 
   //마케팅수신동의 - 신세계포인트
-  const [ssgPointAgrees, setSsgPointAgrees] = useState({
-    agrees: [],
-    methods: [],
-  })
+  const handleSsgPointChange = (
+    type: keyof MktReceiveMethodsType,
+    isChecked: boolean,
+  ) => {
+    setSsgPointAgrees((prevState) => ({ ...prevState, [type]: isChecked }))
+  }
 
   //마케팅수신동의 - 쓱닷컴
-  const handleSsgPointChange = (
-    type: "agrees" | "methods",
-    values: boolean[],
-  ) => {
-    setSsgPointAgrees((prevState) => ({ ...prevState, [type]: values }))
-  }
-
   const handleSsgcomChange = (
-    type: "agrees" | "methods",
-    values: boolean[],
+    type: keyof MktReceiveMethodsType,
+    isChecked: boolean,
   ) => {
-    setSsgcomAgrees((prevState) => ({ ...prevState, [type]: values }))
+    setSsgcomAgrees((prevState) => ({ ...prevState, [type]: isChecked }))
   }
 
-  //TODO:
+  // 동의한 항목의 text를 결합하여 문자열 생성
+  const generateAgreementString = (
+    agrees: MktReceiveMethodsType,
+    agreements: AgreementsType,
+    methods: AgreementsType,
+  ) => {
+    const methodTexts: string[] = []
+    const agreementTexts: string[] = Object.entries(agrees)
+      .filter(([key, value]) => value) // 동의한 항목만 필터링
+      .map(([key]) => {
+        // agreements와 methods에서 해당 항목 찾기
+        const agreement = agreements.find((item) => item.id === key)
+        const method = methods.find((item) => item.id === key)
+
+        if (method) {
+          // methods 항목은 별도 배열에 저장
+          methodTexts.push(method.text)
+        }
+
+        // 찾은 agreements 항목의 text 반환
+        return agreement ? agreement.text : ""
+      })
+      .filter((text) => text) // 빈 문자열 제외
+
+    // agreements 문자열 결합
+    let result = agreementTexts.join(",\n")
+    if (result) {
+      result += "하셨습니다."
+    }
+
+    // methods 문자열 결합
+    if (methodTexts.length > 0) {
+      result += `\n${methodTexts.join(
+        ", ",
+      )}(으)로 마케팅 정보를 받으실 수 있습니다.`
+    }
+
+    return result
+  }
+
   return (
     <form className="text-[14px]" action={formAction}>
       <h3 className="px-5 py-3.5 bg-[#F8F8F8] text-xs">회원 정보</h3>
@@ -94,10 +152,11 @@ export default function SignupForm() {
                   중복확인
                 </button>
               </div>
-              <p className="text-[#FF5452]">{state?.error?.signinId}</p>
-              {!checkId && (
+              <input readOnly hidden name="checkId" value={checkId ? 1 : 0} />
+              {!checkId && signinId.length > 0 && (
                 <p className="text-[#FF5452]">아이디 중복확인을 해주세요.</p>
               )}
+              <input readOnly hidden name="isDuplId" value={isDuplId ? 1 : 0} />
               {checkId && isDuplId && (
                 <p className="text-[#FF5452]">중복된 아이디입니다.</p>
               )}
@@ -105,7 +164,6 @@ export default function SignupForm() {
                 <p className="text-[#4fdd43]">사용 가능한 아이디입니다.</p>
               )}
             </dd>
-            <input hidden name="isDuplId" value={isDuplId ? 1 : 0} readOnly />
           </dl>
         </section>
         <section className="py-4 border-b">
@@ -130,12 +188,18 @@ export default function SignupForm() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
-              <p className="text-[#FF5452]">{state?.error?.password}</p>
-              {password.length > 0 && password !== confirmPassword ? (
-                <p className="text-[#FF5452]">비밀번호가 일치하지 않습니다.</p>
-              ) : (
-                <p className="text-[#4fdd43]">비밀번호가 일치합니다.</p>
-              )}
+              {password.length > 0 &&
+                confirmPassword.length > 0 &&
+                password !== confirmPassword && (
+                  <p className="text-[#FF5452]">
+                    비밀번호가 일치하지 않습니다.
+                  </p>
+                )}
+              {password.length > 0 &&
+                confirmPassword.length > 0 &&
+                password === confirmPassword && (
+                  <p className="text-[#4fdd43]">비밀번호가 일치합니다.</p>
+                )}
             </dd>
           </dl>
         </section>
@@ -151,7 +215,6 @@ export default function SignupForm() {
                 name="name"
                 placeholder="이름"
               />
-              <p className="text-[#FF5452]">{state?.error?.name}</p>
             </dd>
           </dl>
         </section>
@@ -181,7 +244,6 @@ export default function SignupForm() {
                   handleOpen={setOpenAddress}
                 />
               </div>
-              <p className="text-[#FF5452]">{state?.error?.address}</p>
             </dd>
           </dl>
         </section>
@@ -197,7 +259,6 @@ export default function SignupForm() {
                 name="phone"
                 placeholder="'-'를 제외한 숫자만 입력"
               />
-              <p className="text-[#FF5452]">{state?.error?.phone}</p>
             </dd>
           </dl>
         </section>
@@ -214,7 +275,6 @@ export default function SignupForm() {
                 type="email"
                 name="email"
               />
-              <p className="text-[#FF5452]">{state?.error.email}</p>
             </dd>
           </dl>
         </section>
@@ -243,14 +303,49 @@ export default function SignupForm() {
           이용하실 수 있습니다.
         </p>
       </section>
-      <div className="px-5">
-        <button
-          className="mb-5 w-full h-[48px] bg-[#FF5452] text-white text-[17px] font-semibold"
-          type="submit"
-        >
-          가입하기
-        </button>
-      </div>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <div className="px-5">
+            <Button
+              className="rounded-none mb-5 w-full h-[48px] bg-[#FF5452] text-white text-[17px] font-semibold"
+              type="submit"
+            >
+              가입하기
+            </Button>
+          </div>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogDescription className="text-pretty">
+              {state?.error ? (
+                state?.error
+              ) : (
+                <div>
+                  <p className="mb-3">
+                    {generateAgreementString(
+                      ssgPointAgrees,
+                      ssgPointMktAgreements,
+                      ssgPointMktReceiveMethods,
+                    )}
+                  </p>
+                  <p>
+                    {generateAgreementString(
+                      ssgcomAgrees,
+                      ssgcomMktAgreements,
+                      ssgcomMktReceiveMethods,
+                    )}
+                  </p>
+                </div>
+              )}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="items-center">
+            <AlertDialogCancel className="bg-[#FF5452] text-white">
+              확인
+            </AlertDialogCancel>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </form>
   )
 }

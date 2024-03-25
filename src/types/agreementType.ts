@@ -5,3 +5,7 @@ export type AgreementType = {
 }
 
 export type AgreementsType = AgreementType[]
+
+export type MktReceiveMethodsType = {
+  [key: string]: boolean
+}
