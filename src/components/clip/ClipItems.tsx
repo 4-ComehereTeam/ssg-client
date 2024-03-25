@@ -157,6 +157,7 @@ export default function ClipItems() {
           {itemIds.map((itemId, index) => (
             <div key={itemId} className="w-[49%]">
               {editMode && (
+                // Link로 둘러싸고 상품 데이터 불러오는지 확인해오기
                 <Checkbox
                   id={"item" + itemId.toString()}
                   text=""
