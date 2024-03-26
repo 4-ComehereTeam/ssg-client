@@ -9,6 +9,7 @@ import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import Header2 from "@/components/Header2";
 import SelectAddressModal from "@/components/SelectAddressModal";
 import DeliveryRequestModal from "@/components/DeliveryRequestModal";
+import ChangeOrdererInformModal from "@/components/ChangeOrdererInformModal";
 
 export default function OrderPage(){
 
@@ -16,6 +17,7 @@ export default function OrderPage(){
     const [agreement, setAgreement] = useState(false);
     const [SelectAddressModalOpen, setSelectAddressModalOpen] = useState(false);
     const [DeliveryRequestModalOpen, setDeliveryRequestModalOpen] = useState(false);
+    const [changeOrdererInformModalOpen, setChangeOrdererInformModalOpen] = useState(false);
 
     return(
         <>
@@ -155,9 +157,13 @@ export default function OrderPage(){
                         <span className="text-lg font-bold">
                             주문자 정보
                         </span>
-                        <button className="border-[1px] px-2 text-xs border-[#d8d8d8]">
+                        <button className="border-[1px] px-2 text-xs border-[#d8d8d8]"
+                        onClick={()=>{
+                            setChangeOrdererInformModalOpen(true)
+                        }}>
                             변경
                         </button>
+                        <ChangeOrdererInformModal modalOpen={changeOrdererInformModalOpen} setModalOpen={setChangeOrdererInformModalOpen} />
                     </div>
                     <div className="bg-white rounded-xl p-[10px 16px 20px 16px] ">
                         <dl className="flex mt-[3px] text-[14px]">
