@@ -59,12 +59,12 @@ export default function DeliveryRequestModal({modalOpen, setModalOpen}:props){
                                     <input type="radio" className="w-[18px] h-[18px] mr-2 peer accent-red-500" name="requestList"/>
                                     <span className="text-[13px] peer-checked:font-bold tracking-[-0.3px] ">직접 입력</span>
                                     <br/>
-                                    <textarea className="border-[1px] border-black invisible static peer-checked:visible text-[12px] w-[90vw] h-16 p-[10px] m-2"
+                                    <textarea className="border-[1px] border-black hidden static peer-checked:block text-[12px] w-[90vw] h-16 p-[10px] m-2"
                                         cols={30} rows={2} maxLength={50} placeholder="메세지를 입력해 주세요"
                                         onChange={countLength}
                                         >
                                     </textarea>
-                                    <span className="absolute top-[75px] text-[11px] right-5 text-[#888888] invisible peer-checked:visible">{messageLength} / 50</span>
+                                    <span className="absolute top-[75px] text-[11px] right-5 text-[#888888] hidden peer-checked:block">{messageLength} / 50</span>
                                 </div>
                             </li>
                         </ul>
