@@ -8,12 +8,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import Header2 from "@/components/Header2";
 import SelectAddressModal from "@/components/SelectAddressModal";
+import DeliveryRequestModal from "@/components/DeliveryRequestModal";
 
 export default function OrderPage(){
 
     const [payList, setPayList] = useState(false);
     const [agreement, setAgreement] = useState(false);
     const [SelectAddressModalOpen, setSelectAddressModalOpen] = useState(false);
+    const [DeliveryRequestModalOpen, setDeliveryRequestModalOpen] = useState(false);
 
     return(
         <>
@@ -55,7 +57,12 @@ export default function OrderPage(){
                         <h2 className="text-lg font-semibold ">
                             배송 요청사항
                         </h2>
-                        <button className="border-[1px] px-2 text-xs border-[#d8d8d8]">변경</button>
+                        <button className="border-[1px] px-2 text-xs border-[#d8d8d8]"
+                        onClick={()=>{
+                            setDeliveryRequestModalOpen(true)
+                        }}
+                        >변경</button>
+                        <DeliveryRequestModal modalOpen={DeliveryRequestModalOpen} setModalOpen={setDeliveryRequestModalOpen}/>
                     </div>
                     <div>
                         <span className="text-xs text-[#888888] w-32 inline-block">
