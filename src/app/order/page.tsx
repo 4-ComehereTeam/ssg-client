@@ -8,11 +8,13 @@ import Header2 from "@/components/Header2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import Header2 from "@/components/Header2";
+import SelectAddressModal from "@/components/SelectAddressModal";
 
 export default function OrderPage(){
 
     const [payList, setPayList] = useState(false);
     const [agreement, setAgreement] = useState(false);
+    const [SelectAddressModalOpen, setSelectAddressModalOpen] = useState(false);
 
     return(
         <>
@@ -25,7 +27,13 @@ export default function OrderPage(){
                         <h2 className="text-lg font-semibold">
                             배송지 : {"홍길동"}
                         </h2>
-                        <button className="border-[1px] border-[#d8d8d8] px-2 text-xs">변경</button>
+                        <button className="border-[1px] border-[#d8d8d8] px-2 text-xs"
+                            onClick={()=>{
+                                setSelectAddressModalOpen(true)
+                            }}>
+                        변경
+                        </button>
+                        <SelectAddressModal modalOpen={SelectAddressModalOpen} setModalOpen={setSelectAddressModalOpen}/>
                     </div>
                     <div className="my-4 text-sm">
                         {"[55555] 부산광역시 해운대구 센텀 리더스마크 4층"}
@@ -211,7 +219,7 @@ export default function OrderPage(){
                 </div>
 
                 <Link href={"/order/complete"}>
-                    <div className="bg-[#ff5452] p-4 sticky bottom-0 text-center">
+                    <div className="bg-[#ff5452] p-4 fixed right-0 left-0 bottom-0 z-50 text-center">
                         <span className="text-white font-normal">
                             <span className="font-bold">{"10,000"}원</span> 결제하기
                         </span>
