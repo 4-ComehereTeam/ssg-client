@@ -1,5 +1,13 @@
 "use client"
 
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogCancel,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTrigger,
+} from "@/components/shadcnUI/alert-dialog"
 import { useState } from "react"
 import DaumPostcodeEmbed from "react-daum-postcode"
 
@@ -34,12 +42,8 @@ export default function AddressForm({
 
   const clickHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
-    if (zipCode.length < 1 || roadAddress.length < 1) {
-      alert("주소를 선택해주세요.")
-    } else if (detailAddress === "") {
-      alert("상세주소를 입력해주세요.")
-    } else {
-      handleAddress(`${zipCode} ${roadAddress} ${detailAddress}`)
+    if (zipCode.length > 0 && roadAddress.length > 0) {
+      handleAddress(`${zipCode} / ${roadAddress} / ${detailAddress}`)
       handleOpen(false)
     }
   }
@@ -65,14 +69,19 @@ export default function AddressForm({
     <div>
       {isOpen && (
         <div className="absolute top-0 right-0 w-full h-full z-[10000] bg-white">
-          <DaumPostcodeEmbed
-            theme={themeObj}
-            style={style}
-            onComplete={completeHandler}
-            autoClose={false}
-          />
+          {isClick && (
+            <DaumPostcodeEmbed
+              theme={themeObj}
+              style={style}
+              onComplete={completeHandler}
+              autoClose={false}
+            />
+          )}
           {isClick && (
             <div className="px-5 pt-5 flex flex-col gap-5 items-center">
+              <p>
+                {zipCode} {roadAddress}
+              </p>
               <input
                 className="p-3 border w-full"
                 type="text"
@@ -80,12 +89,27 @@ export default function AddressForm({
                 value={detailAddress}
                 placeholder="상세주소"
               />
-              <button
-                className="h-[40px] w-[40%] text-xs text-center text-white bg-[#222222] border border-slate-300 font-[550]"
-                onClick={(e) => clickHandler(e)}
-              >
-                확인
-              </button>
+              <AlertDialog>
+                <AlertDialogTrigger
+                  className="h-[40px] w-[40%] text-xs text-center text-white bg-[#222222] border border-slate-300 font-[550]"
+                  onClick={(e) => clickHandler(e)}
+                >
+                  확인
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    {zipCode.length < 1 || roadAddress.length < 1
+                      ? "주소를 선택해주세요."
+                      : detailAddress.length === 0 &&
+                        "상세주소를 입력해주세요."}
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel className="bg-[#FF5452] text-white">
+                      닫기
+                    </AlertDialogCancel>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           )}
         </div>

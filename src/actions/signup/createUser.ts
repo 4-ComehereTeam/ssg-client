@@ -17,7 +17,28 @@ export type initialStateType = {
   }>
 }
 
+type AddressInfoType = {
+  zipcode: string
+  address: string
+  detailAddress: string
+}
+
+const ssgPointAgrees: MktReceiveMethodsType = {
+  ssgPointMktAgr1: false,
+  ssgPointMktAgr2: false,
+  ssgPointEmail: false,
+  ssgPointSms: false,
+  ssgPointMail: false,
+  ssgPointCall: false,
+}
+const ssgcomAgrees: MktReceiveMethodsType = {
+  ssgcomMktAgr1: false,
+  ssgcomEmail: false,
+  ssgcomSms: false,
+}
+
 export async function createUser(initialState: any, formData: FormData) {
+  // initialState = { error: "" }
   const validateFields = SignupSchema.safeParse({
     signinId: formData.get("signinId"),
     checkId: formData.get("checkId"),
@@ -35,7 +56,6 @@ export async function createUser(initialState: any, formData: FormData) {
 
   if (!validateFields.success) {
     const errors = validateFields.error.flatten().fieldErrors
-    console.log(errors)
     const firstError = Object.values(errors)[0]
     return { error: firstError }
   }
@@ -43,20 +63,23 @@ export async function createUser(initialState: any, formData: FormData) {
   const { signinId, password, name, phone, email, address } =
     validateFields.data
 
+  const existingUserResponse = await getUserByEmail(email)
+
+  if (existingUserResponse.result) {
+    return {
+      error: "이미 회원으로 가입되어 있습니다.",
+    }
+  }
+
+  //주소 나누기
+  const splitAddress = address.split(" / ")
+  const addressInfo: AddressInfoType = {
+    zipcode: splitAddress[0],
+    address: splitAddress[1],
+    detailAddress: splitAddress[2] ? splitAddress[2] : "",
+  }
+
   //마케팅 동의 뽑아내기
-  const ssgPointAgrees: MktReceiveMethodsType = {
-    ssgPointMktAgr1: false,
-    ssgPointMktAgr2: false,
-    ssgPointEmail: false,
-    ssgPointSms: false,
-    ssgPointMail: false,
-    ssgPointCall: false,
-  }
-  const ssgcomAgrees: MktReceiveMethodsType = {
-    ssgcomMktAgr1: false,
-    ssgcomEmail: false,
-    ssgcomSms: false,
-  }
   formData.forEach((value, key) => {
     if (ssgPointAgrees.hasOwnProperty(key)) {
       ssgPointAgrees[key] = true
@@ -67,39 +90,35 @@ export async function createUser(initialState: any, formData: FormData) {
     }
   })
 
-  //TODO: 이미 존재하는 회원인지 서버랑 통신, 비밀번호 암호화, 회원정보 서버로 post
   const hashedPassword = await bcrypt.hash(password, 10)
 
-  const existingUserResponse = await getUserByEmail(email)
-  console.log(existingUserResponse)
-  if (existingUserResponse.result) {
-    return {
-      error: "이미 회원으로 가입되어 있습니다.",
-    }
-  }
-
-  const res = await fetch(
-    "https://2a5e4a8b-188f-4eb4-91d3-c89c22816845.mock.pstmn.io/create-user",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+  try {
+    const res = await fetch(
+      "https://2a5e4a8b-188f-4eb4-91d3-c89c22816845.mock.pstmn.io/create-user",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          signinId: signinId,
+          password: hashedPassword,
+          name: name,
+          phone: phone,
+          email: email,
+          addressInfo: addressInfo,
+          ssgPointAgrees: ssgPointAgrees,
+          ssgcomAgrees: ssgcomAgrees,
+          simpleMember: false,
+          signupTime: new Date().toISOString(),
+          gender: 0,
+        }),
       },
-      body: JSON.stringify({
-        signinId: signinId,
-        password: hashedPassword,
-        name: name,
-        phone: phone,
-        email: email,
-        address: address,
-        ssgPointAgrees: ssgPointAgrees,
-        ssgcomAgrees: ssgcomAgrees,
-        simpleMember: false,
-        signupTime: new Date().toISOString(),
-        gender: 0,
-      }),
-    },
-  )
-  const data = await res.json()
-  console.log(data)
+    )
+    const data = await res.json()
+    console.log(data)
+  } catch (error) {
+    console.log(error)
+    return { error: "알 수 없는 오류가 발생했습니다." }
+  }
 }

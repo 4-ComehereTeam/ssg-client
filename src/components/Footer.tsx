@@ -59,7 +59,7 @@ const Footer: React.FC = () => {
           </li>
           <Separator />
           <li className="pr-[20px]">
-            <Link href={"#"}>PC버전</Link>
+            <Link href={"https://www.ssg.com/?usePCmode=Y"}>PC버전</Link>
           </li>
         </ul>
       </div>
