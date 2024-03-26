@@ -2,6 +2,15 @@ import * as z from "zod"
 
 export const CertificareSchema = z.object({})
 
+export const SigninSchema = z.object({
+  signinId: z.string().min(6, {
+    message: "아이디를 다시 확인해주세요.",
+  }),
+  password: z.string().min(8, {
+    message: "비밀번호를 다시 확인해주세요.",
+  }),
+})
+
 export const SignupSchema = z.object({
   signinId: z
     .string({
