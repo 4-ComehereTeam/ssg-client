@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ChangeOrdererInformModal from "@/components/ChangeOrdererInformModal";
+import ChangeOrdererInformModal from "@/components/modal/ChangeOrdererInformModal";
 
 
 export default function InformationOfOrderer(){

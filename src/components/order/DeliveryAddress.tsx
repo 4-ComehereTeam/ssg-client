@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from "react";
-import SelectAddressModal from "../SelectAddressModal";
+import SelectAddressModal from "../modal/SelectAddressModal";
 
 export default function DeliveryAddress(){
 
@@ -31,8 +31,8 @@ export default function DeliveryAddress(){
                         {"홍길동"} / {"010-0000-0000"}
                     </span>
                     <div className="flex justify-center items-center">
-                        <input type="checkbox" className="w-8 h-4 rounded-sm"/>
-                        <span className="text-xs" >
+                        <input type="checkbox" className="w-8 h-4 rounded-sm accent-red-500"/>
+                        <span className="text-xs " >
                             안심번호사용
                         </span>
                     </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import DeliveryRequestModal from "@/components/DeliveryRequestModal";
+import DeliveryRequestModal from "@/components/modal/DeliveryRequestModal";
 import { useState } from "react";
 
 export default function DeliveryRequest(){

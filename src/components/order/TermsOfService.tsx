@@ -6,6 +6,7 @@ import { useState } from "react";
 export default function TermsOfService(){
 
     const [agreement, setAgreement] = useState(false);
+    const [expandingTerms, setExpandingTerms] = useState(false);
 
     return(
         <>
@@ -28,7 +29,7 @@ export default function TermsOfService(){
                                 <span className="text-[#b8b8b8]">└</span> 전자금융거래 이용약관
                             </div>
                             <div>
-                                <Link href={"#"} className="underline text-[#969696]">약관보기</Link>
+                                <button className="underline text-[#969696]">약관보기</button>
                             </div>
                         </div>
                     }
