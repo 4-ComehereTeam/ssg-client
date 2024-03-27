@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import AddressList from './AddressList'
+import AddressList from '../AddressList'
 
 interface AddressModalProps {
     modalOpen: boolean
@@ -30,7 +30,7 @@ function SelectAddressModal({ modalOpen, setModalOpen }: AddressModalProps) {
                         <h1 className='text-[24px] tracking-[-0.3px] font-bold'>어디로 보내드릴까요?</h1>
                     </div>
 
-                    <Link href={"#"} className='flex text-[14px] ml-2'>
+                    <Link href={"/address"} className='flex text-[14px] ml-2'>
                         + 신규배송지등록
                     </Link>
 
