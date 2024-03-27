@@ -4,7 +4,8 @@ import benefit1 from "@/asset/images/total-member-benefit1.png"
 import benefit2 from "@/asset/images/total-member-benefit2.png"
 import benefit3 from "@/asset/images/total-member-benefit3.png"
 import Link from "next/link"
-import { SocialButton, socialSignup } from "@/components/ui/SocialButton"
+import SocialButton from "@/components/ui/SocialButton"
+import { socialSignup } from "@/data/social"
 
 function SignupIntroPage() {
   return (
@@ -72,12 +73,13 @@ function SignupIntroPage() {
       <div>
         <h5 className="bg-[#F8F8F8] px-5 py-4 text-sm">간편회원</h5>
         <div className="flex flex-row px-5 gap-10 justify-center my-9 text-xs">
-          {socialSignup.map((button, index) => (
+          {socialSignup.map((social, index) => (
             <SocialButton
               key={index}
-              src={button.src}
-              alt={button.alt}
-              text={button.text}
+              src={social.src}
+              alt={social.alt}
+              text={social.text}
+              provider={social.provider}
             />
           ))}
         </div>
