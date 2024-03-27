@@ -3,7 +3,6 @@
 import { signIn } from "@/auth"
 import { SigninSchema } from "@/lib/schemas"
 import { AuthError } from "next-auth"
-import bcrypt from "bcryptjs"
 
 export async function signin(initialState: any, formData: FormData) {
   const validateFields = SigninSchema.safeParse({
@@ -19,23 +18,15 @@ export async function signin(initialState: any, formData: FormData) {
 
   const { signinId, password } = validateFields.data
 
-  // if (validateFields.success) {
-  //   //TODO: getUserBySigninId 구현하기
-  //   const user = await getUserBySigninId(signinId)
-  //   if (!user || !user.password) return null
-
-  //   const passwordsMatch = await bcrypt.compare(password, user.password)
-
-  //   if (passwordsMatch) return user
-  // }
-
   try {
+    //auth의 credentialsProvider의 authorize 수행
     await signIn("credentials", {
       signinId,
       password,
       redirectTo: "/",
     })
   } catch (error) {
+    //credentials의 authorize에서 null이 던져지면 CredentialsSignin
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
@@ -44,6 +35,6 @@ export async function signin(initialState: any, formData: FormData) {
           return { error: "비정상적인 접근입니다." }
       }
     }
-    // return { error: "" }
+    return { error: "비정상적인 접근입니다." }
   }
 }
