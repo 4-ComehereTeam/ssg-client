@@ -23,7 +23,6 @@ import {
   AlertDialogHeader,
   AlertDialogTrigger,
 } from "@/components/shadcnUI/alert-dialog"
-import { Button } from "@/components/shadcnUI/button"
 import { AgreementsType, MktReceiveMethodsType } from "@/types/agreementType"
 import { useRouter } from "next/navigation"
 
