@@ -1,9 +1,14 @@
 import { ItemType } from "@/types/itemType"
 import Image from "next/image"
-import * as React from "react"
+import heartFill from "@/public/asset/images/heart-fill.png"
+import heartBorder from "@/public/asset/images/heart-border.png"
+import { useState } from "react"
+import { deleteClip } from "@/actions/clip"
 
-//받은 item의 id로 필요한 데이터 서버에서 받아 조합하기
-const mockitem: ItemType = {
+/**
+ * itemId를 props로 받고 컴포넌트에서 server action으로 item데이터 페치하기
+ */
+const item: ItemType = {
   id: 11,
   thumbnailUrl:
     "https://sitem.ssgcdn.com/31/71/12/item/1000533127131_i1_500.jpg",
@@ -21,39 +26,45 @@ interface ItemCardPropsType {
 }
 
 export default function ItemCard({ itemId }: ItemCardPropsType) {
-  const item = mockitem
-
   const discountPrice =
     item.discountRate !== 0
       ? item.price * ((100 - item.discountRate) / 100)
       : item.price
   const finalPrice = new Intl.NumberFormat().format(Math.round(discountPrice))
   const originalPrice = new Intl.NumberFormat().format(item.price)
+  const [clickHeart, setClickHeart] = useState(true)
+  //좋아요 취소 서버액션
+  if (!clickHeart) {
+    //memberId는 쿠키에서 가져오기
+    deleteClip(1, itemId)
+  }
 
   return (
-    <div className={`flex flex-col pt-2 pb-5`}>
+    <div className={`flex flex-col pt-2 pb-5 w-full h-full`}>
       <div className={`bg-violet-400`}>
         <Image
           src={item.thumbnailUrl}
           alt={item.alt}
-          width={200}
-          height={200}
+          sizes="100vw"
+          style={{
+            width: "100%",
+            height: "100%",
+          }}
+          width={0}
+          height={0}
           priority
         />
       </div>
       <div className="flex flex-row justify-end items-center">
-        <button className="w-[28px] h-[28px]">
-          <svg
-            width="20px"
-            viewBox="0 0 24 24"
-            focusable="false"
-            name="LikeIcon"
-          >
-            <path
-              d="M12 21.288L4.06802 12.72C2.94002 11.496 2.40002 10.224 2.40002 8.84398C2.40002 5.95198 4.69202 3.59998 7.50002 3.59998C9.44402 3.59998 11.136 4.72798 12 6.38398C12.864 4.72798 14.556 3.59998 16.5 3.59998C19.308 3.59998 21.6 5.95198 21.6 8.84398C21.6 10.224 21.06 11.484 19.944 12.708L12 21.288ZM7.50002 4.79998C5.35202 4.79998 3.60002 6.61198 3.60002 8.84398C3.60002 9.92398 4.03202 10.896 4.94402 11.904L12 19.512L19.056 11.904C19.968 10.896 20.4 9.92398 20.4 8.84398C20.4 6.61198 18.648 4.79998 16.5 4.79998C14.352 4.79998 12.6 6.61198 12.6 8.84398H11.4C11.4 6.61198 9.64802 4.79998 7.50002 4.79998Z"
-              fill="currentColor"
-            ></path>
-          </svg>
+        <button
+          className="w-[28px] h-[28px]"
+          onClick={() => setClickHeart(!clickHeart)}
+        >
+          {clickHeart ? (
+            <Image src={heartFill} alt={"싫어요"} width={20} height={20} />
+          ) : (
+            <Image src={heartBorder} alt={"싫어요"} width={20} height={20} />
+          )}
         </button>
         <button className="w-[28px] h-[28px]">
           <svg

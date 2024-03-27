@@ -1,10 +1,6 @@
 "use client"
 import { useState } from "react"
 
-type ClipNumsType = {
-  [kind: string]: number
-}
-
 //상품, 브랜드, 카테고리 별 좋아요 개수
 //서버에서 받아와야함
 const clipNums = {
