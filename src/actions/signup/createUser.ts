@@ -118,7 +118,6 @@ export async function createUser(initialState: any, formData: FormData) {
     const data = await res.json()
     console.log(data)
   } catch (error) {
-    console.log(error)
     return { error: "알 수 없는 오류가 발생했습니다." }
   }
 }

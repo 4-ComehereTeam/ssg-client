@@ -2,11 +2,11 @@
 
 import Link from "next/link"
 import { useState } from "react"
-
-import { SocialButton, socialSignin } from "../../ui/SocialButton"
 import Checkbox from "../../ui/Checkbox"
 import { useFormState } from "react-dom"
 import { signin } from "@/actions/signin"
+import { socialSignin } from "@/data/social"
+import SocialButton from "@/components/ui/SocialButton"
 
 function SigninForm() {
   const [isKeepId, setIsKeepId] = useState<boolean>(false)
@@ -58,12 +58,13 @@ function SigninForm() {
         <Link href="/member/signupIntro">회원가입</Link>
       </nav>
       <div className="flex gap-5 justify-center mt-11 flex-nowrap text-xs text-center whitespace-nowrap text-neutral-600">
-        {socialSignin.map((button, index) => (
+        {socialSignin.map((social, index) => (
           <SocialButton
             key={index}
-            src={button.src}
-            alt={button.alt}
-            text={button.text}
+            src={social.src}
+            alt={social.alt}
+            text={social.text}
+            provider={social.provider}
           />
         ))}
       </div>
