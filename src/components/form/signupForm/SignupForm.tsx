@@ -10,7 +10,6 @@ import {
   ssgPointMktReceiveNotice,
   ssgcomMktReceiveNotice,
 } from "@/data/agreements"
-import AddressForm from "../AddressForm"
 import { createUser } from "@/actions/signup/createUser"
 import { idDuplCheck } from "@/actions/signup/idduplCheckAction"
 import { useFormState } from "react-dom"
@@ -25,6 +24,7 @@ import {
 } from "@/components/shadcnUI/alert-dialog"
 import { AgreementsType, MktReceiveMethodsType } from "@/types/agreementType"
 import { useRouter } from "next/navigation"
+import Postcode from "@/components/address/PostCode"
 
 export default function SignupForm() {
   const [signinId, setSigninId] = useState("")
@@ -33,7 +33,9 @@ export default function SignupForm() {
   const [password, setPassword] = useState<string>("")
   const [confirmPassword, setConfirmPassword] = useState<string>("")
   const [isOpenAddress, setOpenAddress] = useState<boolean>(false)
-  const [address, setAddress] = useState<string>("")
+  const [fullAddress, setFullAddress] = useState<string>("")
+  const [detailAddress, setDetailAddress] = useState<string>("")
+  const [zipCode, setZipCode] = useState<string>("")
   const [ssgPointAgrees, setSsgPointAgrees] = useState<MktReceiveMethodsType>(
     ssgPointMktReceiveMethods.reduce((acc, { id }) => {
       acc[id] = false
@@ -118,6 +120,7 @@ export default function SignupForm() {
   const handleRoute = () => {
     if (!state?.error) router.push("/member/signin")
   }
+  console.log(zipCode, fullAddress, detailAddress)
 
   return (
     <form className="text-[14px]" action={formAction}>
@@ -221,9 +224,23 @@ export default function SignupForm() {
                 <input
                   className="grow py-2.5 pl-3 text-xs whitespace-nowrap bg-white border border-solid border-[#D9D9D9]"
                   type="text"
-                  name="address"
-                  value={address}
+                  name="fullAddress"
+                  value={fullAddress}
                   readOnly
+                />
+                <input
+                  hidden
+                  type="text"
+                  name="zipCode"
+                  readOnly
+                  value={zipCode}
+                />
+                <input
+                  hidden
+                  type="text"
+                  name="detailAddress"
+                  readOnly
+                  value={detailAddress}
                 />
                 <button
                   onClick={(e) => handleAddressBtn(e)}
@@ -231,10 +248,12 @@ export default function SignupForm() {
                 >
                   우편번호
                 </button>
-                <AddressForm
-                  isOpen={isOpenAddress}
-                  handleAddress={setAddress}
-                  handleOpen={setOpenAddress}
+                <Postcode
+                  modalOpen={isOpenAddress}
+                  setModalOpen={setOpenAddress}
+                  setFullAddress={setFullAddress}
+                  setDetailAddress={setDetailAddress}
+                  setZipCode={setZipCode}
                 />
               </div>
             </dd>
