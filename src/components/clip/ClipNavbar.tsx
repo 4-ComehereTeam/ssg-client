@@ -24,8 +24,10 @@ export default function ClipNavbar() {
   return (
     <nav className="text-sm bg-[#F5F5F5]">
       <ul className="px-4 py-5 flex flex-row gap-3">
-        <li onClick={() => setClickState({ ...clickState, item: true })}>
-          <span>상품 ({clipNums.item})</span>
+        <li>
+          <button onClick={() => setClickState({ ...clickState, item: true })}>
+            <span>상품 ({clipNums.item})</span>
+          </button>
         </li>
         <li>
           <span>브랜드&스토어 ({clipNums.brand})</span>

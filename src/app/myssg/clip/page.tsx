@@ -35,7 +35,6 @@ async function getClipItemIds(memberId: number) {
 export default async function ClipPage() {
   //memberId는 쿠키에서 가져오기
   const itemIds = await getClipItemIds(1)
-  console.log(itemIds)
   //Header 추가하기
   return (
     <>

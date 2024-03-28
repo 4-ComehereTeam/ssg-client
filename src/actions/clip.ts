@@ -2,6 +2,29 @@
 
 import { revalidateTag } from "next/cache"
 
+export async function postClip(memberId: number, itemId: number) {
+  try {
+    const res = await fetch(`${process.env.API_BASE_URL}/clip/item`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        memberId: memberId,
+        itemId: itemId,
+      }),
+    })
+    if (res.ok) {
+      const data = await res.json()
+      revalidateTag("clip")
+      console.log("post clip success:", data)
+    }
+    return null
+  } catch (error) {
+    console.log("post clip success:", error)
+  }
+}
+
 export async function deleteClip(memberId: number, itemId: number) {
   try {
     const res = await fetch(`${process.env.API_BASE_URL}/clip/item`, {
@@ -27,6 +50,7 @@ export async function deleteClip(memberId: number, itemId: number) {
 }
 
 export async function deleteManyClips(memberId: number, itemIds: number[]) {
+  console.log(itemIds)
   try {
     const res = await fetch(
       `${process.env.API_BASE_URL}/clip/item`, //여러개 삭제 api 만들어달라하기
