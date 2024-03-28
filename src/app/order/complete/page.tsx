@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faArrowAltCircleDown } from "@fortawesome/free-regular-svg-icons";
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
+import HeaderToHome from "@/components/ui/HeaderToHome";
+import DetailsOfPaymoney from "@/components/order/DetailsOfPaymoney";
 
 export default function Complete(){
 
@@ -15,18 +17,7 @@ export default function Complete(){
 
     return(
         <>  
-        <div className="flex justify-between w-full h-[45px] text-sm text-center text-black whitespace-nowrap border-b border-solid border-stone-300 sticky top-0 z-50 bg-white shadow-sm">
-            <div className="flex-auto my-auto">주문완료</div>
-            <Link href="/" className="w-[50px] flex item-center justify-center">
-                <Image
-                loading="lazy"
-                src={home}
-                width={24}
-                height={22}
-                alt="홈으로"
-                />
-            </Link>
-        </div>
+            <HeaderToHome title="주문완료"/>
 
             <div>
                 <h1 className="text-center text-xl font-bold h-20 flex justify-center items-center">주문이 완료되었습니다.</h1>
@@ -56,7 +47,7 @@ export default function Complete(){
                     { toggle ? <FontAwesomeIcon icon={faAngleUp}/>  :  <FontAwesomeIcon icon={faAngleDown} />}
                     </div>
                 </div>
-                { toggle ?  <Detail /> : null }
+                { toggle ?  <DetailsOfPaymoney /> : null }
             </div>
             <hr className="border-[#f5f5f5] h-[10px]" />
             <div className="m-3">
@@ -108,37 +99,6 @@ export default function Complete(){
                     <button className="w-1/2 text-[14px] text-[#444444] border-[1px] px-2 h-full rounded-full border-[#e5e5e5]">주문상품 상세보기</button>
                 </Link>
             </div>
-        </>
-    )
-}
-
-function Detail(){
-    return(
-        <>
-            <p className="flex justify-between text-[14px] my-1">
-                <span className="text-[#666666]">
-                    주문금액
-                </span>
-                <span className="text-[#222222]">
-                    {"10,000"}원
-                </span>
-            </p>
-            <p className="flex justify-between text-[14px] my-1" >
-                <span className="text-[#666666]">
-                    상품할인
-                </span>
-                <span className="text-[#222222]">
-                    -{"1,000"}원
-                </span>
-            </p>
-            <p className="flex justify-between text-[14px] my-1" >
-                <span className="text-[#666666]">
-                    배송비
-                </span>
-                <span className="text-[#222222]">
-                    +{"0"}원
-                </span>
-            </p>
         </>
     )
 }

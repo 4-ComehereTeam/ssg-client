@@ -2,11 +2,12 @@ import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useState } from "react";
+import TermsModal from "@/components/modal/TermsModal"
 
 export default function TermsOfService(){
 
     const [agreement, setAgreement] = useState(false);
-    const [expandingTerms, setExpandingTerms] = useState(false);
+    const [modalOpen, setModalOpen] = useState<boolean>(false)
 
     return(
         <>
@@ -29,7 +30,8 @@ export default function TermsOfService(){
                                 <span className="text-[#b8b8b8]">└</span> 전자금융거래 이용약관
                             </div>
                             <div>
-                                <button className="underline text-[#969696]">약관보기</button>
+                                <button onClick={()=>{setModalOpen(true)}} className="underline text-[#969696]" >약관보기</button>
+                                <TermsModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
                             </div>
                         </div>
                     }
