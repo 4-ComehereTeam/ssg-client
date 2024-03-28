@@ -6,7 +6,7 @@ import Checkbox from "../../ui/Checkbox"
 import { useFormState } from "react-dom"
 import { signin } from "@/actions/signin"
 import { socialSignin } from "@/data/social"
-import SocialButton from "@/components/ui/SocialButton"
+import SocialButton from "@/components/ui/Buttons/SocialButton"
 
 function SigninForm() {
   const [isKeepId, setIsKeepId] = useState<boolean>(false)
