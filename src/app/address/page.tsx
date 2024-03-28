@@ -21,7 +21,7 @@ function Address() {
                 setDetailAddress={setDetailAddress}
                 setZipCode={setZipCode}
             />
-            <HeaderToBackInModal title='배송지 추가' />
+            <HeaderToBackInModal setModalOpen={setModalOpen} title='배송지 추가' />
             <div className="px-3">
                 <form>
                 <ul>
