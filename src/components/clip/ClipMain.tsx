@@ -6,6 +6,7 @@ import Checkbox from "../ui/Checkbox"
 import Tooltip from "../ui/Tooltip"
 import controlBar from "@/public/asset/images/control-bar.png"
 import Image from "next/image"
+import { deleteManyClips } from "@/actions/clip"
 
 //items는 서버에서 받아와야함
 type ClipMainPropsType = {
@@ -20,11 +21,16 @@ export default function ClipMain({ itemIds }: ClipMainPropsType) {
   )
   const [allCheck, setAllCheck] = useState<boolean>(false)
   const [openInfo, setOpenInfo] = useState<boolean>(false)
+  const editItemIds: number[] = []
 
   const handleClick = (index: number) => {
     const updatedClicks = clicks.map((click, i) =>
       i === index ? !click : click,
     )
+
+    if (updatedClicks[index]) {
+      editItemIds.push(itemIds[index]) //TODO: itemIds에 안담기는거 해결하기
+    }
 
     const newCount = updatedClicks.filter((click) => click).length
     setCount(newCount)
@@ -50,6 +56,10 @@ export default function ClipMain({ itemIds }: ClipMainPropsType) {
     const iniClicks = clicks.map(() => false)
     setClicks(iniClicks)
     setEditMode(updatedMode)
+  }
+
+  const handleDeleteButton = () => {
+    deleteManyClips(1, editItemIds)
   }
 
   return (
@@ -138,7 +148,12 @@ export default function ClipMain({ itemIds }: ClipMainPropsType) {
         {editMode && (
           <div className="z-10 right-0 fixed bottom-0 w-full grid grid-cols-2 h-12 text-white tracking-tighter">
             <button className="bg-[#222222]">폴더에 추가</button>
-            <button className="bg-[#FF5452]">삭제</button>
+            <button
+              className="bg-[#FF5452]"
+              onClick={() => handleDeleteButton()}
+            >
+              삭제
+            </button>
             {/* 
             좋아요 삭제는 clicks배열과 itemIds배열을 인덱스로 매칭해서
             삭제할 상품 id가 담긴 배열을 만들고 서버에 보내줌
