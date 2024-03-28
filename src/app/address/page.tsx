@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Postcode from '@/components/address/add'
 import Link from 'next/link'
+import HeaderToBackInModal from '@/components/ui/Headers/HeaderToBackInModal'
 
 function Address() {
     const [modalOpen, setModalOpen] = useState<boolean>(false)
@@ -20,7 +21,7 @@ function Address() {
                 setDetailAddress={setDetailAddress}
                 setZipCode={setZipCode}
             />
-            {/* <HeaderTitle title="배송지 추가" /> */}
+            <HeaderToBackInModal title='배송지 추가' />
             <div className="px-3">
                 <form>
                 <ul>

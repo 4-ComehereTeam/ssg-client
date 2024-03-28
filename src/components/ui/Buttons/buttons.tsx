@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import './common.css'
+import '@/app/cart/cart.css'
 export default function Buttons({
     title,
     color,
