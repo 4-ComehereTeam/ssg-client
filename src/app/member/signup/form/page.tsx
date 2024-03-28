@@ -1,5 +1,5 @@
 import SignupForm from "@/components/form/signupForm/SignupForm"
-import Header from "@/components/Header"
+import Header from "@/components/ui/Headers/Header"
 
 export default function SignupFormPage() {
   return (

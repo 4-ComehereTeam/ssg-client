@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faArrowAltCircleDown } from "@fortawesome/free-regular-svg-icons";
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
-import HeaderToHome from "@/components/ui/HeaderToHome";
+import HeaderToHome from "@/components/ui/Headers/HeaderToHome";
 import DetailsOfPaymoney from "@/components/order/DetailsOfPaymoney";
 
 export default function Complete(){
