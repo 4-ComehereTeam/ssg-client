@@ -1,5 +1,5 @@
 import SignupAgreeForm from "@/components/form/signupForm/SignupAgreeForm"
-import Header from "@/components/Header"
+import Header from "@/components/ui/Headers/Header"
 import React from "react"
 
 export default function SignupAgreePage() {

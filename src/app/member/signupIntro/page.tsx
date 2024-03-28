@@ -4,7 +4,7 @@ import benefit1 from "@/asset/images/total-member-benefit1.png"
 import benefit2 from "@/asset/images/total-member-benefit2.png"
 import benefit3 from "@/asset/images/total-member-benefit3.png"
 import Link from "next/link"
-import SocialButton from "@/components/ui/SocialButton"
+import SocialButton from "@/components/ui/Buttons/SocialButton"
 import { socialSignup } from "@/data/social"
 
 function SignupIntroPage() {

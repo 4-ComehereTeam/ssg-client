@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import AddressList from '../AddressList'
+import HeaderToBackInModal from '../ui/Headers/HeaderToBackInModal'
 
 interface AddressModalProps {
     modalOpen: boolean
@@ -11,21 +12,7 @@ function SelectAddressModal({ modalOpen, setModalOpen }: AddressModalProps) {
         <div>
             <div className="bg-black/60 absolute inset-0 z-50">
                 <div className="fixed inset-x-0 top-0 bottom-0 flex flex-col border  bg-white">
-
-                <header
-                    className="h-[45px] flex items-center border-b-[1px] border-[rgba(0, 0, 0, 0.07)] sticky top-0 bg-white z-50"
-                >
-                    <button
-                        className="w-[50px] h-full"
-                        onClick={() => {
-                            setModalOpen(false)
-                        }}
-                    >
-                        <Image width="24" height="22" className='mx-auto' src="https://img.icons8.com/ios/50/left--v1.png" alt="backButton"/>
-                    </button>
-                    <h3 className="text-[14px] w-full text-center mx-auto">배송지 선택</h3>
-                </header>
-
+                    <HeaderToBackInModal title='배송지 선택' setModalOpen={setModalOpen}/>
                     <div className='pt-[40px] px-[16px] mb-[16px]'>
                         <h1 className='text-[24px] tracking-[-0.3px] font-bold'>어디로 보내드릴까요?</h1>
                     </div>

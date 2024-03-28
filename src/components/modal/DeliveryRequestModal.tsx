@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { useState } from "react"
+import HeaderToBackInModal from "../ui/Headers/HeaderToBackInModal"
 
 interface props{
     modalOpen: boolean
@@ -21,19 +22,7 @@ export default function DeliveryRequestModal({modalOpen, setModalOpen}:props){
             <div className="bg-black/60 absolute inset-0 z-50">
                 <div className="fixed inset-x-0 top-0 bottom-0 flex flex-col border  bg-white">
 
-                <header
-                    className="h-[45px] flex items-center border-b-[1px] border-[rgba(0, 0, 0, 0.07)] sticky top-0 bg-white z-50"
-                >
-                    <button
-                        className="w-[50px] h-full"
-                        onClick={() => {
-                            setModalOpen(false)
-                        }}
-                    >
-                        <Image width="24" height="22" className='mx-auto' src="https://img.icons8.com/ios/50/left--v1.png" alt="backButton"/>
-                    </button>
-                    <h3 className="text-[14px] w-full text-center mx-auto">수령위치 선택</h3>
-                </header>
+                    <HeaderToBackInModal title="수령위치 선택" setModalOpen={setModalOpen} />
 
                     <div className='my-[20px] px-[16px]'>
                         <h1 className='text-[18px] tracking-[-0.3px] font-bold'>택배배송 요청사항</h1>

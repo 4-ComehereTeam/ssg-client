@@ -1,6 +1,6 @@
 import Link from "next/link"
 import AddressList from "./AddressList"
-import Buttons from "../ui/buttons"
+import Buttons from "../ui/Buttons/buttons"
 
 interface AddressModalProps {
   modalOpen: boolean
