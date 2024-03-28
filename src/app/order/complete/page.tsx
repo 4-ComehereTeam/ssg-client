@@ -38,7 +38,6 @@ export default function Complete(){
                     <span className="font-bold">
                         {"홍길동"} / {"010-0000-0000"}
                     </span>
-                    <button className="border-[1px] px-2 py-0.5 text-[12px] leading-[1] border-[#e5e5e5] text-[#222222]">변경</button>
                 </p>
                 <p className="text-[14px]">
                     {"[555555] 부산광역시 해운대구 센텀리더스마크 4층"}
