@@ -57,7 +57,7 @@ export default function SignupForm() {
   ) => {
     e.preventDefault()
     const data = await idDuplCheck(signinId)
-    setIsDuplId(data.isDuplicated)
+    setIsDuplId(data?.result)
     setCheckId(true)
   }
 

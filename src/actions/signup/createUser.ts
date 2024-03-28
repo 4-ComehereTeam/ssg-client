@@ -93,28 +93,25 @@ export async function createUser(initialState: any, formData: FormData) {
   const hashedPassword = await bcrypt.hash(password, 10)
 
   try {
-    const res = await fetch(
-      "https://2a5e4a8b-188f-4eb4-91d3-c89c22816845.mock.pstmn.io/create-user",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          signinId: signinId,
-          password: hashedPassword,
-          name: name,
-          phone: phone,
-          email: email,
-          addressInfo: addressInfo,
-          ssgPointAgrees: ssgPointAgrees,
-          ssgcomAgrees: ssgcomAgrees,
-          simpleMember: false,
-          signupTime: new Date().toISOString(),
-          gender: 0,
-        }),
+    const res = await fetch("http://13.209.125.11:8080/api/v1/members/signUp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    )
+      body: JSON.stringify({
+        signinId: signinId,
+        password: hashedPassword,
+        name: name,
+        phone: phone,
+        email: email,
+        addressInfo: addressInfo,
+        ssgPointAgrees: ssgPointAgrees,
+        ssgcomAgrees: ssgcomAgrees,
+        simpleMember: false,
+        signupTime: new Date().toISOString(),
+        gender: 0,
+      }),
+    })
     const data = await res.json()
     console.log(data)
   } catch (error) {
