@@ -14,7 +14,7 @@ export const socialSignin = [
     src: kakaoLogo,
     alt: "카카오 로그인",
     text: "카카오",
-    provider: "",
+    provider: "kakao",
   },
   {
     src: appleLogo,
