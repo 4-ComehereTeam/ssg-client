@@ -1,4 +1,5 @@
 import Image from "next/image"
+import HeaderToBackInModal from "../ui/Headers/HeaderToBackInModal"
 
 interface props{
     modalOpen: boolean
@@ -12,19 +13,7 @@ export default function ChangeOrdererInformModal({modalOpen, setModalOpen}:props
             <div className="bg-black/60 absolute inset-0 z-50">
                 <div className="fixed inset-x-0 top-0 bottom-0 flex flex-col border  bg-white">
 
-                <header
-                    className="h-[45px] flex items-center border-b-[1px] border-[rgba(0, 0, 0, 0.07)] sticky top-0 bg-white z-50"
-                >
-                    <button
-                        className="w-[50px] h-full"
-                        onClick={() => {
-                            setModalOpen(false)
-                        }}
-                    >
-                        <Image width="24" height="22" className='mx-auto' src="https://img.icons8.com/ios/50/left--v1.png" alt="backButton"/>
-                    </button>
-                    <h3 className="text-[14px] w-full text-center mx-auto">주문자정보 변경</h3>
-                </header>
+                <HeaderToBackInModal title="주문자정보 변경" setModalOpen={setModalOpen} />
 
                     <form>
                         <div className='mt-[40px] px-[16px]'>
