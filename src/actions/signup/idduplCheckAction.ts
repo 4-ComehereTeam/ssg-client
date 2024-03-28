@@ -3,7 +3,7 @@
 export const idDuplCheck = async (signinId: string) => {
   try {
     const res = await fetch(
-      `http://13.209.125.11:8080/api/v1/members/signInId/check?signinId=${signinId}`,
+      `${process.env.API_BASE_URL}/members/signInId/check?signinId=${signinId}`,
       {
         method: "GET",
         headers: {
@@ -11,9 +11,13 @@ export const idDuplCheck = async (signinId: string) => {
         },
       },
     )
-    const data = await res.json()
-    return data
+    if (res.ok) {
+      const data = await res.json()
+      console.log("check duplicated id success:", data)
+      return data
+    }
+    return null
   } catch (error) {
-    console.log(error)
+    console.log("check duplicated id fail:", error)
   }
 }
