@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import "./globals.css"
 import Footer from "@/components/Footer"
+import AuthProviders from "@/components/AuthProviders"
 
 export const metadata: Metadata = {
   title: "믿고 사는 즐거움 SSG.COM",
@@ -18,8 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
-        <Footer />
+        <AuthProviders>
+          {children}
+          <Footer />
+        </AuthProviders>
       </body>
     </html>
   )

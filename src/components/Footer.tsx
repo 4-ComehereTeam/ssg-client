@@ -1,7 +1,12 @@
 import Image from "next/image"
 import Link from "next/link"
-import React from "react"
+
 import serviceLogo from "@/asset/images/serviceLogo.svg"
+
+import Separator from "./ui/Separator"
+
+import SigninStateBar from "./widgets/SigninStateBar"
+import { auth } from "@/auth"
 
 interface CustomerSupportSectionProps {
   phoneNumber: string
@@ -9,15 +14,9 @@ interface CustomerSupportSectionProps {
   actions: { text: string }[]
 }
 
-interface SeparatorProps {
-  className?: string
-}
-
-const Separator: React.FC<SeparatorProps> = ({ className }) => (
-  <div className={`shrink-0 w-px h-3 bg-gray-400 ${className}`} />
-)
-
-const Footer: React.FC = () => {
+export default function Footer() {
+  const session = auth()
+  // console.log("session:", session?.user)
   return (
     <footer>
       <div className="flex flex-row justify-between py-4 px-[15px] bg-zinc-500 text-[0.6rem] text-white">
@@ -46,14 +45,7 @@ const Footer: React.FC = () => {
       </div>
       <div className="relative h-[3em] px-[13px] text-xs text-center bg-[#DBDBE0] text-neutral-600">
         <ul className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] flex flex-row justify-around w-[100%]">
-          <li className="pl-[20px]">
-            <Link href={"/member/signin"}>로그인</Link>
-          </li>
-          <Separator />
-          <li>
-            <Link href={"/member/signupIntro"}>회원가입</Link>
-          </li>
-          <Separator />
+          <SigninStateBar />
           <li>
             <Link href={"#"}>앱다운로드</Link>
           </li>
@@ -151,5 +143,3 @@ const Footer: React.FC = () => {
     </footer>
   )
 }
-
-export default Footer

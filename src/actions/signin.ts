@@ -3,6 +3,7 @@
 import { signIn } from "@/auth"
 import { SigninSchema } from "@/lib/schemas"
 import { AuthError } from "next-auth"
+import { redirect } from "next/navigation"
 
 export async function signin(initialState: any, formData: FormData) {
   const validateFields = SigninSchema.safeParse({
@@ -21,9 +22,10 @@ export async function signin(initialState: any, formData: FormData) {
   try {
     //auth의 credentialsProvider의 authorize 수행
     await signIn("credentials", {
-      signinId,
-      password,
-      redirectTo: "/",
+      signinId: signinId,
+      password: password,
+      // redirectTo: "/",
+      redirect: false,
     })
   } catch (error) {
     //credentials의 authorize에서 null이 던져지면 CredentialsSignin
@@ -35,6 +37,9 @@ export async function signin(initialState: any, formData: FormData) {
           return { error: "비정상적인 접근입니다." }
       }
     }
-    return { error: "비정상적인 접근입니다." }
+    console.log(error)
+    throw error
+  } finally {
+    redirect("/")
   }
 }
