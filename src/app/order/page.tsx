@@ -1,5 +1,3 @@
-"use client"
-
 import HeaderToBack from "@/components/ui/Headers/HeaderToBack";
 import DeliveryAddress from "@/components/order/DeliveryAddress";
 import DeliveryRequest from "@/components/order/DeliveryRequest";

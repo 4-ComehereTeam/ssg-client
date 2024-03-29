@@ -3,10 +3,7 @@
 import Image from "next/image"
 import Link from "next/link";
 import { useState } from "react"
-import home from "@/asset/images/home.svg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { faArrowAltCircleDown } from "@fortawesome/free-regular-svg-icons";
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import HeaderToHome from "@/components/ui/Headers/HeaderToHome";
 import DetailsOfPaymoney from "@/components/order/DetailsOfPaymoney";
