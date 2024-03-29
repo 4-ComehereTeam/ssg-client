@@ -37,6 +37,7 @@ export async function deleteClip(memberId: number, itemId: number) {
         itemId: itemId,
       }),
     })
+
     if (res.ok) {
       const data = await res.json()
       revalidateTag("clipCancle")
