@@ -1,6 +1,7 @@
 import Link from "next/link"
 import AddressList from "./AddressList"
 import Buttons from "../ui/Buttons/buttons"
+import Image from "next/image"
 
 interface AddressModalProps {
   modalOpen: boolean
@@ -22,7 +23,7 @@ function AddressModal({ modalOpen, setModalOpen }: AddressModalProps) {
               setModalOpen(false)
             }}
           >
-            <img
+            <Image
               width="24"
               height="24"
               src="https://img.icons8.com/fluency-systems-regular/48/x.png"
