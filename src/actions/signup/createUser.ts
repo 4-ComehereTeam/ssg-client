@@ -1,9 +1,8 @@
 "use server"
 
-import bcrypt from "bcryptjs"
 import { SignupSchema } from "@/lib/schemas"
 import { SafeParseError } from "zod"
-import { getUserByEmail } from "./getUserByEmail"
+import { checkExistingUserByEmail } from "./checkExistingUserByEmail"
 import { MktReceiveMethodsType } from "@/types/agreementType"
 
 export type initialStateType = {
@@ -38,14 +37,13 @@ const ssgcomAgrees: MktReceiveMethodsType = {
 }
 
 export async function createUser(initialState: any, formData: FormData) {
-  // initialState = { error: "" }
   const validateFields = SignupSchema.safeParse({
     signinId: formData.get("signinId"),
     checkId: formData.get("checkId"),
     isDuplId: formData.get("isDuplId"),
     password: formData.get("password"),
     name: formData.get("name"),
-    address: formData.get("address"),
+    fullAddress: formData.get("fullAddress"),
     phone: formData.get("phone"),
     email: formData.get("email"),
   })
@@ -60,23 +58,20 @@ export async function createUser(initialState: any, formData: FormData) {
     return { error: firstError }
   }
 
-  const { signinId, password, name, phone, email, address } =
-    validateFields.data
+  const { signinId, password, name, phone, email } = validateFields.data
 
-  const existingUserResponse = await getUserByEmail(email)
+  //{zipcode, address, detailAddress} 받아오기
+  const addressInfo = {
+    zipcode: formData.get("zipCode"),
+    address: formData.get("fullAddress"),
+    detailAddress: formData.get("detailAddress"),
+  }
 
-  if (existingUserResponse.result) {
+  const existingUserResponse = await checkExistingUserByEmail(email)
+  if (existingUserResponse) {
     return {
       error: "이미 회원으로 가입되어 있습니다.",
     }
-  }
-
-  //주소 나누기
-  const splitAddress = address.split(" / ")
-  const addressInfo: AddressInfoType = {
-    zipcode: splitAddress[0],
-    address: splitAddress[1],
-    detailAddress: splitAddress[2] ? splitAddress[2] : "",
   }
 
   //마케팅 동의 뽑아내기
@@ -90,34 +85,32 @@ export async function createUser(initialState: any, formData: FormData) {
     }
   })
 
-  const hashedPassword = await bcrypt.hash(password, 10)
-
   try {
-    const res = await fetch(
-      "https://2a5e4a8b-188f-4eb4-91d3-c89c22816845.mock.pstmn.io/create-user",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          signinId: signinId,
-          password: hashedPassword,
-          name: name,
-          phone: phone,
-          email: email,
-          addressInfo: addressInfo,
-          ssgPointAgrees: ssgPointAgrees,
-          ssgcomAgrees: ssgcomAgrees,
-          simpleMember: false,
-          signupTime: new Date().toISOString(),
-          gender: 0,
-        }),
+    const res = await fetch(`${process.env.API_BASE_URL}/members/signUp`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    )
-    const data = await res.json()
-    console.log(data)
+      body: JSON.stringify({
+        signinId: signinId,
+        password: password,
+        name: name,
+        phone: phone,
+        email: email,
+        addressInfo: addressInfo,
+        ssgPointAgrees: ssgPointAgrees,
+        ssgcomAgrees: ssgcomAgrees,
+        simpleMember: false,
+        signupTime: new Date().toISOString(),
+        gender: 0,
+      }),
+    })
+    if (res.ok) {
+      const data = await res.json()
+      console.log("signup success:", data)
+    }
   } catch (error) {
+    console.log("signup fail:", error)
     return { error: "알 수 없는 오류가 발생했습니다." }
   }
 }

@@ -43,7 +43,7 @@ export const SignupSchema = z.object({
   }),
 
   //TODO: 주소 입력 폼 받으면 zipcode, address, detailAddress로 나누기
-  address: z.string().min(1, "주소는 필수 입력 항목입니다."),
+  fullAddress: z.string().min(1, "주소는 필수 입력 항목입니다."),
   phone: z
     .string({
       required_error: "휴대폰번호는 필수 입력 항목입니다.",
