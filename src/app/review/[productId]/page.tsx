@@ -4,7 +4,7 @@ import Review from '@/components/ui/Review'
 import React, { useState } from 'react'
 import Link from 'next/link'
 import PhotoReview from '@/components/widgets/PhotoReview'
-import SmallArrowIcon from '@/asset/images/SmallArrowIcon.svg'
+// import SmallArrowIcon from '@/asset/images/SmallArrowIcon.svg'
 import Modal from '@/components/modal/Modal'
 
 export default function page() {
@@ -31,7 +31,7 @@ export default function page() {
                     <span className='font-bold'>포토 리뷰</span>
                     <span className='flex text-xs whitespace-nowrap text-gray-400' onClick={openModal}>더보기<span>(3658)</span>
                         <div className='w-[16px] h-[14px]'>
-                            <span><SmallArrowIcon /></span>
+                            {/* <span><SmallArrowIcon /></span> */}
                         </div>
                     </span>
                 </div>
