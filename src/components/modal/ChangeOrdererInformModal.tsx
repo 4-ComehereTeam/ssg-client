@@ -1,4 +1,3 @@
-import Image from "next/image"
 import HeaderToBackInModal from "../ui/Headers/HeaderToBackInModal"
 
 interface props{
