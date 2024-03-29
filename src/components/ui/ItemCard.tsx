@@ -33,10 +33,13 @@ export default function ItemCard({ itemId }: ItemCardPropsType) {
   const finalPrice = new Intl.NumberFormat().format(Math.round(discountPrice))
   const originalPrice = new Intl.NumberFormat().format(item.price)
   const [clickHeart, setClickHeart] = useState(true)
-  //좋아요 취소 서버액션
-  if (!clickHeart) {
-    //memberId는 쿠키에서 가져오기
-    deleteClip(1, itemId)
+
+  const handleHeart = async () => {
+    setClickHeart(!clickHeart)
+    //좋아요 취소 서버액션
+    if (clickHeart) {
+      await deleteClip(1, itemId)
+    }
   }
 
   return (
@@ -56,10 +59,7 @@ export default function ItemCard({ itemId }: ItemCardPropsType) {
         />
       </div>
       <div className="flex flex-row justify-end items-center">
-        <button
-          className="w-[28px] h-[28px]"
-          onClick={() => setClickHeart(!clickHeart)}
-        >
+        <button className="w-[28px] h-[28px]" onClick={() => handleHeart()}>
           {clickHeart ? (
             <Image src={heartFill} alt={"싫어요"} width={20} height={20} />
           ) : (

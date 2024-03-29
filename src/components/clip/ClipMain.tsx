@@ -8,7 +8,7 @@ import controlBar from "@/public/asset/images/control-bar.png"
 import Image from "next/image"
 import { deleteManyClips } from "@/actions/clip"
 
-//items는 서버에서 받아와야함
+//itemIds는 서버에서 받아와야함
 type ClipMainPropsType = {
   itemIds: number[]
 }
@@ -23,6 +23,7 @@ export default function ClipMain({ itemIds }: ClipMainPropsType) {
   const [openInfo, setOpenInfo] = useState<boolean>(false)
   const editItemIds: number[] = []
 
+  //클릭 안먹음
   const handleClick = (index: number) => {
     const updatedClicks = clicks.map((click, i) =>
       i === index ? !click : click,
@@ -34,8 +35,6 @@ export default function ClipMain({ itemIds }: ClipMainPropsType) {
 
     const newCount = updatedClicks.filter((click) => click).length
     setCount(newCount)
-
-    setClicks(updatedClicks)
 
     // 모든 아이템이 체크되었는지 확인 후 allCheck 상태 업데이트
     const isAllChecked = updatedClicks.every((click) => click)
@@ -58,8 +57,8 @@ export default function ClipMain({ itemIds }: ClipMainPropsType) {
     setEditMode(updatedMode)
   }
 
-  const handleDeleteButton = () => {
-    deleteManyClips(1, editItemIds)
+  const handleDeleteButton = async () => {
+    await deleteManyClips(1, editItemIds)
   }
 
   return (
@@ -148,10 +147,7 @@ export default function ClipMain({ itemIds }: ClipMainPropsType) {
         {editMode && (
           <div className="z-10 right-0 fixed bottom-0 w-full grid grid-cols-2 h-12 text-white tracking-tighter">
             <button className="bg-[#222222]">폴더에 추가</button>
-            <button
-              className="bg-[#FF5452]"
-              onClick={() => handleDeleteButton()}
-            >
+            <button className="bg-[#FF5452]" onClick={handleDeleteButton}>
               삭제
             </button>
             {/* 
@@ -161,29 +157,30 @@ export default function ClipMain({ itemIds }: ClipMainPropsType) {
             */}
           </div>
         )}
-        {itemIds.length === 0 && (
+        {itemIds.length === 0 ? (
           <div className="flex justify-center items-center h-40 text-sm text-[#959595]">
             <p>아직 좋아요한 상품이 없습니다.</p>
           </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 justify-between">
+            {itemIds.map((itemId, index) => (
+              <div key={itemId} className="w-full h-full">
+                {editMode && (
+                  // Link로 둘러싸고 상품 데이터 불러오는지 확인해오기
+                  <Checkbox
+                    id={"item" + itemId.toString()}
+                    text=""
+                    onChange={() => handleClick(index)}
+                    checked={allCheck || clicks[index]}
+                    isDisabled={false}
+                    checkboxShape="square absolute mt-2 w-[19px] h-[19px]"
+                  />
+                )}
+                <ItemCard itemId={itemId} />
+              </div>
+            ))}
+          </div>
         )}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 justify-between">
-          {itemIds.map((itemId, index) => (
-            <div key={itemId} className="w-full h-full">
-              {editMode && (
-                // Link로 둘러싸고 상품 데이터 불러오는지 확인해오기
-                <Checkbox
-                  id={"item" + itemId.toString()}
-                  text=""
-                  onChange={() => handleClick(index)}
-                  checked={allCheck || clicks[index]}
-                  isDisabled={false}
-                  checkboxShape="square absolute mt-2 w-[19px] h-[19px]"
-                />
-              )}
-              <ItemCard itemId={itemId} />
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   )
