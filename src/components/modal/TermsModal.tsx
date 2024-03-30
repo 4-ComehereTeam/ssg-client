@@ -1,7 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
 import close from "@/asset/images/close.svg"
-// import AddressList from './AddressList'
 
 interface AddressModalProps {
   modalOpen: boolean
