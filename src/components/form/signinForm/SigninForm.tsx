@@ -6,7 +6,7 @@ import Checkbox from "../../ui/Checkbox"
 import { useFormState } from "react-dom"
 import { signin } from "@/actions/signin"
 import { socialSignin } from "@/data/social"
-import SocialButton from "@/components/ui/Buttons/SocialButton"
+import SocialButton from "@/components/form/signinForm/SocialButton"
 
 function SigninForm() {
   const [isKeepId, setIsKeepId] = useState<boolean>(false)
@@ -16,7 +16,7 @@ function SigninForm() {
 
   const onClickKeepId = () => {
     if (!isKeepId) {
-      alert("개인정보보호를 위해 개인 휴대폰에서만 사용하세요.")
+      alert("개인정보보호를 위해 개인 휴대폰에서만 사용하세요.") //TODO: 모달로 바꾸기
     }
     setIsKeepId(!isKeepId)
   }
@@ -24,15 +24,15 @@ function SigninForm() {
   return (
     <form className="flex flex-col px-5 mt-8 w-full" action={formAction}>
       <input
-        placeholder="아이디"
-        name="signinId"
         type="text"
+        name="signinId"
+        placeholder="아이디"
         className="z-10 justify-center items-start py-5 pr-16 pl-4 h-[48.5px] text-sm whitespace-nowrap bg-white border border-solid border-stone-300"
       />
       <input
-        placeholder="비밀번호"
-        name="password"
         type="password"
+        name="password"
+        placeholder="비밀번호"
         className="justify-center items-start py-5 pr-16 pl-4 h-[48.5px] text-sm whitespace-nowrap border border-solid border-stone-300"
       />
       {/* --------아이디 저장--------- */}
