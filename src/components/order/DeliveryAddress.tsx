@@ -23,7 +23,7 @@ export default function DeliveryAddress(){
                     </button>
                     <SelectAddressModal modalOpen={SelectAddressModalOpen} setModalOpen={setSelectAddressModalOpen}/>
                 </div>
-                <div className="my-4 text-sm">
+                <div className="py-2 text-sm">
                     {"[55555] 부산광역시 해운대구 센텀 리더스마크 4층"}
                 </div>
                 <div className="flex justify-between text-[#888888]">
