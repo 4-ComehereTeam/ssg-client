@@ -1,22 +1,10 @@
 import Image from "next/image"
 import Link from "next/link"
-
 import serviceLogo from "@/asset/images/serviceLogo.svg"
-
 import Separator from "./ui/Separator"
-
-import SigninStateBar from "./widgets/SigninStateBar"
-import { auth } from "@/auth"
-
-interface CustomerSupportSectionProps {
-  phoneNumber: string
-  email: string
-  actions: { text: string }[]
-}
+import SigninStateBar from "./ui/SigninStateBar"
 
 export default function Footer() {
-  const session = auth()
-  // console.log("session:", session?.user)
   return (
     <footer>
       <div className="flex flex-row justify-between py-4 px-[15px] bg-zinc-500 text-[0.6rem] text-white">
