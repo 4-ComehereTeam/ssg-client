@@ -1,9 +1,8 @@
-"use server"
+"use client"
 
-import { signIn } from "@/auth"
+import { signIn } from "next-auth/react"
 import { SigninSchema } from "@/lib/schemas"
-import { AuthError } from "next-auth"
-import { redirect } from "next/navigation"
+import AuthError from "next-auth"
 
 export async function signin(initialState: any, formData: FormData) {
   const validateFields = SigninSchema.safeParse({
@@ -24,22 +23,19 @@ export async function signin(initialState: any, formData: FormData) {
     await signIn("credentials", {
       signinId: signinId,
       password: password,
-      // redirectTo: "/",
-      redirect: false,
+      redirectTo: "/", //TODO: 마이페이지로 리다이렉트하기
     })
   } catch (error) {
     //credentials의 authorize에서 null이 던져지면 CredentialsSignin
     if (error instanceof AuthError) {
-      switch (error.type) {
+      switch (error) {
         case "CredentialsSignin":
           return { error: "아이디 또는 비밀번호가 일치하지 않습니다." }
         default:
           return { error: "비정상적인 접근입니다." }
       }
     }
-    console.log(error)
-    throw error
-  } finally {
-    redirect("/")
+    console.log("credentials error:", error)
+    return { error: "비정상적인 접근입니다." }
   }
 }
