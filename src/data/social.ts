@@ -8,7 +8,7 @@ export const socialSignin = [
     src: naverLogo,
     alt: "네이버 로그인",
     text: "네이버",
-    provider: "",
+    provider: "naver",
   },
   {
     src: kakaoLogo,
@@ -35,13 +35,13 @@ export const socialSignup = [
     src: naverLogo,
     alt: "네이버 회원가입",
     text: "네이버",
-    provider: "",
+    provider: "naver",
   },
   {
     src: kakaoLogo,
     alt: "카카오 회원가입",
     text: "카카오",
-    provider: "",
+    provider: "kakao",
   },
   {
     src: appleLogo,
