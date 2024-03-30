@@ -1,14 +1,21 @@
+"use client"
+
 import Image from "next/image"
 
 export default function HeaderWithSearchBar() {
+  const imageLoader = () => {
+    return "https://sui.ssgcdn.com/ui/mssgmall-ssg/images/badge/mall/logo/ssg.svg?q=d0e074aad3aee3ba776c3af1f3848117a67005b4"
+  }
+
   return (
     <>
       <header className="flex flex-row justify-between items-center py-[8px] px-[10px] h-[56px] w-full">
         <div className="flex flex-shrink-0">
           <a href="/">
             <Image
+              loader={imageLoader}
               alt="SSG.COM"
-              src="https://sui.ssgcdn.com/ui/mssgmall-ssg/images/badge/mall/logo/ssg.svg?q=d0e074aad3aee3ba776c3af1f3848117a67005b4"
+              src="logo.png"
               width={86}
               height={40}
             />
