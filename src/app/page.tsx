@@ -4,13 +4,15 @@ import SearchBar from "@/components/ui/Headers/HeaderWithSearchBar";
 import TopNav from "@/components/TopNav";
 import AdBox from "@/components/ui/AdBox";
 import Swiper from "@/components/ui/Swiper";
+import MainEventSection from "@/components/MainEventSection";
 
 export default function Home() {
   return (
     <>
       <SearchBar />
       <TopNav />
-      <Swiper />
+      {/* <Swiper /> */}
+      <MainEventSection />
       <QuickMenu />
       <AdBox />
       <BottomNav />
