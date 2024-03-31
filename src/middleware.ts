@@ -12,7 +12,6 @@ const secret = process.env.NEXTAUTH_SECRET
 
 export async function middleware(req: NextRequest, event: NextFetchEvent) {
   const session = await getToken({ req, secret })
-  // console.log(session)
   const { nextUrl } = req
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)

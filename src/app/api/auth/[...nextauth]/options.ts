@@ -36,8 +36,10 @@ export const options: NextAuthOptions = {
           })
           console.log("signin api res status:", res.status)
           if (res.ok) {
-            const member = await res.json()
-            return member.result
+            const data = await res.json()
+            console.log(data)
+            if (data.httpStatus === "OK") return data.result
+            throw data.message
           }
 
           return null
@@ -63,8 +65,8 @@ export const options: NextAuthOptions = {
   callbacks: {
     //signIn: authorize후 추가 확인
     async signIn({ user, profile, account }) {
-      console.log("user:", user.id)
-      console.log("account:", account)
+      // console.log("user:", user.id)
+      // console.log("account:", account)
       // 간편 로그인용 accessToken 발급 받기
       // credentials는 authorize에서 발급 받았으니 바로 통과
       if (account?.provider !== "credentials") {
