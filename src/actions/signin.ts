@@ -26,7 +26,6 @@ export async function signin(initialState: any, formData: FormData) {
       redirectTo: "/", //TODO: 마이페이지로 리다이렉트하기
     })
   } catch (error) {
-    //credentials의 authorize에서 null이 던져지면 CredentialsSignin
     if (error instanceof AuthError) {
       switch (error) {
         case "CredentialsSignin":

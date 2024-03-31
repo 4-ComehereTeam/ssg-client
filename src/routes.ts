@@ -3,7 +3,7 @@
  * 이 라우트들은 authentication이 요구되지 않음
  * @type {string[]}
  */
-export const publicRoutes = ["/", "/auth/new-verification"]
+export const publicRoutes = ["/", "/cart", "/category"]
 
 /**
  * authentication이 요구되는 라우트들
@@ -17,8 +17,6 @@ export const protectedRoutes = [
   "/member/signup/form",
   "/member/findIdPw",
   "/member/certification",
-  "/order/complete",
-  "/myssg/clip",
 ]
 
 /**
