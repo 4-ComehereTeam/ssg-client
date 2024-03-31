@@ -51,7 +51,6 @@ export default function Postcode({
     setFullAddress(full)
     setZipCode(zonecode)
     setJibunAddr(jibunAddress)
-    console.log(full, detailAddr, zonecode, jibunAddress) // detailAddress 출력
   }
   const closeModal = () => {
     setDetailAddr(detailAddr)
@@ -59,6 +58,7 @@ export default function Postcode({
     setModalOpen(false)
   }
 
+  // TODO: 모달창 스크롤되게 만들기
   return (
     modalOpen && (
       <div

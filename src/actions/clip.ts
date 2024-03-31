@@ -2,6 +2,7 @@
 
 import { revalidateTag } from "next/cache"
 
+//좋아요 등록
 export async function postClip(memberId: number, itemId: number) {
   try {
     const res = await fetch(`${process.env.API_BASE_URL}/clip/item`, {
@@ -25,6 +26,7 @@ export async function postClip(memberId: number, itemId: number) {
   }
 }
 
+//좋아요 취소
 export async function deleteClip(memberId: number, itemId: number) {
   try {
     const res = await fetch(`${process.env.API_BASE_URL}/clip/item`, {
@@ -50,6 +52,7 @@ export async function deleteClip(memberId: number, itemId: number) {
   }
 }
 
+//좋아요 여러 개 취소
 export async function deleteManyClips(memberId: number, itemIds: number[]) {
   console.log(itemIds)
   try {
@@ -68,7 +71,7 @@ export async function deleteManyClips(memberId: number, itemIds: number[]) {
     )
     if (res.ok) {
       const data = await res.json()
-      // revalidateTag("clipCancle")
+      revalidateTag("manyClipCancle")
       console.log("delete many clips success:", data)
       return data
     }

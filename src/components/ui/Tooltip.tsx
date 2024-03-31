@@ -10,10 +10,8 @@ export default function Tooltip({
   children,
 }: TootipPropsType) {
   return (
-    <div
-      className={`absolute top-[100%] w-[120%] h-[210%] bg-[rgba(0,0,0,0.9)] text-white ${className}`}
-    >
-      <button className="absolute right-2 text-lg">X</button>
+    <div className={`${className}`}>
+      <span className="absolute right-2 text-lg">X</span>
       <div className="absolute top-6 px-2.5 mt-1">• {text}</div>
       {children}
     </div>

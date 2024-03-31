@@ -67,8 +67,8 @@ export async function createUser(initialState: any, formData: FormData) {
     detailAddress: formData.get("detailAddress"),
   }
 
-  const existingUserResponse = await checkExistingUserByEmail(email)
-  if (existingUserResponse) {
+  const isNewUser = await checkExistingUserByEmail(email)
+  if (!isNewUser) {
     return {
       error: "이미 회원으로 가입되어 있습니다.",
     }
@@ -86,7 +86,7 @@ export async function createUser(initialState: any, formData: FormData) {
   })
 
   try {
-    const res = await fetch(`${process.env.API_BASE_URL}/members/signUp`, {
+    const res = await fetch(`${process.env.API_BASE_URL}/auth/signUp`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -97,12 +97,10 @@ export async function createUser(initialState: any, formData: FormData) {
         name: name,
         phone: phone,
         email: email,
-        addressInfo: addressInfo,
-        ssgPointAgrees: ssgPointAgrees,
-        ssgcomAgrees: ssgcomAgrees,
-        simpleMember: false,
-        signupTime: new Date().toISOString(),
-        gender: 0,
+        gender: 0, //TODO: 회원가입 폼에 성별 선택 추가하기
+        addressInfoVo: addressInfo,
+        ssgcomAgreesVo: ssgcomAgrees,
+        ssgPointAgreesVo: ssgPointAgrees,
       }),
     })
     if (res.ok) {

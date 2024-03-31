@@ -2,11 +2,27 @@
 const nextConfig = {
   reactStrictMode: false,
   images: {
-    domains: [
-      "sui.ssgcdn.com",
-      "simg.ssgcdn.com",
-      "sitem.ssgcdn.com",
-      "img.icons8.com",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "sui.ssgcdn.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "simg.ssgcdn.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "sitem.ssgcdn.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "img.icons8.com",
+        pathname: "**",
+      },
     ],
   },
   env: {
