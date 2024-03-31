@@ -58,8 +58,8 @@ export default function SignupForm() {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault()
-    const data = await idDuplCheck(signinId)
-    setIsDuplId(data?.result)
+    const result = await idDuplCheck(signinId)
+    setIsDuplId(result ? false : true)
     setCheckId(true)
   }
 
@@ -120,7 +120,6 @@ export default function SignupForm() {
   const handleRoute = () => {
     if (!state?.error) router.push("/member/signin")
   }
-  console.log(zipCode, fullAddress, detailAddress)
 
   return (
     <form className="text-[14px]" action={formAction}>

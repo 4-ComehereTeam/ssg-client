@@ -1,6 +1,6 @@
 export async function checkExistingUserByEmail(email: string) {
   try {
-    const res = await fetch(`${process.env.API_BASE_URL}/members/email/check`, {
+    const res = await fetch(`${process.env.API_BASE_URL}/auth/email/check`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
