@@ -14,7 +14,7 @@ export default function OrderPage(){
     return(
         <>
             <HeaderToBack title="결제하기" />
-            <div className="bg-[#f5f5f5]">
+            <div className="bg-[#f5f5f5] py-3">
                 <DeliveryAddress />
                 <DeliveryRequest />
                 <TypeOfPayment />
