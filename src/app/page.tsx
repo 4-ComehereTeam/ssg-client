@@ -11,7 +11,6 @@ export default function Home() {
     <>
       <SearchBar />
       <TopNav />
-      {/* <Swiper /> */}
       <MainEventSection />
       <QuickMenu />
       <AdBox />
