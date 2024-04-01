@@ -22,7 +22,7 @@ export default function QuickMenu(){
     const progress = (event: any) => {
         const { scrollLeft } = event.target;
     
-        const percentScrolled = Math.ceil((scrollLeft / (event.target.scrollWidth - screen.width)) * 80);
+        const percentScrolled = Math.ceil((scrollLeft / (event.target.scrollWidth - screen.width)) * 90);
         setScrollPercent(percentScrolled);
     };
 
@@ -66,7 +66,7 @@ return(
                     <div className={`bg-black h-0.5 `} style={{width : `${scrollPercent}%`}}></div>
                 </div> */}
                 <div className="h-[0.07rem] w-[98%] mx-auto my-2 bg-zinc-200 leading-10">
-                    <div className={`bg-black h-[0.15rem] `} style={{ width: `${scrollPercent + 20}%` }}></div>
+                    <div className={`bg-black h-[0.15rem] `} style={{ width: `${scrollPercent + 10}%` }}></div>
                 </div>
 
             </div>

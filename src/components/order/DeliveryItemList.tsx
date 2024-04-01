@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function DeliveryItemList(){
     return(
         <>
-            <div className="bg-white rounded-xl m-4 mb-20">
+            <div className="bg-white rounded-xl m-4 mb-32">
                 <div className="flex justify-between pt-[15px] px-[16px]">
                     <span className="text-lg font-semibold">택배배송</span>
                 </div>

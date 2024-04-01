@@ -68,7 +68,7 @@ export default function HeaderWithSearchBar() {
         </div>
       </div>
 
-      <div>
+      <div className="mx-2">
         <a aria-label="고객센터 바로가기" className="flex-shrink-0">
           <svg
             viewBox="0 0 24 24"
@@ -113,7 +113,7 @@ export default function HeaderWithSearchBar() {
           </svg>
         </a>
       </div>
-      <div>
+      <div className="ml-1">
         <a aria-label="장바구니 바로가기" href="#" className="flex-shrink-0">
           <svg
             viewBox="0 0 24 24"
