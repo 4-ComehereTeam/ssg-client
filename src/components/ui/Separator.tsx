@@ -3,5 +3,5 @@ interface SeparatorProps {
 }
 
 export default function Separator({ className }: SeparatorProps) {
-  return <div className={`shrink-0 w-px h-3 bg-gray-400 ${className}`} />
+  return <div className={`shrink-0 h-3 bg-gray-400 ${className}`} />
 }
