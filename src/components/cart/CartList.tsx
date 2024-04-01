@@ -1,9 +1,9 @@
-"use client"
-import { useState } from "react"
-import Image from "next/image"
-import trash from "@/asset/images/Trash.png"
-import "@/app/(nofooter)/cart/cart.css"
-import Buttons from "@/components/ui/Buttons/buttons"
+'use client'
+import { useState } from 'react'
+import Image from 'next/image'
+import trash from '@/asset/images/Trash.png'
+import '@/app/(nofooter)/cart/cart.css'
+import Buttons from '@/components/ui/Buttons/buttons'
 // import { useRecoilState } from 'recoil'
 // import { CartCheckedListAtom } from '@/state/CartCheckedListAtom'
 import { productData } from "@/lib/CartList"
