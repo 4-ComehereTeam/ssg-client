@@ -21,7 +21,6 @@ export default function RootLayout({
       <body>
         <AuthProviders>
           {children}
-          <Footer />
         </AuthProviders>
       </body>
     </html>

@@ -3,8 +3,8 @@ import QuickMenu from "@/components/QuickMenu";
 import SearchBar from "@/components/ui/Headers/HeaderWithSearchBar";
 import TopNav from "@/components/TopNav";
 import AdBox from "@/components/ui/AdBox";
-import Swiper from "@/components/ui/Swiper";
 import MainEventSection from "@/components/MainEventSection";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -14,6 +14,7 @@ export default function Home() {
       <MainEventSection />
       <QuickMenu />
       <AdBox />
+      <Footer />
       <BottomNav />
     </>
   );

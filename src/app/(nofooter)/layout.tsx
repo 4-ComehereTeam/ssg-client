@@ -1,4 +1,3 @@
-import Footer from "@/components/Footer"
 
 export default function layout({
   children,
@@ -8,7 +7,6 @@ export default function layout({
   return (
     <>
       {children}
-      <Footer />
     </>
   )
 }
