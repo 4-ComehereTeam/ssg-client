@@ -16,12 +16,6 @@ export type initialStateType = {
   }>
 }
 
-type AddressInfoType = {
-  zipcode: string
-  address: string
-  detailAddress: string
-}
-
 const ssgPointAgrees: MktReceiveMethodsType = {
   ssgPointMktAgr1: false,
   ssgPointMktAgr2: false,
