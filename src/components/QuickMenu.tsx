@@ -8,16 +8,23 @@ import QuickMenuItemLong from "./ui/QuickMenuItemLong";
 export default function QuickMenu(){
     const [scrollPercent, setScrollPercent] = useState(0);
 
-    const progress = (event:any) => {
-        const { scrollLeft } = event.target;
-        console.log("scrollLeft >>", scrollLeft);
+    // const progress = (event:any) => {
+    //     const { scrollLeft } = event.target;
+    //     console.log("scrollLeft >>", scrollLeft);
 
-        // 스크롤한 비율 계산
-        const percentScrolled = Math.ceil((scrollLeft / 416) * 80);
-        // scrollPercent 상태 변수 업데이트
-        console.log(percentScrolled, "%");
-        setScrollPercent(percentScrolled + 20);
-    }
+    //     // 스크롤한 비율 계산
+    //     const percentScrolled = Math.ceil((scrollLeft / 416) * 80);
+    //     // scrollPercent 상태 변수 업데이트
+    //     console.log(percentScrolled, "%");
+    //     setScrollPercent(percentScrolled + 20);
+    // }
+
+    const progress = (event: any) => {
+        const { scrollLeft } = event.target;
+    
+        const percentScrolled = Math.ceil((scrollLeft / (event.target.scrollWidth - screen.width)) * 80);
+        setScrollPercent(percentScrolled);
+    };
 
     console.log("scrollPercent >>", scrollPercent);
 
@@ -55,8 +62,11 @@ return(
                     <QuickMenuItemLong name="페라가모" path="https://m-shinsegaemall.ssg.com/specialStore/salvatoreferragamo/main.ssg" src="https://simg.ssgcdn.com/trans.ssg?src=/cmpt/banner/202308/2023083016393675468768254976_98.png&amp;w=128&amp;h=192"/> 
                 </div>
 
-                <div className="bg-slate-300 h-0.5 w-full my-2">
+                {/* <div className="bg-slate-300 h-0.5 w-full my-2">
                     <div className={`bg-black h-0.5 `} style={{width : `${scrollPercent}%`}}></div>
+                </div> */}
+                <div className="h-0.5 w-11/12 mx-auto my-2 bg-slate-300 ">
+                    <div className={`bg-black h-0.5 `} style={{ width: `${scrollPercent + 20}%` }}></div>
                 </div>
 
             </div>
