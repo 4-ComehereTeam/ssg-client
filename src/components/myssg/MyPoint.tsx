@@ -13,7 +13,7 @@ export default function MyPoint({
 }: MypointProps) {
   return (
     <section className="p-4 text-sm">
-      <div className="flex text-center space-x-2  overflow-x-scroll scroll-smooth">
+      <div className="flex text-center space-x-2  overflow-x-scroll scroll-smooth scrollbar-hide">
         <div className="border border-gray-300 rounded-lg p-3 w-full">
           <p className="mb-1">쿠폰</p>
           <p>
