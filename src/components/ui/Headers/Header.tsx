@@ -8,7 +8,7 @@ type HeaderPropsType = {
 
 function Header({ title }: HeaderPropsType) {
   return (
-    <div className="flex justify-between pr-[49px] w-full h-[42px] text-sm text-center text-black whitespace-nowrap border-b border-solid border-stone-300">
+    <header className="flex justify-between pr-[49px] w-full h-[42px] text-sm text-center text-black whitespace-nowrap border-b border-solid border-stone-300">
       <Link href="#" className="w-[50px] flex item-center justify-center">
         <Image
           loading="lazy"
@@ -19,7 +19,7 @@ function Header({ title }: HeaderPropsType) {
         />
       </Link>
       <div className="flex-auto my-auto">{title}</div>
-    </div>
+    </header>
   )
 }
 
