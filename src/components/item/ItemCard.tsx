@@ -5,9 +5,6 @@ import heartBorder from "@/public/asset/images/heart-border.png"
 import { useState } from "react"
 import { deleteClip } from "@/actions/clip"
 
-/**
- * itemId를 props로 받고 컴포넌트에서 server action으로 item데이터 페치하기
- */
 const item: ItemType = {
   id: 11,
   thumbnailUrl:
@@ -38,7 +35,7 @@ export default function ItemCard({ itemId }: ItemCardPropsType) {
     setClickHeart(!clickHeart)
     //좋아요 취소 서버액션
     if (clickHeart) {
-      await deleteClip(1, itemId)
+      await deleteClip(itemId)
     }
   }
 
