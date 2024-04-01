@@ -17,7 +17,7 @@ export default function SigninStateBar() {
           <Link href={"/member/signin"}>로그인</Link>
         )}
       </li>
-      <Separator />
+      <Separator className="w-[1px]" />
       <li>
         {session?.user ? (
           <button onClick={() => signOut()}>로그아웃</button>
@@ -25,7 +25,7 @@ export default function SigninStateBar() {
           <Link href={"/member/signupIntro"}>회원가입</Link>
         )}
       </li>
-      <Separator />
+      <Separator className="w-[1px]" />
     </>
   )
 }
