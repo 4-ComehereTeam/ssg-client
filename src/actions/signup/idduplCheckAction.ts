@@ -11,13 +11,12 @@ export const idDuplCheck = async (signinId: string) => {
         },
       },
     )
-
+    console.log(res.status)
     if (res.ok) {
       const data = await res.json()
       console.log("check duplicated id success:", data)
       return data.result
     }
-    return null
   } catch (error) {
     console.log("check duplicated id fail:", error)
   }

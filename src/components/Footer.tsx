@@ -37,7 +37,7 @@ export default function Footer() {
           <li>
             <Link href={"#"}>앱다운로드</Link>
           </li>
-          <Separator />
+          <Separator className="w-[1px]" />
           <li className="pr-[20px]">
             <Link href={"https://www.ssg.com/?usePCmode=Y"}>PC버전</Link>
           </li>

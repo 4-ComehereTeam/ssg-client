@@ -16,7 +16,6 @@ export const protectedRoutes = [
   "/member/signup/agree",
   "/member/signup/form",
   "/member/findIdPw",
-  "/member/certification",
 ]
 
 /**
