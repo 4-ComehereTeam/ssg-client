@@ -1,4 +1,5 @@
 import Link from "next/link"
+import "./clip.css"
 
 //추후 폴더 기능 추가시 <ul>{clipfolders.map(folder => <li>{...}</li>)}</ul>
 export default function ClipHeader() {
@@ -6,23 +7,13 @@ export default function ClipHeader() {
     <section>
       <ul className="pl-5 py-5 flex flex-row gap-4 text-xs text-center">
         <li>
-          <div className="w-14 h-14 rounded-full bg-[#FF5452] flex justify-center items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              version="1.1"
-              width="21px"
-              height="19px"
-              viewBox="0 0 256 256"
-            >
-              <g>
-                <path
-                  fill="#FFFFFF"
-                  d="M 255.5,78.5 C 255.5,86.5 255.5,94.5 255.5,102.5C 253.67,108.821 251.503,115.154 249,121.5C 245.724,127.108 242.057,132.442 238,137.5C 202.472,172.694 167.305,208.194 132.5,244C 129.167,246 125.833,246 122.5,244C 87.6946,208.194 52.528,172.694 17,137.5C 12.9429,132.442 9.27624,127.108 6,121.5C 3.49676,115.154 1.3301,108.821 -0.5,102.5C -0.5,94.5 -0.5,86.5 -0.5,78.5C 11.8496,33.4748 41.1829,14.9748 87.5,23C 95.8914,25.6949 103.558,29.6949 110.5,35C 116.015,40.6816 121.681,46.1816 127.5,51.5C 134.35,44.8163 141.35,38.3163 148.5,32C 173.634,17.0458 198.967,16.7125 224.5,31C 241,42.8402 251.334,58.6735 255.5,78.5 Z"
-                />
-              </g>
-            </svg>
-          </div>
-          <p className="pt-2">전체보기</p>
+          <Link href="/myssg/clip" className="flex flex-col">
+            <div className="flex-none relative">
+              <div className="back"></div>
+              <div className="heart"></div>
+            </div>
+            <p className="pt-2">전체보기</p>
+          </Link>
         </li>
         <li>
           <div className="text-4xl text-zinc-400 w-14 h-14 rounded-full border border-zinc-200 leading-snug">

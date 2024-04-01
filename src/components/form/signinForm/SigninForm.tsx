@@ -2,27 +2,36 @@
 
 import Link from "next/link"
 import { useState } from "react"
-
-import { SocialButton, socialSignin } from "../../ui/SocialButton"
 import Checkbox from "../../ui/Checkbox"
+import { useFormState } from "react-dom"
+import { signin } from "@/actions/signin"
+import { socialSignin } from "@/data/social"
+import SocialButton from "@/components/form/signinForm/SocialButton"
 
 function SigninForm() {
   const [isKeepId, setIsKeepId] = useState<boolean>(false)
+  const [state, formAction] = useFormState(signin, {
+    error: "",
+  })
 
   const onClickKeepId = () => {
     if (!isKeepId) {
-      alert("개인정보보호를 위해 개인 휴대폰에서만 사용하세요.")
+      alert("개인정보보호를 위해 개인 휴대폰에서만 사용하세요.") //TODO: 모달로 바꾸기
     }
     setIsKeepId(!isKeepId)
   }
 
   return (
-    <section className="flex flex-col px-5 mt-8 w-full">
+    <form className="flex flex-col px-5 mt-8 w-full" action={formAction}>
       <input
+        type="text"
+        name="signinId"
         placeholder="아이디"
         className="z-10 justify-center items-start py-5 pr-16 pl-4 h-[48.5px] text-sm whitespace-nowrap bg-white border border-solid border-stone-300"
       />
       <input
+        type="password"
+        name="password"
         placeholder="비밀번호"
         className="justify-center items-start py-5 pr-16 pl-4 h-[48.5px] text-sm whitespace-nowrap border border-solid border-stone-300"
       />
@@ -34,7 +43,11 @@ function SigninForm() {
         <Checkbox id="keepId" text="아이디 저장" />
       </span>
       {/* --------아이디 저장--------- */}
-      <button className="mt-[33px] justify-center items-center px-16 py-5 leading-[10px] font-medium text-white whitespace-nowrap bg-[#FF5452] h-[50px]">
+      <p>{state?.error}</p>
+      <button
+        className="mt-[33px] justify-center items-center px-16 py-5 leading-[10px] font-medium text-white whitespace-nowrap bg-[#FF5452] h-[50px]"
+        type="submit"
+      >
         로그인
       </button>
       <nav className="flex gap-1.5 self-center mt-4 text-sm text-center text-[13px] text-neutral-600">
@@ -45,12 +58,13 @@ function SigninForm() {
         <Link href="/member/signupIntro">회원가입</Link>
       </nav>
       <div className="flex gap-5 justify-center mt-11 flex-nowrap text-xs text-center whitespace-nowrap text-neutral-600">
-        {socialSignin.map((button, index) => (
+        {socialSignin.map((social, index) => (
           <SocialButton
             key={index}
-            src={button.src}
-            alt={button.alt}
-            text={button.text}
+            src={social.src}
+            alt={social.alt}
+            text={social.text}
+            provider={social.provider}
           />
         ))}
       </div>
@@ -69,7 +83,7 @@ function SigninForm() {
       >
         비회원 조회하기
       </Link>
-    </section>
+    </form>
   )
 }
 

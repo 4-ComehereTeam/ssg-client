@@ -1,15 +1,23 @@
 "use server"
 
 export const idDuplCheck = async (signinId: string) => {
-  const res = await fetch(
-    `https://2a5e4a8b-188f-4eb4-91d3-c89c22816845.mock.pstmn.io/id-duplicate-check?signinId=${signinId}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
+  try {
+    const res = await fetch(
+      `${process.env.API_BASE_URL}/auth/signInId/check?signinId=${signinId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       },
-    },
-  )
-  const data = await res.json()
-  return data
+    )
+    console.log(res.status)
+    if (res.ok) {
+      const data = await res.json()
+      console.log("check duplicated id success:", data)
+      return data.result
+    }
+  } catch (error) {
+    console.log("check duplicated id fail:", error)
+  }
 }

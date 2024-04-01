@@ -2,6 +2,15 @@ import * as z from "zod"
 
 export const CertificareSchema = z.object({})
 
+export const SigninSchema = z.object({
+  signinId: z.string().min(6, {
+    message: "아이디를 다시 확인해주세요.",
+  }),
+  password: z.string().min(8, {
+    message: "비밀번호를 다시 확인해주세요.",
+  }),
+})
+
 export const SignupSchema = z.object({
   signinId: z
     .string({
@@ -34,7 +43,7 @@ export const SignupSchema = z.object({
   }),
 
   //TODO: 주소 입력 폼 받으면 zipcode, address, detailAddress로 나누기
-  address: z.string().min(1, "주소는 필수 입력 항목입니다."),
+  fullAddress: z.string().min(1, "주소는 필수 입력 항목입니다."),
   phone: z
     .string({
       required_error: "휴대폰번호는 필수 입력 항목입니다.",

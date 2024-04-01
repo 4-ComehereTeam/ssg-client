@@ -10,7 +10,6 @@ import {
   ssgPointMktReceiveNotice,
   ssgcomMktReceiveNotice,
 } from "@/data/agreements"
-import AddressForm from "../AddressForm"
 import { createUser } from "@/actions/signup/createUser"
 import { idDuplCheck } from "@/actions/signup/idduplCheckAction"
 import { useFormState } from "react-dom"
@@ -23,9 +22,9 @@ import {
   AlertDialogHeader,
   AlertDialogTrigger,
 } from "@/components/shadcnUI/alert-dialog"
-import { Button } from "@/components/shadcnUI/button"
 import { AgreementsType, MktReceiveMethodsType } from "@/types/agreementType"
 import { useRouter } from "next/navigation"
+import Postcode from "@/components/address/PostCode"
 
 export default function SignupForm() {
   const [signinId, setSigninId] = useState("")
@@ -34,7 +33,9 @@ export default function SignupForm() {
   const [password, setPassword] = useState<string>("")
   const [confirmPassword, setConfirmPassword] = useState<string>("")
   const [isOpenAddress, setOpenAddress] = useState<boolean>(false)
-  const [address, setAddress] = useState<string>("")
+  const [fullAddress, setFullAddress] = useState<string>("")
+  const [detailAddress, setDetailAddress] = useState<string>("")
+  const [zipCode, setZipCode] = useState<string>("")
   const [ssgPointAgrees, setSsgPointAgrees] = useState<MktReceiveMethodsType>(
     ssgPointMktReceiveMethods.reduce((acc, { id }) => {
       acc[id] = false
@@ -57,8 +58,8 @@ export default function SignupForm() {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault()
-    const data = await idDuplCheck(signinId)
-    setIsDuplId(data.isDuplicated)
+    const result = await idDuplCheck(signinId)
+    setIsDuplId(result ? false : true)
     setCheckId(true)
   }
 
@@ -86,44 +87,34 @@ export default function SignupForm() {
     setSsgcomAgrees((prevState) => ({ ...prevState, [type]: isChecked }))
   }
 
-  // 동의한 항목의 text를 결합하여 문자열 생성
+  // 동의한 수신 방법 항목의 text를 결합하여 문자열 생성
   const generateAgreementString = (
     agrees: MktReceiveMethodsType,
-    agreements: AgreementsType,
     methods: AgreementsType,
   ) => {
-    const methodTexts: string[] = []
-    const agreementTexts: string[] = Object.entries(agrees)
+    const methodTexts: string[] = Object.entries(agrees)
       .filter(([key, value]) => value) // 동의한 항목만 필터링
       .map(([key]) => {
-        // agreements와 methods에서 해당 항목 찾기
-        const agreement = agreements.find((item) => item.id === key)
+        //methods에서 해당 항목 찾기
         const method = methods.find((item) => item.id === key)
-
-        if (method) {
-          // methods 항목은 별도 배열에 저장
-          methodTexts.push(method.text)
-        }
-
-        // 찾은 agreements 항목의 text 반환
-        return agreement ? agreement.text : ""
+        return method ? method.text : ""
       })
-      .filter((text) => text) // 빈 문자열 제외
+      .filter((text) => text)
 
-    // agreements 문자열 결합
-    let result = agreementTexts.join(",\n")
-    if (result) {
-      result += "하셨습니다."
-    }
-
-    // methods 문자열 결합
+    let result = ""
     if (methodTexts.length > 0) {
-      result += `\n${methodTexts.join(
-        ", ",
-      )}(으)로 마케팅 정보를 받으실 수 있습니다.`
+      result = `${methodTexts.join(", ")}`
     }
-
     return result
+  }
+
+  function getTodayDate() {
+    const today = new Date()
+    const year = today.getFullYear() // 년도
+    const month = today.getMonth() + 1 // 월 (getMonth()는 0부터 시작하므로 +1)
+    const date = today.getDate() // 일
+
+    return `${year}년 ${month}월 ${date}일`
   }
 
   const handleRoute = () => {
@@ -232,9 +223,23 @@ export default function SignupForm() {
                 <input
                   className="grow py-2.5 pl-3 text-xs whitespace-nowrap bg-white border border-solid border-[#D9D9D9]"
                   type="text"
-                  name="address"
-                  value={address}
+                  name="fullAddress"
+                  value={fullAddress}
                   readOnly
+                />
+                <input
+                  hidden
+                  type="text"
+                  name="zipCode"
+                  readOnly
+                  value={zipCode}
+                />
+                <input
+                  hidden
+                  type="text"
+                  name="detailAddress"
+                  readOnly
+                  value={detailAddress}
                 />
                 <button
                   onClick={(e) => handleAddressBtn(e)}
@@ -242,10 +247,12 @@ export default function SignupForm() {
                 >
                   우편번호
                 </button>
-                <AddressForm
-                  isOpen={isOpenAddress}
-                  handleAddress={setAddress}
-                  handleOpen={setOpenAddress}
+                <Postcode
+                  modalOpen={isOpenAddress}
+                  setModalOpen={setOpenAddress}
+                  setFullAddress={setFullAddress}
+                  setDetailAddress={setDetailAddress}
+                  setZipCode={setZipCode}
                 />
               </div>
             </dd>
@@ -308,38 +315,41 @@ export default function SignupForm() {
         </p>
       </section>
       <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <div className="px-5">
-            <Button
-              className="rounded-none mb-5 w-full h-[48px] bg-[#FF5452] text-white text-[17px] font-semibold"
-              type="submit"
-            >
-              가입하기
-            </Button>
-          </div>
-        </AlertDialogTrigger>
+        <div className="px-5">
+          <AlertDialogTrigger
+            type="submit"
+            className="w-full mb-5 h-[48px] bg-[#FF5452] text-white text-[17px] font-semibold"
+          >
+            가입하기
+          </AlertDialogTrigger>
+        </div>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogDescription>
               {state?.error ? (
-                state?.error
+                <span>{state?.error}</span>
               ) : (
-                <div>
-                  <p className="mb-3">
-                    {generateAgreementString(
-                      ssgPointAgrees,
-                      ssgPointMktAgreements,
-                      ssgPointMktReceiveMethods,
-                    )}
-                  </p>
-                  <p>
-                    {generateAgreementString(
-                      ssgcomAgrees,
-                      ssgcomMktAgreements,
-                      ssgcomMktReceiveMethods,
-                    )}
-                  </p>
-                </div>
+                <span className="mb-3">
+                  회원가입이 완료되었습니다.
+                  <br />
+                  <br />
+                  [마케팅 정보 수신 동의 변경일]
+                  <br />
+                  {getTodayDate()}
+                  <br />
+                  <br />
+                  [마케팅 정보 수신 동의 안내]
+                  <br />
+                  {`신세계포인트: ${generateAgreementString(
+                    ssgPointAgrees,
+                    ssgPointMktReceiveMethods,
+                  )}`}
+                  <br />
+                  {`SSG.COM: ${generateAgreementString(
+                    ssgcomAgrees,
+                    ssgcomMktReceiveMethods,
+                  )}`}
+                </span>
               )}
             </AlertDialogDescription>
           </AlertDialogHeader>
