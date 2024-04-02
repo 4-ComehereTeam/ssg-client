@@ -1,9 +1,17 @@
 "use server"
 
+import { options } from "@/app/api/auth/[...nextauth]/options"
+import { getServerSession } from "next-auth"
 import { revalidateTag } from "next/cache"
+
+async function getSession() {
+  const session = await getServerSession(options)
+  return session
+}
 
 //좋아요 등록
 export async function postClip(itemId: number) {
+  const session = await getSession()
   try {
     const res = await fetch(
       `${process.env.API_BASE_URL}/clip/item?itemId=${itemId}`,
@@ -11,6 +19,7 @@ export async function postClip(itemId: number) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: session?.user.accessToken,
         },
       },
     )
@@ -27,6 +36,7 @@ export async function postClip(itemId: number) {
 
 //좋아요 취소
 export async function deleteClip(itemId: number) {
+  const session = await getSession()
   try {
     const res = await fetch(
       `${process.env.API_BASE_URL}/clip/item?itemId=${itemId}`,
@@ -34,6 +44,7 @@ export async function deleteClip(itemId: number) {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          Authorization: session?.user.accessToken,
         },
       },
     )
@@ -51,16 +62,16 @@ export async function deleteClip(itemId: number) {
 }
 
 //좋아요 여러 개 취소
-export async function deleteManyClips(memberId: number, itemIds: number[]) {
-  console.log(itemIds)
+export async function deleteManyClips(itemIds: number[]) {
+  const session = await getSession()
   try {
     const res = await fetch(`${process.env.API_BASE_URL}/clip/items`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: session?.user.accessToken,
       },
       body: JSON.stringify({
-        memberId: memberId,
         itemIds: itemIds,
       }),
     })

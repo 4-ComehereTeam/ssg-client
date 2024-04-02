@@ -7,7 +7,7 @@ type EditBarProps = {
 export default function EditBar({ clickItemIds }: EditBarProps) {
   //체크박스 클릭한 상품들 삭제 요청
   const handleDeleteButton = async () => {
-    await deleteManyClips(1, clickItemIds)
+    await deleteManyClips(clickItemIds)
     //모달로 바꿀 예정
     let confirm = window.confirm("정말 삭제하시겠습니까?")
     confirm && alert("삭제되었습니다.")
