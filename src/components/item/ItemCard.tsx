@@ -41,20 +41,18 @@ export default function ItemCard({ itemId }: ItemCardPropsType) {
 
   return (
     <div className={`flex flex-col pt-2 pb-5 w-full h-full`}>
-      <div className={`bg-violet-400`}>
-        <Image
-          src={item.thumbnailUrl}
-          alt={item.alt}
-          sizes="100vw"
-          style={{
-            width: "100%",
-            height: "100%",
-          }}
-          width={0}
-          height={0}
-          priority
-        />
-      </div>
+      <Image
+        src={item.thumbnailUrl}
+        alt={item.alt}
+        sizes="100vw"
+        style={{
+          width: "100%",
+          height: "100%",
+        }}
+        width={0}
+        height={0}
+        priority
+      />
       <div className="flex flex-row justify-end items-center">
         <button className="w-[28px] h-[28px]" onClick={() => handleHeart()}>
           {clickHeart ? (
