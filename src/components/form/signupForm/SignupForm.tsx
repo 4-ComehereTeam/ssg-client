@@ -53,6 +53,8 @@ export default function SignupForm() {
   })
   const router = useRouter()
 
+  // TODO: state들을 객체 하나로 묶고 하나의 핸들러로 관리하기, 강사님 로그인폼 참고
+
   //아이디 중복 확인
   const checkIdDuplicate = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
