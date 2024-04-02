@@ -38,7 +38,7 @@ export default function ItemCard({ itemId }: ItemCardPropsType) {
     setClickHeart(!clickHeart)
     //좋아요 취소 서버액션
     if (clickHeart) {
-      await deleteClip(1, itemId)
+      await deleteClip(itemId)
     }
   }
 

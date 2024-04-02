@@ -1,9 +1,11 @@
+import { options } from "@/app/api/auth/[...nextauth]/options"
 import ClipHeader from "@/components/clip/ClipHeader"
 import ClipMain from "@/components/clip/ClipMain"
 import ClipNavbar from "@/components/clip/ClipNavbar"
+import { getServerSession } from "next-auth"
 import React from "react"
 
-async function getClipItemIds(memberId: number) {
+async function getClipItemIds(accessToken: string) {
   try {
     const res = await fetch(
       "https://c47b4d94-6da3-46ae-9205-95a73f06e76b.mock.pstmn.io/clip-cancle",
@@ -11,10 +13,8 @@ async function getClipItemIds(memberId: number) {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          Authorization: accessToken,
         },
-        body: JSON.stringify({
-          memberId: memberId,
-        }),
         next: { tags: ["clip", "clipCancle", "manyClipCancle"] },
       },
     )
@@ -32,7 +32,7 @@ async function getClipItemIds(memberId: number) {
   }
 }
 
-async function getClipNums(memberId: number) {
+async function getClipNums(accessToken: string) {
   try {
     const res = await fetch(
       "https://c47b4d94-6da3-46ae-9205-95a73f06e76b.mock.pstmn.io/clip-cancle",
@@ -40,10 +40,8 @@ async function getClipNums(memberId: number) {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          Authorization: accessToken,
         },
-        body: JSON.stringify({
-          memberId: memberId,
-        }),
         next: { tags: ["clip", "clipCancle", "manyClipCancle"] },
       },
     )
@@ -69,11 +67,10 @@ async function getClipNums(memberId: number) {
 }
 
 export default async function ClipPage() {
-  //memberId는 쿠키 또는 세션에서 가져오기
-  // -> use client 써야할경우 데이터 페칭 함수를 각 컴포넌트 안으로 넣기
-  const itemIds = await getClipItemIds(1)
-  const clipNums = await getClipNums(1)
-  console.log(clipNums)
+  const session = await getServerSession(options)
+  const itemIds = await getClipItemIds(session?.user.accessToken)
+  const clipNums = await getClipNums(session?.user.accessToken)
+
   //Header 추가하기
   return (
     <>
