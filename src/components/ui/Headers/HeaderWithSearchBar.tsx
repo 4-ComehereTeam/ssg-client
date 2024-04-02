@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 
 export default function HeaderWithSearchBar() {
   const imageLoader = () => {
@@ -45,8 +46,11 @@ export default function HeaderWithSearchBar() {
         </button>
       </div>
 
-      <div className="w-full bg-[#f5f5f5] rounded-full flex h-full ml-[20px] mr-[10px] relative">
-        <input readOnly className="bg-transparent h-full" />
+      <div className=" flex h-full w-full ml-[20px] mr-[10px] bg-[#F5F5F5] rounded-full relative">
+        <input
+          readOnly
+          className="appearance-none bg-transparent h-full w-full  rounded-full"
+        />
         <div className="right-0 absolute w-[44px] h-10 font-[14px] items-center justify-center flex">
           <svg
             viewBox="0 0 24 24"
@@ -69,7 +73,11 @@ export default function HeaderWithSearchBar() {
       </div>
 
       <div className="mx-2">
-        <a aria-label="고객센터 바로가기" className="flex-shrink-0">
+        <Link
+          aria-label="고객센터 바로가기"
+          href={"#"}
+          className="flex-shrink-0"
+        >
           <svg
             viewBox="0 0 24 24"
             className="w-6"
@@ -111,10 +119,14 @@ export default function HeaderWithSearchBar() {
               fill="currentColor"
             ></path>
           </svg>
-        </a>
+        </Link>
       </div>
       <div className="ml-1">
-        <a aria-label="장바구니 바로가기" href="#" className="flex-shrink-0">
+        <Link
+          aria-label="장바구니 바로가기"
+          href="/cart"
+          className="flex-shrink-0"
+        >
           <svg
             viewBox="0 0 24 24"
             focusable="false"
@@ -145,7 +157,7 @@ export default function HeaderWithSearchBar() {
               fill="currentColor"
             ></path>
           </svg>
-        </a>
+        </Link>
       </div>
     </header>
   )
