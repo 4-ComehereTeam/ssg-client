@@ -1,23 +1,28 @@
+"use client"
+
 import Image from "next/image"
-import Link from "next/link"
-import backArrow from "@/asset/images/backArrow.svg"
+import { useRouter } from "next/navigation"
 
 type HeaderPropsType = {
   title: string
 }
 
 function Header({ title }: HeaderPropsType) {
+  const router = useRouter()
   return (
     <header className="flex justify-between pr-[49px] w-full h-[42px] text-sm text-center text-black whitespace-nowrap border-b border-solid border-stone-300">
-      <Link href="#" className="w-[50px] flex item-center justify-center">
+      <div
+        className="w-[50px] flex item-center justify-center"
+        onClick={() => router.back()}
+      >
         <Image
-          loading="lazy"
-          src={backArrow}
-          width={22}
-          height={41}
-          alt="뒤로가기"
+          width="24"
+          height="22"
+          className="mx-auto"
+          src="https://img.icons8.com/ios/50/left--v1.png"
+          alt="backButton"
         />
-      </Link>
+      </div>
       <div className="flex-auto my-auto">{title}</div>
     </header>
   )
