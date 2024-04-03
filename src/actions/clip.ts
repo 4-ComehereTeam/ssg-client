@@ -11,6 +11,7 @@ async function getSession() {
 
 //좋아요 등록
 export async function postClip(itemId: number) {
+  revalidateTag("getClipItemIds")
   const session = await getSession()
   try {
     const res = await fetch(
@@ -25,7 +26,6 @@ export async function postClip(itemId: number) {
     )
     if (res.ok) {
       const data = await res.json()
-      revalidateTag("clip")
       console.log("post clip success:", data)
     }
     return null
@@ -36,6 +36,7 @@ export async function postClip(itemId: number) {
 
 //좋아요 취소
 export async function deleteClip(itemId: number) {
+  revalidateTag("getClipItemIds")
   const session = await getSession()
   try {
     const res = await fetch(
@@ -51,7 +52,6 @@ export async function deleteClip(itemId: number) {
 
     if (res.ok) {
       const data = await res.json()
-      revalidateTag("clipCancle")
       console.log("delete clip success:", data)
       return data
     }
@@ -63,6 +63,7 @@ export async function deleteClip(itemId: number) {
 
 //좋아요 여러 개 취소
 export async function deleteManyClips(itemIds: number[]) {
+  revalidateTag("getClipItemIds")
   const session = await getSession()
   try {
     const res = await fetch(`${process.env.API_BASE_URL}/clip/items`, {
@@ -77,7 +78,6 @@ export async function deleteManyClips(itemIds: number[]) {
     })
     if (res.ok) {
       const data = await res.json()
-      revalidateTag("manyClipCancle")
       console.log("delete many clips success:", data)
       return data
     }
