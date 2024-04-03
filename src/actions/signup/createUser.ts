@@ -4,6 +4,7 @@ import { SignupSchema } from "@/lib/schemas"
 import { SafeParseError } from "zod"
 import { checkExistingUserByEmail } from "./checkExistingUserByEmail"
 import { MktReceiveMethodsType } from "@/types/agreementType"
+import { getResignCount } from "./getResignCount"
 
 export type initialStateType = {
   error: SafeParseError<{
@@ -29,6 +30,8 @@ const ssgcomAgrees: MktReceiveMethodsType = {
   ssgcomEmail: false,
   ssgcomSms: false,
 }
+
+const RESIGN_LIMIT_COUNT = 3
 
 export async function createUser(initialState: any, formData: FormData) {
   const validateFields = SignupSchema.safeParse({
@@ -68,6 +71,12 @@ export async function createUser(initialState: any, formData: FormData) {
     }
   }
 
+  const resignCount = await getResignCount(email)
+  console.log(resignCount)
+  if (resignCount >= RESIGN_LIMIT_COUNT) {
+    return { error: "3회 이상 탈퇴 시 30일 후에 가입할 수 있습니다." }
+  }
+
   //마케팅 동의 뽑아내기
   formData.forEach((value, key) => {
     if (ssgPointAgrees.hasOwnProperty(key)) {
@@ -99,10 +108,12 @@ export async function createUser(initialState: any, formData: FormData) {
     })
     if (res.ok) {
       const data = await res.json()
-      console.log("signup success:", data)
+      console.log("signup success:", data.httpStatus)
     }
+    console.log("signup success:", res.status)
+    return { error: "회원가입에 실패했습니다." }
   } catch (error) {
     console.log("signup fail:", error)
-    return { error: "알 수 없는 오류가 발생했습니다." }
+    return { error: "회원가입에 실패했습니다." }
   }
 }
