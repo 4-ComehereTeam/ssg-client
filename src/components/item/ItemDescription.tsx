@@ -7,9 +7,8 @@ import Description from "./Description"
 export default async function ItemDescription({ itemId }: ItemIdType) {
   const description = await getItemDescription(itemId)
   const basicInfo = await getItemBasicInfo(itemId)
-  console.log(basicInfo)
   return (
-    <section className="px-4 my-4">
+    <section id="descriptionSection" className="px-4 my-4">
       <div>
         <h3 className="text-xl mb-3 border-b-[1px] border-[#777777]">
           <span>상세정보</span>
