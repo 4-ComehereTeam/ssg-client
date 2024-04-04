@@ -108,7 +108,7 @@ export default function ClipMain({ itemIds }: ClipMainPropsType) {
                     checkboxShape="square absolute mt-2 w-[19px] h-[19px]"
                   />
                 )}
-                <Link href={"#"}>
+                <Link href={`/item/${itemId}`}>
                   <ItemCard itemId={itemId} />
                 </Link>
               </div>
