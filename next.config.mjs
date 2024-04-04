@@ -23,6 +23,11 @@ const nextConfig = {
         hostname: "img.icons8.com",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "succ.ssgcdn.com",
+        pathname: "**",
+      },
     ],
   },
   env: {

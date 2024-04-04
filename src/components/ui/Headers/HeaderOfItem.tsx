@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 export default function HeaderOfItem({
   children,
@@ -11,6 +11,11 @@ export default function HeaderOfItem({
 }) {
   const router = useRouter()
   const [showHeader, setShowHeader] = useState(false)
+  const [activateSection, setActivateSection] = useState({
+    description: false,
+    review: false,
+  })
+  const [isActiveDesc, setIsActiveDesc] = useState(false) // 상세 섹션 활성화 상태 추가
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,6 +23,35 @@ export default function HeaderOfItem({
         document.querySelector("section")?.getBoundingClientRect().top ?? 0
       if (imageTop < 0) {
         setShowHeader(true)
+
+        const headerBottom =
+          document.getElementById("header")?.getBoundingClientRect().bottom ?? 0
+        const descriptionSection = document.getElementById("descriptionSection")
+        const reviewSection = document.getElementById("reviewSection")
+
+        const descTop = descriptionSection?.getBoundingClientRect().top ?? 0
+        const reviewTop = reviewSection?.getBoundingClientRect().top ?? 0
+        const descBottom =
+          descriptionSection?.getBoundingClientRect().bottom ?? 0
+        const reviewBottom = reviewSection?.getBoundingClientRect().bottom ?? 0
+
+        if (descTop <= headerBottom && descBottom >= headerBottom) {
+          setActivateSection({
+            ...activateSection,
+            ["description"]: true,
+          })
+        } else if (reviewTop <= headerBottom && reviewBottom >= headerBottom) {
+          setActivateSection({
+            ...activateSection,
+            ["review"]: true,
+          })
+        } else {
+          setActivateSection({
+            ...activateSection,
+            ["description"]: false,
+            ["review"]: false,
+          })
+        }
       } else {
         setShowHeader(false)
       }
@@ -42,6 +76,7 @@ export default function HeaderOfItem({
 
   return (
     <div
+      id="header"
       className={`fixed top-0 left-0 right-0 transition-opacity duration-300 ${
         showHeader ? "opacity-100" : "opacity-0"
       } bg-white z-[100] flex justify-between items-center pr-[49px] w-full h-[42px] text-sm text-center text-black whitespace-nowrap border-b border-solid border-stone-300`}
@@ -59,12 +94,20 @@ export default function HeaderOfItem({
       <div className="flex-auto my-auto">
         <ul className="flex flex-row justify-center gap-8 font-bold">
           <li>
-            <div onClick={handleScrollMoveToDesc}>
+            <div
+              onClick={handleScrollMoveToDesc}
+              className={`${
+                activateSection.description ? "text-[#FF5452]" : ""
+              }`}
+            >
               <span>상세</span>
             </div>
           </li>
           <li>
-            <div onClick={handleScrollMoveToReview}>
+            <div
+              onClick={handleScrollMoveToReview}
+              className={`${activateSection.review ? "text-[#FF5452]" : ""}`}
+            >
               <p className="mb-[-9px]">리뷰</p>
               {children}
             </div>

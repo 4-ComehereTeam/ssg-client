@@ -6,28 +6,6 @@ type DescriptionProps = {
   description: string
 }
 
-// function updateDescription(htmlString: string) {
-//   const parser = new DOMParser() // ReferenceError: DOMParser is not defined
-
-//   const doc = parser.parseFromString(htmlString, "text/html")
-
-//   const buttons = doc.querySelectorAll("button")
-
-//   buttons.forEach((button) => {
-//     button.parentNode?.removeChild(button)
-//   })
-
-//   const paragraphs = doc.querySelectorAll("p")
-
-//   paragraphs.forEach((p) => {
-//     p.style.fontSize = "14px"
-//   })
-
-//   const updatedHtmlString = doc.body.innerHTML
-
-//   return updatedHtmlString
-// }
-
 export default function Description({ description }: DescriptionProps) {
   const INITIAL_HEIGHT = "1200px"
   const [displayHeight, setDisplayContent] = useState(INITIAL_HEIGHT)
