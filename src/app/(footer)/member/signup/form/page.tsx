@@ -1,10 +1,10 @@
 import SignupForm from "@/components/form/signupForm/SignupForm"
-import Header from "@/components/ui/Headers/Header"
+import HeaderToBack from "@/components/ui/Headers/HeaderToBack"
 
 export default function SignupFormPage() {
   return (
     <>
-      <Header title={"신세계포인트 통합회원 가입"} />
+      <HeaderToBack title={"신세계포인트 통합회원 가입"} />
       <SignupForm />
     </>
   )
