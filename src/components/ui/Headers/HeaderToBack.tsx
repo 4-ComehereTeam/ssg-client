@@ -12,11 +12,11 @@ export default function HeaderToBack({ title }: { title: string }) {
         onClick={() => router.back()}
       >
         <Image
-          width="24"
-          height="22"
-          className="mx-auto"
-          src="https://img.icons8.com/ios/50/left--v1.png"
-          alt="backButton"
+          width="30"
+          height="30"
+          src="https://img.icons8.com/ios/100/left--v1.png"
+          alt="뒤로가기"
+          style={{ width: "auto", height: "auto" }}
         />
       </div>
       <h3 className="text-[14px] w-[calc(100vw-44px)] text-center mx-auto relative right-[25px]">
