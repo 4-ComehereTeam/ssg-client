@@ -15,7 +15,7 @@ async function getClipItemIds(accessToken: string) {
           "Content-Type": "application/json",
           Authorization: accessToken,
         },
-        next: { tags: ["clip", "clipCancle", "manyClipCancle"] },
+        next: { tags: ["getClipItemIds"] },
       },
     )
     if (res.ok) {

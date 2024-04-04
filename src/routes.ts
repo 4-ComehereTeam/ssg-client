@@ -1,11 +1,4 @@
 /**
- * 공개적으로 접근 가능한 라우트들
- * 이 라우트들은 authentication이 요구되지 않음
- * @type {string[]}
- */
-export const publicRoutes = ["/", "/cart", "/category"]
-
-/**
  * authentication이 요구되는 라우트들
  * 로그인한 사용자는 접근 못해야함
  * @type {string[]}
