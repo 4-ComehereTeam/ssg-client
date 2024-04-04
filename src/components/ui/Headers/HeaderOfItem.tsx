@@ -11,59 +11,11 @@ export default function HeaderOfItem({
 }) {
   const router = useRouter()
   const [showHeader, setShowHeader] = useState(false)
-  const [activeSection, setActiveSection] = useState("")
-
-  useEffect(() => {
-    const header = document.getElementById("header")
-    const detailSection = document.getElementById("descriptionSection")
-    const reviewSection = document.getElementById("reviewSection")
-
-    const callback = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id)
-        }
-      })
-    }
-
-    const observer = new IntersectionObserver(callback, {
-      root: null, // 뷰포트를 기준으로
-      threshold: 1.0, // 완전히 보이는 경우에만 콜백 실행
-    })
-
-    if (detailSection) observer.observe(detailSection)
-    if (reviewSection) observer.observe(reviewSection)
-
-    const handleScroll = () => {
-      const { top: headerTop, bottom: headerBottom } =
-        header.getBoundingClientRect()
-      const { top: detailTop, bottom: detailBottom } =
-        detailSection.getBoundingClientRect()
-      const { top: reviewTop, bottom: reviewBottom } =
-        reviewSection.getBoundingClientRect()
-
-      if (
-        (detailTop <= headerBottom && detailTop >= headerTop) ||
-        (detailBottom <= headerBottom && detailBottom >= headerTop)
-      ) {
-        setActiveSection("detail")
-      } else if (
-        (reviewTop <= headerBottom && reviewTop >= headerTop) ||
-        (reviewBottom <= headerBottom && reviewBottom >= headerTop)
-      ) {
-        setActiveSection("review")
-      } else {
-        setActiveSection("")
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll)
-
-    return () => {
-      observer.disconnect()
-      window.removeEventListener("scroll", handleScroll)
-    }
-  }, [])
+  const [activateSection, setActivateSection] = useState({
+    description: false,
+    review: false,
+  })
+  const [isActiveDesc, setIsActiveDesc] = useState(false) // 상세 섹션 활성화 상태 추가
 
   useEffect(() => {
     const handleScroll = () => {
@@ -71,6 +23,35 @@ export default function HeaderOfItem({
         document.querySelector("section")?.getBoundingClientRect().top ?? 0
       if (imageTop < 0) {
         setShowHeader(true)
+
+        const headerBottom =
+          document.getElementById("header")?.getBoundingClientRect().bottom ?? 0
+        const descriptionSection = document.getElementById("descriptionSection")
+        const reviewSection = document.getElementById("reviewSection")
+
+        const descTop = descriptionSection?.getBoundingClientRect().top ?? 0
+        const reviewTop = reviewSection?.getBoundingClientRect().top ?? 0
+        const descBottom =
+          descriptionSection?.getBoundingClientRect().bottom ?? 0
+        const reviewBottom = reviewSection?.getBoundingClientRect().bottom ?? 0
+
+        if (descTop <= headerBottom && descBottom >= headerBottom) {
+          setActivateSection({
+            ...activateSection,
+            ["description"]: true,
+          })
+        } else if (reviewTop <= headerBottom && reviewBottom >= headerBottom) {
+          setActivateSection({
+            ...activateSection,
+            ["review"]: true,
+          })
+        } else {
+          setActivateSection({
+            ...activateSection,
+            ["description"]: false,
+            ["review"]: false,
+          })
+        }
       } else {
         setShowHeader(false)
       }
@@ -113,22 +94,19 @@ export default function HeaderOfItem({
       <div className="flex-auto my-auto">
         <ul className="flex flex-row justify-center gap-8 font-bold">
           <li>
-            <div onClick={handleScrollMoveToDesc}>
-              <span
-                style={{
-                  color: activeSection === "desc" ? "#FF5452" : "black",
-                }}
-              >
-                상세
-              </span>
+            <div
+              onClick={handleScrollMoveToDesc}
+              className={`${
+                activateSection.description ? "text-[#FF5452]" : ""
+              }`}
+            >
+              <span>상세</span>
             </div>
           </li>
           <li>
             <div
               onClick={handleScrollMoveToReview}
-              style={{
-                color: activeSection === "review" ? "#FF5452" : "black",
-              }}
+              className={`${activateSection.review ? "text-[#FF5452]" : ""}`}
             >
               <p className="mb-[-9px]">리뷰</p>
               {children}
