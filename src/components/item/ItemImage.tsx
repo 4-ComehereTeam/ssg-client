@@ -34,7 +34,7 @@ export default function ItemImage({ images }: ItemImageProps) {
           modules={[Pagination]}
           navigation={true}
         >
-          {sortedImages.map((image, index) => (
+          {sortedImages.map((image) => (
             <SwiperSlide key={image.imageId}>
               <Image
                 src={image.url}
@@ -53,7 +53,6 @@ export default function ItemImage({ images }: ItemImageProps) {
         </div>
       </div>
       <div className="flex justify-end border-b border-solid">
-        {/* TODO: 공유 모달 창 구현하기 */}
         <button>
           <Image
             width="25"

@@ -1,12 +1,26 @@
 import { getItemBasicInfo, getItemCalc } from "@/actions/item"
 import ReviewScore from "./ReviewScore"
-import { getItemReviewIds } from "@/actions/review"
-import ReviewContents from "./ReviewContents"
+import { getItemAllReviewImages, getItemReviewIds } from "@/actions/review"
+import TotalReview from "./TotalReview"
+import ReviewPhotos from "./ReviewPhotos"
+
+export type AllReviewImages = {
+  itemCode: string
+  images: {
+    reviewId: number
+    imageId: number
+    url: string
+    alt: string
+  }[]
+}
 
 export default async function ReviewContainer({ itemId }: { itemId: string }) {
   const calc = await getItemCalc(itemId)
   const basicInfo = await getItemBasicInfo(itemId)
   const reviewIds = await getItemReviewIds(basicInfo.itemCode)
+  const allReviewImages: AllReviewImages | null = await getItemAllReviewImages(
+    basicInfo.itemCode,
+  )
 
   return (
     <section id="reviewSection" className="pb-10">
@@ -17,10 +31,11 @@ export default async function ReviewContainer({ itemId }: { itemId: string }) {
         reviewCount={calc.reviewCount}
         averageStar={calc.averageStar}
       />
-      <ReviewContents
+      {allReviewImages && <ReviewPhotos allReviewImages={allReviewImages} />}
+      <TotalReview
         itemId={itemId}
         reviewCount={calc.reviewCount}
-        reviewIds={reviewIds.reviews}
+        reviewIds={reviewIds?.reviews}
       />
     </section>
   )

@@ -1,4 +1,11 @@
-export async function getItemReviewIds(itemCode: string) {
+type ReviewIdsResponse = {
+  reviews: number[]
+  hasNext: boolean
+}
+
+export async function getItemReviewIds(
+  itemCode: string,
+): Promise<ReviewIdsResponse | null> {
   try {
     const res = await fetch(
       `${process.env.API_BASE_URL}/review/item/${itemCode}`,
@@ -26,7 +33,7 @@ export async function getItemReviewIds(itemCode: string) {
 export async function getItemAllReviewImages(itemCode: string) {
   try {
     const res = await fetch(
-      `${process.env.API_BASE_URL}/review/images/list/${itemCode}`,
+      `${process.env.API_BASE_URL}/review/images/item/${itemCode}`,
       {
         method: "GET",
         headers: {

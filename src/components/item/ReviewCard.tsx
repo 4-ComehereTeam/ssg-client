@@ -1,30 +1,25 @@
-import { getItemReview, getOneReviewImages } from "@/actions/review"
+"use client"
+
 import Image from "next/image"
 import Separator from "../ui/Separator"
-import Link from "next/link"
+import { Review, ReviewImages } from "./TotalReview"
+import ReviewModal from "./ReviewModal"
+import { useState } from "react"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger,
+} from "../shadcnUI/dialog"
 
-type Review = {
-  reviewId: number
-  createAt: string
-  updateAt: string
-  star: number
-  signinId: string
-  content: string
+type ReviewCardProps = {
+  review: Review
+  reviewImages: ReviewImages
 }
 
-type ReviewImages = {
-  reviewId: number
-  images: {
-    imageId: number
-    url: string
-    alt: string
-  }[]
-}
+export default function ReviewCard({ review, reviewImages }: ReviewCardProps) {
+  const [openModal, setOpenModal] = useState(false)
 
-export default async function ReviewCard({ reviewId }: { reviewId: number }) {
-  const convertedReviewId = reviewId.toString()
-  const review: Review = await getItemReview(reviewId.toString())
-  const reviewImages: ReviewImages = await getOneReviewImages(convertedReviewId)
   const coverSigninId =
     review.signinId.substring(0, 3) + "*".repeat(review.signinId.length - 3)
 
@@ -60,33 +55,46 @@ export default async function ReviewCard({ reviewId }: { reviewId: number }) {
           <Separator className="w-[1px]" height="[10px]" />
           <span className="text-[11px] text-[#969696]">{coverSigninId}</span>
         </div>
-        <ul className="flex flex-row gap-1">
+        <ul className="flex flex-row gap-2">
           {reviewImages.images.map((image) => (
-            <li key={image.imageId}>
-              {/* TODO: 모달창 만들기 */}
-              <Link href={"#"}>
-                <Image
-                  src={image.url}
-                  alt={image.alt}
-                  width={0}
-                  height={0}
-                  style={{ width: "100%", height: "100%", borderRadius: "4px" }}
-                />
-              </Link>
+            <li
+              key={image.imageId}
+              className="w-1/3 aspect-square h-auto oveflow-hidden after:block"
+            >
+              <Image
+                src={image.url}
+                alt={image.alt}
+                width={0}
+                height={0}
+                sizes="100vw"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "10px",
+                  objectFit: "cover",
+                }}
+              />
             </li>
           ))}
         </ul>
         <p className="text-sm">{review.content}</p>
       </div>
-      <Link href={"#"} className="absolute bottom-[70%] left-[93%]  w-3 h-3">
-        <Image
-          width="16"
-          height="16"
-          src="https://img.icons8.com/small/16/000000/back.png"
-          alt="back"
-          style={{ transform: "rotate(180deg)" }}
-        />
-      </Link>
+      <Dialog>
+        <div className="absolute bottom-[80%] left-[93%]  w-3 h-3">
+          <DialogTrigger>
+            <Image
+              width="16"
+              height="16"
+              src="https://img.icons8.com/small/16/000000/back.png"
+              alt="리뷰 상세"
+              style={{ transform: "rotate(180deg)" }}
+            />
+          </DialogTrigger>
+          <DialogContent>
+            <ReviewModal review={review} reviewImages={reviewImages} />
+          </DialogContent>
+        </div>
+      </Dialog>
     </div>
   )
 }
