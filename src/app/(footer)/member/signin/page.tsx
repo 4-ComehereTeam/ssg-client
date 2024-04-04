@@ -1,10 +1,10 @@
-import Header from "@/components/ui/Headers/Header"
 import SigninForm from "@/components/form/signinForm/SigninForm"
+import HeaderToBack from "@/components/ui/Headers/HeaderToBack"
 
 function Page() {
   return (
     <>
-      <Header title={"로그인"} />
+      <HeaderToBack title={"로그인"} />
       <SigninForm />
     </>
   )
