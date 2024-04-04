@@ -5,11 +5,11 @@ import { Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 import "swiper/css"
 
-type ItemImageProps = {
-  images: Image[]
+export type ItemImageProps = {
+  images: ItemImageType[]
 }
 
-type Image = {
+export type ItemImageType = {
   imageId: number
   url: string
   alt: string
@@ -18,14 +18,15 @@ type Image = {
 
 export default function ItemImage({ images }: ItemImageProps) {
   const sortedImages = images.sort(
-    (a: Image, b: Image) => Number(b.thumbnail) - Number(a.thumbnail),
+    (a: ItemImageType, b: ItemImageType) =>
+      Number(b.thumbnail) - Number(a.thumbnail),
   )
 
   return (
     <section>
       <div className="relative">
         <Swiper
-          loop={sortedImages.length > 0 ? true : false}
+          loop={sortedImages.length < 2 ? false : true}
           pagination={{
             type: "fraction",
             el: ".swiper-pagination",

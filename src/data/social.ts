@@ -1,6 +1,6 @@
 import naverLogo from "@/asset/images/naver.png"
 import kakaoLogo from "@/asset/images/kakao.png"
-import appleLogo from "@/asset/images/apple.png"
+import googleLogo from "@/asset/images/google.png"
 import eamilLogo from "@/asset/images/simple-signup-email.png"
 
 export const socialSignin = [
@@ -17,7 +17,7 @@ export const socialSignin = [
     provider: "kakao",
   },
   {
-    src: appleLogo,
+    src: googleLogo,
     alt: "구글 로그인",
     text: "구글",
     provider: "google",
@@ -44,7 +44,7 @@ export const socialSignup = [
     provider: "kakao",
   },
   {
-    src: appleLogo,
+    src: googleLogo,
     alt: "구글 회원가입",
     text: "구글",
     provider: "google",

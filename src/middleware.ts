@@ -1,7 +1,6 @@
 import type { NextRequest, NextFetchEvent } from "next/server"
 import { NextResponse } from "next/server"
 import {
-  publicRoutes,
   protectedRoutes,
   apiAuthPrefix,
   DEFAULT_SIGNIN_REDIRECT,
@@ -15,7 +14,6 @@ export async function middleware(req: NextRequest, event: NextFetchEvent) {
   const { nextUrl } = req
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
-  const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
   const isProtectedRoute = protectedRoutes.includes(nextUrl.pathname)
 
   //"/api/auth/..."로 접속 후 로그인 페이지로 리다이렉트되므로 이대로 진행
@@ -31,21 +29,6 @@ export async function middleware(req: NextRequest, event: NextFetchEvent) {
     }
     return null
   }
-
-  if (!session && !isPublicRoute) {
-    let callbackUrl = nextUrl.pathname
-    if (nextUrl.search) {
-      callbackUrl += nextUrl.search
-    }
-
-    const encodedCallbackUrl = encodeURIComponent(callbackUrl)
-
-    return NextResponse.redirect(
-      new URL(`/member/signin?callbackUrl=${encodedCallbackUrl}`, nextUrl),
-    )
-  }
-
-  return null
 }
 
 export const config = {

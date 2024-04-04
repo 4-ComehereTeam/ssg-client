@@ -6,32 +6,27 @@ type DescriptionProps = {
   description: string
 }
 
-function replaceButtonWithLink(htmlString: string, newElementHtml: string) {
-  // DOMParser 인스턴스 생성
-  const parser = new DOMParser()
+// function updateDescription(htmlString: string) {
+//   const parser = new DOMParser() // ReferenceError: DOMParser is not defined
 
-  // HTML 문자열을 DOM으로 파싱
-  const doc = parser.parseFromString(htmlString, "text/html")
+//   const doc = parser.parseFromString(htmlString, "text/html")
 
-  const buttons = doc.querySelectorAll("button")
-  console.log(buttons)
+//   const buttons = doc.querySelectorAll("button")
 
-  buttons.forEach((button) => {
-    const replacement = doc.createElement("div")
-    replacement.innerHTML = newElementHtml
-    const newElement = replacement.firstChild
+//   buttons.forEach((button) => {
+//     button.parentNode?.removeChild(button)
+//   })
 
-    // 기존 <button> 요소를 새 요소로 교체
-    if (newElement) {
-      button.parentNode?.replaceChild(newElement, button)
-    }
-  })
+//   const paragraphs = doc.querySelectorAll("p")
 
-  // 수정된 HTML을 문자열로 다시 변환
-  const updatedHtmlString = doc.body.innerHTML
+//   paragraphs.forEach((p) => {
+//     p.style.fontSize = "14px"
+//   })
 
-  return updatedHtmlString // 수정된 HTML 문자열 반환
-}
+//   const updatedHtmlString = doc.body.innerHTML
+
+//   return updatedHtmlString
+// }
 
 export default function Description({ description }: DescriptionProps) {
   const INITIAL_HEIGHT = "1200px"
@@ -39,6 +34,7 @@ export default function Description({ description }: DescriptionProps) {
   const [isExpanded, setIsExpanded] = useState(false)
   const [isButtonVisible, setIsButtonVisible] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
+  // const updatedDescription = updateDescription(description)
 
   useEffect(() => {
     const checkContentHeight = () => {

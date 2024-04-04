@@ -16,13 +16,13 @@ export default async function ItemBasicInfo({ itemId }: ItemIdType) {
       <div className="flex flex-col gap-5 mb-2">
         <div className="whitespace-pre-line">{basicInfo.itemName}</div>
         <div className="flex flex-col">
-          {basicInfo.discountRate !== 1 && (
+          {basicInfo.discountRate !== 0 && (
             <span className="line-through text-[#777777]">
               {originalPrice}원
             </span>
           )}
           <p>
-            {basicInfo.discountRate !== 1 && (
+            {basicInfo.discountRate !== 0 && (
               <span className="pr-2 text-[#FF5452] text-[25px] font-extrabold">
                 {basicInfo.discountRate}%
               </span>
