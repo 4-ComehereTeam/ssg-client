@@ -1,25 +1,19 @@
-"use client"
-
 import Image from "next/image"
 import Separator from "../ui/Separator"
 import { Review, ReviewImages } from "./TotalReview"
-import ReviewModal from "./ReviewModal"
-import { useState } from "react"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTrigger,
-} from "../shadcnUI/dialog"
+import Link from "next/link"
 
 type ReviewCardProps = {
   review: Review
   reviewImages: ReviewImages
+  itemId: string
 }
 
-export default function ReviewCard({ review, reviewImages }: ReviewCardProps) {
-  const [openModal, setOpenModal] = useState(false)
-
+export default function ReviewCard({
+  review,
+  reviewImages,
+  itemId,
+}: ReviewCardProps) {
   const coverSigninId =
     review.signinId.substring(0, 3) + "*".repeat(review.signinId.length - 3)
 
@@ -61,40 +55,38 @@ export default function ReviewCard({ review, reviewImages }: ReviewCardProps) {
               key={image.imageId}
               className="w-1/3 aspect-square h-auto oveflow-hidden after:block"
             >
-              <Image
-                src={image.url}
-                alt={image.alt}
-                width={0}
-                height={0}
-                sizes="100vw"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  borderRadius: "10px",
-                  objectFit: "cover",
-                }}
-              />
+              <Link href={`/review/${itemId}/${review.reviewId}`}>
+                <Image
+                  src={image.url}
+                  alt={image.alt}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    borderRadius: "10px",
+                    objectFit: "cover",
+                  }}
+                />
+              </Link>
             </li>
           ))}
         </ul>
         <p className="text-sm">{review.content}</p>
       </div>
-      <Dialog>
-        <div className="absolute bottom-[80%] left-[93%]  w-3 h-3">
-          <DialogTrigger>
-            <Image
-              width="16"
-              height="16"
-              src="https://img.icons8.com/small/16/000000/back.png"
-              alt="리뷰 상세"
-              style={{ transform: "rotate(180deg)" }}
-            />
-          </DialogTrigger>
-          <DialogContent>
-            <ReviewModal review={review} reviewImages={reviewImages} />
-          </DialogContent>
-        </div>
-      </Dialog>
+      <Link
+        href={`/review/${itemId}/${review.reviewId}`}
+        className="absolute bottom-[90%] left-[93%]  w-3 h-3"
+      >
+        <Image
+          width="16"
+          height="16"
+          src="https://img.icons8.com/small/16/000000/back.png"
+          alt="리뷰 상세"
+          style={{ transform: "rotate(180deg)" }}
+        />
+      </Link>
     </div>
   )
 }

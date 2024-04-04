@@ -46,6 +46,7 @@ export default function TotalReview({
               key={reviewId}
               review={review}
               reviewImages={reviewImages}
+              itemId={itemId}
             />
           )
         })}
