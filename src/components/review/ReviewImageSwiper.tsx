@@ -3,7 +3,7 @@
 import Image from "next/image"
 import { Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { ReviewImages } from "../item/TotalReview"
+import { ReviewImages } from "../item/review/TotalReview"
 import "swiper/css"
 
 export default function ReviewImageSwiper({
