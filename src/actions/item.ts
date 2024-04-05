@@ -1,10 +1,11 @@
 "use server"
 
-export async function getItemBasicInfo(itemId: string) {
+export async function getItemBasicInfo(itemId: string | number) {
   try {
     const res = await fetch(
       `${process.env.API_BASE_URL}/items/detail/${itemId}`,
       {
+        cache: "force-cache",
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -25,11 +26,12 @@ export async function getItemBasicInfo(itemId: string) {
   }
 }
 
-export async function getItemDescription(itemId: string) {
+export async function getItemDescription(itemId: string | number) {
   try {
     const res = await fetch(
       `${process.env.API_BASE_URL}/items/description/${itemId}`,
       {
+        cache: "force-cache",
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -50,11 +52,12 @@ export async function getItemDescription(itemId: string) {
   }
 }
 
-export async function getItemCalc(itemId: string) {
+export async function getItemCalc(itemId: string | number) {
   try {
     const res = await fetch(
       `${process.env.API_BASE_URL}/items/calc/${itemId}`,
       {
+        cache: "force-cache",
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -75,11 +78,12 @@ export async function getItemCalc(itemId: string) {
   }
 }
 
-export async function getItemBrand(itemId: string) {
+export async function getItemBrand(itemId: string | number) {
   try {
     const res = await fetch(
       `${process.env.API_BASE_URL}/items/brand/${itemId}`,
       {
+        cache: "force-cache",
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -100,11 +104,12 @@ export async function getItemBrand(itemId: string) {
   }
 }
 
-export async function getItemImages(itemId: string) {
+export async function getItemImages(itemId: string | number) {
   try {
     const res = await fetch(
       `${process.env.API_BASE_URL}/items/images/${itemId}`,
       {
+        cache: "force-cache",
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -121,6 +126,32 @@ export async function getItemImages(itemId: string) {
     }
   } catch (error) {
     console.log("getItemImages fail:", error)
+    return null
+  }
+}
+
+export async function getItemThumbnail(itemId: string | number) {
+  try {
+    const res = await fetch(
+      `${process.env.API_BASE_URL}/items/thumbnail/${itemId}`,
+      {
+        cache: "force-cache",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    )
+    if (res.ok) {
+      const data = await res.json()
+      console.log("getItemThumbnail success:", data.httpStatus)
+      return data.result
+    } else {
+      console.log("getItemThumbnail fail:", res.status)
+      return null
+    }
+  } catch (error) {
+    console.log("getItemThumbnail fail(error):", error)
     return null
   }
 }
