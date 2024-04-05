@@ -1,11 +1,14 @@
-import { ItemType } from "@/types/itemType"
 import Image from "next/image"
-import heartFill from "@/public/asset/images/heart-fill.png"
-import heartBorder from "@/public/asset/images/heart-border.png"
-import { useState } from "react"
-import { deleteClip } from "@/actions/clip"
+import {
+  getItemBasicInfo,
+  getItemBrand,
+  getItemCalc,
+  getItemThumbnail,
+} from "@/actions/item"
+import Link from "next/link"
+import Heart from "./Heart"
 
-const item: ItemType = {
+const item = {
   id: 11,
   thumbnailUrl:
     "https://sitem.ssgcdn.com/31/71/12/item/1000533127131_i1_500.jpg",
@@ -22,45 +25,38 @@ interface ItemCardPropsType {
   itemId: number
 }
 
-export default function ItemCard({ itemId }: ItemCardPropsType) {
+export default async function ItemCard({ itemId }: ItemCardPropsType) {
+  const thumbnail = await getItemThumbnail(itemId)
+  const basicInfo = await getItemBasicInfo(itemId)
+  const brand = await getItemBrand(itemId)
+  const calc = await getItemCalc(itemId)
+
   const discountPrice =
     item.discountRate !== 0
       ? item.price * ((100 - item.discountRate) / 100)
       : item.price
   const finalPrice = new Intl.NumberFormat().format(Math.round(discountPrice))
   const originalPrice = new Intl.NumberFormat().format(item.price)
-  const [clickHeart, setClickHeart] = useState(true)
-
-  const handleHeart = async () => {
-    setClickHeart(!clickHeart)
-    //좋아요 취소 서버액션
-    if (clickHeart) {
-      await deleteClip(itemId)
-    }
-  }
 
   return (
     <div className={`flex flex-col pt-2 pb-5 w-full h-full`}>
-      <Image
-        src={item.thumbnailUrl}
-        alt={item.alt}
-        sizes="100vw"
-        style={{
-          width: "100%",
-          height: "100%",
-        }}
-        width={0}
-        height={0}
-        priority
-      />
+      <Link href={`/item/${itemId}`}>
+        <Image
+          src={thumbnail.url}
+          alt={thumbnail.alt}
+          sizes="100vw"
+          style={{
+            width: "100%",
+            height: "100%",
+          }}
+          width={0}
+          height={0}
+          priority
+        />
+      </Link>
       <div className="flex flex-row justify-end items-center">
-        <button className="w-[28px] h-[28px]" onClick={() => handleHeart()}>
-          {clickHeart ? (
-            <Image src={heartFill} alt={"싫어요"} width={20} height={20} />
-          ) : (
-            <Image src={heartBorder} alt={"싫어요"} width={20} height={20} />
-          )}
-        </button>
+        <Heart itemId={itemId} />
+        {/* 장바구니 담는 서버액션을 장바구니 컴포넌트로 분리 */}
         <button className="w-[28px] h-[28px]">
           <svg
             width="20px"
@@ -104,8 +100,8 @@ export default function ItemCard({ itemId }: ItemCardPropsType) {
             WebkitBoxOrient: "vertical",
           }}
         >
-          <span className="font-extrabold">{item.brand} </span>
-          {item.name}
+          <span className="font-extrabold">{brand.name} </span>
+          {basicInfo.itemName}
         </p>
       </div>
       <div className="w-full">
@@ -113,7 +109,7 @@ export default function ItemCard({ itemId }: ItemCardPropsType) {
           <span className="text-xs line-through">{originalPrice}원</span>
         )}
         <div className="text-base font-semibold">
-          <span className="text-[#FF5452]">{item.discountRate}%</span>
+          <span className="text-[#FF5452]">{basicInfo.discountRate}%</span>
           <span className="ml-1">{finalPrice}원</span>
         </div>
         {item.star && item.totalReviews && (
@@ -129,9 +125,9 @@ export default function ItemCard({ itemId }: ItemCardPropsType) {
                 d="m2.089 13 .906-4.073L0 6.205l3.94-.35L5.5 2l1.56 3.856 3.94.349-2.995 2.722L8.911 13 5.5 10.838 2.089 13Z"
               ></path>
             </svg>
-            <span className="text-[#777777]">{item.star}</span>
+            <span className="text-[#777777]">{calc.averageStar}</span>
             <div className="bg-[#E5E5E5] border w-0 h-[12px] mt-[3px]"></div>
-            <span>{item.totalReviews}건</span>
+            <span>{calc.reviewCount}건</span>
           </div>
         )}
       </div>
