@@ -1,5 +1,5 @@
 import { getItemReview, getOneReviewImages } from "@/actions/review"
-import { Review, ReviewImages } from "@/components/item/TotalReview"
+import { Review, ReviewImages } from "@/components/item/review/TotalReview"
 import ReviewImageSwiper from "@/components/review/ReviewImageSwiper"
 import Separator from "@/components/ui/Separator"
 import Image from "next/image"
