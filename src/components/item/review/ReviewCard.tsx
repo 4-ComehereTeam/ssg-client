@@ -1,5 +1,5 @@
 import Image from "next/image"
-import Separator from "../ui/Separator"
+import Separator from "../../ui/Separator"
 import { Review, ReviewImages } from "./TotalReview"
 import Link from "next/link"
 
@@ -77,7 +77,7 @@ export default function ReviewCard({
       </div>
       <Link
         href={`/review/${itemId}/${review.reviewId}`}
-        className="absolute bottom-[90%] left-[93%]  w-3 h-3"
+        className="absolute bottom-[60px] left-[93%]  w-3 h-3"
       >
         <Image
           width="16"
