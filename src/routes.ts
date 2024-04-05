@@ -1,6 +1,10 @@
 /**
- * authentication이 요구되는 라우트들
- * 로그인한 사용자는 접근 못해야함
+ * 로그인이 필요한 페이지
+ */
+export const authRequeiredRoutes = ["/myssg/clip", "/myssg/main"]
+
+/**
+ * 로그인한 사용자는 접근 못하는 페이지
  * @type {string[]}
  */
 export const protectedRoutes = [
@@ -10,7 +14,6 @@ export const protectedRoutes = [
   "/member/signup/form",
   "/member/findIdPw",
 ]
-
 /**
  * API authentication 라우트의 공통 부분
  * 이 부분으로 시작하는 라우트는 API authentication에 사용됨
