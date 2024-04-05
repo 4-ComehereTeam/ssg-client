@@ -25,6 +25,7 @@ export const options: NextAuthOptions = {
          */
         try {
           const res = await fetch(`${process.env.API_BASE_URL}/auth/signIn`, {
+            cache: "no-store",
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -34,13 +35,14 @@ export const options: NextAuthOptions = {
               password: credentials.password,
             }),
           })
-          console.log("signin api res status:", res.status)
           if (res.ok) {
             const data = await res.json()
-            console.log(data)
+            data.result.accessToken = res.headers.get("accessToken")
             if (data.httpStatus === "OK") return data.result
+            console.log("signin fail:", data.httpStatus)
             throw data.message
           }
+          console.log("signin fail:", res.status)
 
           return null
         } catch (error) {
@@ -107,6 +109,7 @@ export const options: NextAuthOptions = {
       return session
     },
     async jwt({ token, user }) {
+      // console.log(token)
       /**
        * authorize에서 return한 user에 들어있는 access_token을
        * session에 저장하기 위해 동일 선상에 추가해서 return
