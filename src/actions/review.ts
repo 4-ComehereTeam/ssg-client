@@ -10,6 +10,7 @@ export async function getItemReviewIds(
     const res = await fetch(
       `${process.env.API_BASE_URL}/review/item/${itemCode}`,
       {
+        cache: "force-cache",
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -35,6 +36,7 @@ export async function getItemAllReviewImages(itemCode: string) {
     const res = await fetch(
       `${process.env.API_BASE_URL}/review/images/item/${itemCode}`,
       {
+        cache: "force-cache",
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -60,6 +62,7 @@ export async function getItemReview(reviewId: string) {
     const res = await fetch(
       `${process.env.API_BASE_URL}/review/content/${reviewId}`,
       {
+        cache: "force-cache",
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -85,6 +88,7 @@ export async function getOneReviewImages(reviewId: string) {
     const res = await fetch(
       `${process.env.API_BASE_URL}/review/images/${reviewId}`,
       {
+        cache: "force-cache",
         method: "GET",
         headers: {
           "Content-Type": "application/json",
