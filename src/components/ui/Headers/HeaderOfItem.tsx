@@ -15,7 +15,6 @@ export default function HeaderOfItem({
     description: false,
     review: false,
   })
-  const [isActiveDesc, setIsActiveDesc] = useState(false) // 상세 섹션 활성화 상태 추가
 
   useEffect(() => {
     const handleScroll = () => {
@@ -78,8 +77,8 @@ export default function HeaderOfItem({
     <div
       id="header"
       className={`fixed top-0 left-0 right-0 transition-opacity duration-300 ${
-        showHeader ? "opacity-100" : "opacity-0"
-      } bg-white z-[100] flex justify-between items-center pr-[49px] w-full h-[42px] text-sm text-center text-black whitespace-nowrap border-b border-solid border-stone-300`}
+        showHeader ? "" : "hidden"
+      } bg-white z-10 flex justify-between items-center pr-[49px] w-full h-[42px] text-sm text-center text-black whitespace-nowrap border-b border-solid border-stone-300`}
     >
       <div className="w-[50px] h-[30px]" onClick={() => router.back()}>
         <Image
