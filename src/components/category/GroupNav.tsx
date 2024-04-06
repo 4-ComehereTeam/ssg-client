@@ -1,19 +1,22 @@
-import { largeCategoryType } from "@/types/largeCategoryType"
 import Link from "next/link"
 import NavItem from "./NavItem"
+import { getCategories } from "@/actions/category/category"
+import { groupNavType } from "@/types/groupNavType";
 
-export default function GroupNav({
+export default async function GroupNav({
   group,
   gx,
   handleOpen,
   isOpen,
-}: {
-  group: largeCategoryType[]
-  gx: number
-  handleOpen: React.MouseEventHandler<HTMLLIElement>
-  selectedLCategory: number
-  isOpen: Boolean
-}) {
+}: 
+  groupNavType
+) {
+  const categories = await getCategories();
+  const data = categories.result;
+  const bigCategories = data.bigCategories;
+  console.log("data >>", data);
+  console.log("bigCategories >>", bigCategories);
+
   return (
     <div className="relative left-0 overflow-hidden w-full ">
       <ul
@@ -42,7 +45,7 @@ export default function GroupNav({
               </Link>
             </p>
           </li>
-          <li className="w-1/2 min-h-[38px] flex items-center pl-3 pr-[13px]">
+          {/* <li className="w-1/2 min-h-[38px] flex items-center pl-3 pr-[13px]">
             <p>
               <Link href={"/category/1"} passHref>
                 중분류명
@@ -90,24 +93,27 @@ export default function GroupNav({
                 중분류명
               </Link>
             </p>
-          </li>
-          {/* {중분류 데이터.map((item, idx) => {
+          </li> */}
+          {bigCategories.map((item : {id : number, name: string}, 
+            idx : number) => {
               return (
-                <li key={idx} className="w-1/2 min-h-[38px] flex items-center pl-3 pr-[13px]">
+                <li key={item.id} className="w-1/2 min-h-[38px] flex items-center pl-3 pr-[13px]">
                   <p>
                     <Link
-                      href={{
-                        pathname: `/category/sub`,
-                        query: { lCtg: selectedLCategory, mCtg: item.id }
-                      }} // 중분류 페이지로 이동하기 위한 query 설정
-                      passHref>
-                      중분류명
+                      href="#"
+                      // {{
+                      //   pathname: `/category/sub`,
+                      //   query: { lCtg: selectedLCategory, mCtg: item.id }
+                      // }} // 중분류 페이지로 이동하기 위한 query 설정
+                      // passHref
+                      >
+                      {item.id}
                     </Link>
                   </p>
                 </li>
               )
             })
-            } */}
+            }
         </ul>
       )}
     </div>
