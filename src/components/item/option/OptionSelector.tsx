@@ -18,7 +18,7 @@ export default function OptionSelector({
             width="0"
             height="0"
             src="https://img.icons8.com/ios/100/back--v1.png"
-            alt="back--v1"
+            alt="상세 옵션 열기"
             style={{
               transform: "rotate(-90deg)",
               width: "16px",

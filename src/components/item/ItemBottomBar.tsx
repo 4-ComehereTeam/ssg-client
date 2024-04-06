@@ -57,13 +57,12 @@ export default function ItemBottomBar({
   }
 
   const handleSelecteOption = (
-    optionKind: string,
     option: string,
     optionDetail: "color" | "size" | "etc",
   ) => {
     setSelectedOption({
       ...selectedOption,
-      [optionKind]: option,
+      [optionDetail]: option,
     })
     setShowOptionDetail({
       ...showOptionDetail,
@@ -141,7 +140,7 @@ export default function ItemBottomBar({
         )}
       </div>
       <div
-        className={`fixed bg-white bottom-[52px] w-full h-[241px] rounded-t-lg transform ${
+        className={`fixed bg-white bottom-[48px] w-full h-[40%] rounded-t-lg transform ${
           showOptions ? "translate-y-0" : "translate-y-full"
         } transition-transform duration-300 ease-in-out`}
       >
@@ -159,7 +158,7 @@ export default function ItemBottomBar({
                 width="0"
                 height="0"
                 src="https://img.icons8.com/ios/100/back--v1.png"
-                alt="back--v1"
+                alt="옵션 접기"
                 style={{
                   transform: "rotate(-90deg)",
                   width: "20px",

@@ -10,7 +10,6 @@ type OptionDrawerProps = {
   toggleOptionDetail: () => void
   selectedOption: string
   handleSelectedOption: (
-    optionKind: string,
     option: string,
     optionDetail: "color" | "size" | "etc",
   ) => void
@@ -28,7 +27,7 @@ export default function OptionDrawer({
   return (
     <div
       id="drawer"
-      className={`fixed z-30 bg-white bottom-0 w-full h-[497px] rounded-t-lg transform ${
+      className={`fixed z-30 bg-white bottom-[-5px] w-full h-[80%] rounded-t-lg transform ${
         showOptionDetailSpecific ? "translate-y-0" : "translate-y-full"
       } transition-transform duration-300 ease-in-out`}
     >
@@ -46,7 +45,7 @@ export default function OptionDrawer({
               width="0"
               height="0"
               src="https://img.icons8.com/ios/100/back--v1.png"
-              alt="back--v1"
+              alt="상세 옵션 접기"
               style={{
                 transform: "rotate(-90deg)",
                 width: "20px",
@@ -63,7 +62,7 @@ export default function OptionDrawer({
                 width="0"
                 height="0"
                 src="https://img.icons8.com/ios/100/back--v1.png"
-                alt="back--v1"
+                alt="상세 옵션 접기"
                 style={{
                   transform: "rotate(90deg)",
                   width: "16px",
@@ -88,7 +87,6 @@ export default function OptionDrawer({
                       } cursor-pointer`}
                       onClick={() =>
                         handleSelectedOption(
-                          optionSpecific,
                           option.value,
                           optionSpecific as "color" | "size" | "etc",
                         )
