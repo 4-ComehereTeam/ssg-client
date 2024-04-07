@@ -1,18 +1,18 @@
 import Image from "next/image"
 
 type OptionSelectorProps = {
-  toggleOptionDetail: () => void
-  selectedOption: string
+  handleOptionDetail: () => void
+  selectedOption: { value: string; id: number }
 }
 
 export default function OptionSelector({
-  toggleOptionDetail,
+  handleOptionDetail,
   selectedOption,
 }: OptionSelectorProps) {
   return (
-    <div onClick={toggleOptionDetail} className="px-4">
+    <div onClick={handleOptionDetail} className="px-4">
       <div className="flex items-center justify-between pl-4 border border-solid rounded-sm h-[40px] w-full">
-        <span>{selectedOption}</span>
+        <span>{selectedOption.value}</span>
         <span className="px-4">
           <Image
             width="0"

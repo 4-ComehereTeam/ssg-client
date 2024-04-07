@@ -1,34 +1,34 @@
 "use client"
 
+import { Options } from "@/actions/itemOption"
 import Image from "next/image"
 
 type OptionDrawerProps = {
-  optionSpecific: string
+  optionName: "color" | "size" | "etc"
+  optionDetail: Options | null
   defaultOption: string
-  options: any
-  showOptionDetailSpecific: boolean
-  toggleOptionDetail: () => void
-  selectedOption: string
-  handleSelectedOption: (
-    option: string,
-    optionDetail: "color" | "size" | "etc",
+  showOptionDrawer: boolean
+  handleOptionDetail: (
+    optionName: "color" | "size" | "etc",
+    optionObject: { value: string; id: number; optionId: number },
   ) => void
+
+  selectedOption: { value: string; id: number }
 }
 
 export default function OptionDrawer({
-  optionSpecific,
+  optionName,
+  optionDetail,
   defaultOption,
-  options,
-  showOptionDetailSpecific,
-  toggleOptionDetail,
+  showOptionDrawer,
+  handleOptionDetail,
   selectedOption,
-  handleSelectedOption,
 }: OptionDrawerProps) {
   return (
     <div
       id="drawer"
       className={`fixed z-30 bg-white bottom-[-5px] w-full h-[80%] rounded-t-lg transform ${
-        showOptionDetailSpecific ? "translate-y-0" : "translate-y-full"
+        showOptionDrawer ? "translate-y-0" : "translate-y-full"
       } transition-transform duration-300 ease-in-out`}
     >
       <div className="w-full">
@@ -38,9 +38,9 @@ export default function OptionDrawer({
             boxShadow:
               "0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -2px rgba(0, 0, 0, 0.1)",
           }}
-          onClick={toggleOptionDetail}
+          onClick={() => handleOptionDetail}
         >
-          {showOptionDetailSpecific && (
+          {showOptionDrawer && (
             <Image
               width="0"
               height="0"
@@ -72,33 +72,28 @@ export default function OptionDrawer({
             </p>
             <div className="w-full">
               <div className="border border-solid rounded-sm text-sm">
-                {options.map(
-                  (option: {
-                    optionId: number
-                    value: string
-                    stock: number
-                  }) => (
-                    <div
-                      key={option.optionId}
-                      className={`p-2 ${
-                        selectedOption === option.value
-                          ? "bg-gray-200"
-                          : "hover:bg-gray-100"
-                      } cursor-pointer`}
-                      onClick={() =>
-                        handleSelectedOption(
-                          option.value,
-                          optionSpecific as "color" | "size" | "etc",
-                        )
-                      }
-                    >
-                      {option.value}
-                      {option.stock === 0
-                        ? " (품절)"
-                        : ` (남은 수량: ${option.stock}개)`}
-                    </div>
-                  ),
-                )}
+                {optionDetail?.options.map((option) => (
+                  <div
+                    key={option.optionId}
+                    className={`p-2 ${
+                      selectedOption.value === option.value
+                        ? "bg-gray-200"
+                        : "hover:bg-gray-100"
+                    } cursor-pointer`}
+                    onClick={() =>
+                      handleOptionDetail(optionName, {
+                        value: option.value,
+                        id: option.id,
+                        optionId: option.optionId,
+                      })
+                    }
+                  >
+                    {option.value}
+                    {option.stock === 0
+                      ? " (품절)"
+                      : ` (남은 수량: ${option.stock}개)`}
+                  </div>
+                ))}
               </div>
             </div>
           </div>

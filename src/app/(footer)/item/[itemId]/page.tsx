@@ -1,11 +1,6 @@
 import { getClip } from "@/actions/clip"
 import { getItemImages } from "@/actions/item"
-import {
-  getItemOptionColor,
-  getItemOptionEtc,
-  getItemOptionExist,
-  getItemOptionSize,
-} from "@/actions/itemOption"
+import { getItemOptionExist } from "@/actions/itemOption"
 import ItemBottomBar from "@/components/item/ItemBottomBar"
 import ItemDescription from "@/components/item/ItemDescription"
 import ItemImage from "@/components/item/ItemImage"
@@ -13,6 +8,12 @@ import ItemInfo from "@/components/item/ItemInfo"
 import ReviewCntOfItem from "@/components/item/review/ReviewCntOfItem"
 import ReviewContainer from "@/components/item/review/ReviewContainer"
 import HeaderOfItem from "@/components/ui/Headers/HeaderOfItem"
+
+export type convertedOptionExistType = {
+  color: boolean | undefined
+  size: boolean | undefined
+  etc: boolean | undefined
+}
 
 export default async function ItemDetailPage({
   params,
@@ -22,17 +23,10 @@ export default async function ItemDetailPage({
   const itemImages = await getItemImages(params.itemId)
   const isCliped: boolean = await getClip(params.itemId)
   const optionExist = await getItemOptionExist(params.itemId)
-  let colors = null
-  if (optionExist?.hasColor) {
-    colors = await getItemOptionColor(params.itemId)
-  }
-  let sizes = null
-  if (optionExist?.hasSize) {
-    sizes = await getItemOptionSize(params.itemId)
-  }
-  let etcs = null
-  if (optionExist?.hasEtc) {
-    etcs = await getItemOptionEtc(params.itemId)
+  const convertedOptionExist: convertedOptionExistType = {
+    color: optionExist?.hasColor,
+    size: optionExist?.hasSize,
+    etc: optionExist?.hasEtc,
   }
 
   return (
@@ -48,9 +42,7 @@ export default async function ItemDetailPage({
       <ItemBottomBar
         itemId={params.itemId}
         isCliped={isCliped}
-        colors={colors}
-        sizes={sizes}
-        etcs={etcs}
+        optionExist={convertedOptionExist}
       />
     </main>
   )

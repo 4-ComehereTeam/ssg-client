@@ -1,7 +1,12 @@
 "use client"
 
 import { deleteClip, postClip } from "@/actions/clip"
-import { Color, Etc, Size } from "@/actions/itemOption"
+import {
+  getItemOptionColor,
+  getItemOptionEtc,
+  getItemOptionSize,
+  Options,
+} from "@/actions/itemOption"
 import heartBorder from "@/public/asset/images/heart-border.png"
 import heartFill from "@/public/asset/images/heart-fill.png"
 import { useSession } from "next-auth/react"
@@ -10,37 +15,64 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import OptionDrawer from "./option/OptionDrawer"
 import OptionSelector from "./option/OptionSelector"
+import { convertedOptionExistType } from "@/app/(footer)/item/[itemId]/page"
 
 type ItemBottomBarProps = {
   itemId: string
   isCliped: boolean
-  colors: Color | null
-  sizes: Size | null
-  etcs: Etc | null
+  optionExist: convertedOptionExistType
+}
+
+type Colors = {
+  optionId: number
+  colorId: number
+  value: string
+  stock: number
+}[]
+
+type Sizes = {
+  optionId: number
+  sizeId: number
+  value: string
+  stock: number
+}[]
+
+type Etcs = {
+  optionId: number
+  etcId: number
+  value: string
+  stock: number
+}[]
+
+//옵션 종류별 기본 선택 값
+const defaultOption = {
+  color: { value: "선택하세요. (색상)", id: 0, optionId: 0 },
+  size: { value: "선택하세요. (사이즈)", id: 0, optionId: 0 },
+  etc: { value: "선택하세요. (기타)", id: 0, optionId: 0 },
 }
 
 export default function ItemBottomBar({
   itemId,
   isCliped,
-  colors,
-  sizes,
-  etcs,
+  optionExist,
 }: ItemBottomBarProps) {
+  const { status } = useSession()
+  const router = useRouter()
   const [clickHeart, setClickHeart] = useState(isCliped)
   const [showOptions, setShowOptions] = useState(false)
+
+  //옵션 선택 창
   const [showOptionDetail, setShowOptionDetail] = useState({
     color: false,
     size: false,
     etc: false,
   })
-  const [selectedOption, setSelectedOption] = useState({
-    color: "선택하세요. (색상)",
-    size: "선택하세요. (사이즈)",
-    etc: "선택하세요. (기타)",
-  })
 
-  const { status } = useSession()
-  const router = useRouter()
+  //상세 옵션
+  const [optionDetail, setOptionDetail] = useState<Options | null>(null)
+
+  //선택된 옵션
+  const [selectedOption, setSelectedOption] = useState(defaultOption)
 
   const handleHeart = async () => {
     const isClick = !clickHeart
@@ -56,41 +88,49 @@ export default function ItemBottomBar({
     setClickHeart(isClick)
   }
 
-  const handleSelecteOption = (
-    option: string,
-    optionDetail: "color" | "size" | "etc",
-  ) => {
-    setSelectedOption({
-      ...selectedOption,
-      [optionDetail]: option,
-    })
-    setShowOptionDetail({
-      ...showOptionDetail,
-      [optionDetail]: !showOptionDetail[optionDetail],
-    })
-  }
-
+  //옵션 창 열고 닫기
   const toggleOptions = () => {
     const currentShowOptions = showOptions
     setShowOptions(!currentShowOptions)
     if (!currentShowOptions) {
-      setShowOptionDetail({
-        color: false,
-        size: false,
-        etc: false,
-      })
       setSelectedOption({
-        color: "선택하세요. (색상)",
-        size: "선택하세요. (사이즈)",
-        etc: "선택하세요. (기타)",
+        color: defaultOption.color,
+        size: defaultOption.size,
+        etc: defaultOption.etc,
       })
     }
   }
 
-  const toggleOptionDetail = (optionDetail: "color" | "size" | "etc") => {
+  //상세 옵션 데이터 페칭
+  const getOptionDetailData = async (optionName: "color" | "size" | "etc") => {
+    if (optionName === "color") {
+      const colorData = await getItemOptionColor(itemId)
+      setOptionDetail(colorData ?? null)
+    } else if (optionName === "size") {
+      const sizeData = await getItemOptionSize(itemId, selectedOption.color.id)
+      setOptionDetail(sizeData ?? null)
+    } else if (optionName === "etc") {
+      const etcData = await getItemOptionEtc(
+        itemId,
+        selectedOption.color.id,
+        selectedOption.size.id,
+      )
+      setOptionDetail(etcData ?? null)
+    }
+  }
+
+  //상세 옵션 선택 상세 옵션 창 열고 닫기
+  const handleOptionDetail = (
+    optionName: "color" | "size" | "etc",
+    optionObject: { value: string; id: number; optionId: number },
+  ) => {
     setShowOptionDetail({
       ...showOptionDetail,
-      [optionDetail]: !showOptionDetail[optionDetail],
+      [optionName]: !showOptionDetail[optionName],
+    })
+    setSelectedOption({
+      ...selectedOption,
+      [optionName]: optionObject,
     })
   }
 
@@ -169,59 +209,46 @@ export default function ItemBottomBar({
           </div>
         </div>
         <div className="flex flex-col py-2 gap-3 text-sm">
-          {colors && (
-            <OptionSelector
-              toggleOptionDetail={() => toggleOptionDetail("color")}
-              selectedOption={selectedOption.color}
-            />
-          )}
-          {sizes && (
-            <OptionSelector
-              toggleOptionDetail={() => toggleOptionDetail("size")}
-              selectedOption={selectedOption.size}
-            />
-          )}
-          {etcs && (
-            <OptionSelector
-              toggleOptionDetail={() => toggleOptionDetail("etc")}
-              selectedOption={selectedOption.etc}
-            />
-          )}
+          {optionExist &&
+            Object.keys(optionExist).map((key) => {
+              const optionKey = key as "color" | "size" | "etc"
+              if (optionExist[optionKey]) {
+                return (
+                  <div
+                    key={optionKey}
+                    onClick={() => getOptionDetailData(optionKey)}
+                  >
+                    <OptionSelector
+                      handleOptionDetail={() =>
+                        handleOptionDetail(optionKey, selectedOption[optionKey])
+                      }
+                      selectedOption={selectedOption[optionKey]}
+                    />
+                  </div>
+                )
+              }
+            })}
         </div>
       </div>
-      {colors && (
-        <OptionDrawer
-          optionSpecific="color"
-          defaultOption="선택하세요. (색상)"
-          options={colors.colors}
-          showOptionDetailSpecific={showOptionDetail.color}
-          toggleOptionDetail={() => toggleOptionDetail("color")}
-          selectedOption={selectedOption.color}
-          handleSelectedOption={handleSelecteOption}
-        />
-      )}
-      {sizes && (
-        <OptionDrawer
-          optionSpecific="size"
-          defaultOption="선택하세요. (사이즈)"
-          options={sizes.sizes}
-          showOptionDetailSpecific={showOptionDetail.size}
-          toggleOptionDetail={() => toggleOptionDetail("size")}
-          selectedOption={selectedOption.size}
-          handleSelectedOption={handleSelecteOption}
-        />
-      )}
-      {etcs && showOptionDetail.etc && (
-        <OptionDrawer
-          optionSpecific="etc"
-          defaultOption="선택하세요. (기타)"
-          options={etcs.etcs}
-          showOptionDetailSpecific={showOptionDetail.etc}
-          toggleOptionDetail={() => toggleOptionDetail("etc")}
-          selectedOption={selectedOption.etc}
-          handleSelectedOption={handleSelecteOption}
-        />
-      )}
+      {optionExist &&
+        Object.entries(optionExist).map(([key, hasOption]) => {
+          const optionKey = key as "color" | "size" | "etc"
+
+          if (optionExist[optionKey]) {
+            return (
+              <div key={optionKey}>
+                <OptionDrawer
+                  optionName={optionKey}
+                  optionDetail={optionDetail}
+                  defaultOption={defaultOption[optionKey].value}
+                  showOptionDrawer={showOptionDetail[optionKey]}
+                  handleOptionDetail={handleOptionDetail}
+                  selectedOption={selectedOption[optionKey]}
+                />
+              </div>
+            )
+          }
+        })}
     </div>
   )
 }
