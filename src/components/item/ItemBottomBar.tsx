@@ -23,29 +23,8 @@ type ItemBottomBarProps = {
   optionExist: convertedOptionExistType
 }
 
-type Colors = {
-  optionId: number
-  colorId: number
-  value: string
-  stock: number
-}[]
-
-type Sizes = {
-  optionId: number
-  sizeId: number
-  value: string
-  stock: number
-}[]
-
-type Etcs = {
-  optionId: number
-  etcId: number
-  value: string
-  stock: number
-}[]
-
 //옵션 종류별 기본 선택 값
-const defaultOption = {
+export const defaultOption = {
   color: { value: "선택하세요. (색상)", id: 0, optionId: 0 },
   size: { value: "선택하세요. (사이즈)", id: 0, optionId: 0 },
   etc: { value: "선택하세요. (기타)", id: 0, optionId: 0 },
@@ -73,6 +52,8 @@ export default function ItemBottomBar({
 
   //선택된 옵션
   const [selectedOption, setSelectedOption] = useState(defaultOption)
+
+  const lastOptionIdx = Object.values(optionExist).lastIndexOf(true)
 
   const handleHeart = async () => {
     const isClick = !clickHeart
@@ -231,19 +212,19 @@ export default function ItemBottomBar({
         </div>
       </div>
       {optionExist &&
-        Object.entries(optionExist).map(([key, hasOption]) => {
+        Object.keys(optionExist).map((key, index) => {
           const optionKey = key as "color" | "size" | "etc"
-
           if (optionExist[optionKey]) {
             return (
               <div key={optionKey}>
                 <OptionDrawer
                   optionName={optionKey}
                   optionDetail={optionDetail}
-                  defaultOption={defaultOption[optionKey].value}
+                  defaultOption={defaultOption[optionKey]}
                   showOptionDrawer={showOptionDetail[optionKey]}
                   handleOptionDetail={handleOptionDetail}
                   selectedOption={selectedOption[optionKey]}
+                  isLast={index === lastOptionIdx}
                 />
               </div>
             )

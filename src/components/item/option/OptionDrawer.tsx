@@ -6,14 +6,15 @@ import Image from "next/image"
 type OptionDrawerProps = {
   optionName: "color" | "size" | "etc"
   optionDetail: Options | null
-  defaultOption: string
+  defaultOption: { value: string; id: number; optionId: number }
   showOptionDrawer: boolean
   handleOptionDetail: (
     optionName: "color" | "size" | "etc",
     optionObject: { value: string; id: number; optionId: number },
   ) => void
 
-  selectedOption: { value: string; id: number }
+  selectedOption: { value: string; id: number; optionId: number }
+  isLast: boolean
 }
 
 export default function OptionDrawer({
@@ -23,6 +24,7 @@ export default function OptionDrawer({
   showOptionDrawer,
   handleOptionDetail,
   selectedOption,
+  isLast,
 }: OptionDrawerProps) {
   return (
     <div
@@ -38,7 +40,7 @@ export default function OptionDrawer({
             boxShadow:
               "0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -2px rgba(0, 0, 0, 0.1)",
           }}
-          onClick={() => handleOptionDetail}
+          onClick={() => handleOptionDetail(optionName, selectedOption)}
         >
           {showOptionDrawer && (
             <Image
@@ -57,7 +59,7 @@ export default function OptionDrawer({
         <div>
           <div className="px-4">
             <p className="border border-solid rounded-sm h-[40px] w-full flex items-center justify-between px-2 cursor-pointer text-sm">
-              {defaultOption}
+              {defaultOption.value}
               <Image
                 width="0"
                 height="0"
@@ -91,7 +93,7 @@ export default function OptionDrawer({
                     {option.value}
                     {option.stock === 0
                       ? " (품절)"
-                      : ` (남은 수량: ${option.stock}개)`}
+                      : isLast && ` (남은 수량: ${option.stock}개)`}
                   </div>
                 ))}
               </div>
