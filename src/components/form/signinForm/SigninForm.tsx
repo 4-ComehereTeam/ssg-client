@@ -55,7 +55,7 @@ function SigninForm() {
           아이디 찾기
         </Link>
         <Link href="/member/findIdPw">| 비밀번호 찾기 |</Link>
-        <Link href="/member/signupIntro">회원가입</Link>
+        <Link href="/member/signup/intro">회원가입</Link>
       </nav>
       <div className="flex gap-5 justify-center mt-11 flex-nowrap text-xs text-center whitespace-nowrap text-neutral-600">
         {socialSignin.map((social, index) => (
