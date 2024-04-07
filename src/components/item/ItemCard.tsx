@@ -8,19 +8,6 @@ import {
 import Link from "next/link"
 import Heart from "./Heart"
 
-const item = {
-  id: 11,
-  thumbnailUrl:
-    "https://sitem.ssgcdn.com/31/71/12/item/1000533127131_i1_500.jpg",
-  alt: "",
-  name: "[당일수확발송] 무농약 대추방울토마토 2kg (1-3번과/로얄과) 농협 로컬푸드",
-  brand: "달찐과일",
-  price: 29900,
-  discountRate: 10,
-  star: 4.5,
-  totalReviews: 61,
-}
-
 interface ItemCardPropsType {
   itemId: number
 }
@@ -31,12 +18,16 @@ export default async function ItemCard({ itemId }: ItemCardPropsType) {
   const brand = await getItemBrand(itemId)
   const calc = await getItemCalc(itemId)
 
+  const itemName = basicInfo ? basicInfo.itemName : ""
+  const discountRate = basicInfo ? basicInfo.discountRate : 0
+  const price = basicInfo ? basicInfo.price : 0
   const discountPrice =
-    item.discountRate !== 0
-      ? item.price * ((100 - item.discountRate) / 100)
-      : item.price
+    discountRate !== 0 ? price * ((100 - discountRate) / 100) : price
   const finalPrice = new Intl.NumberFormat().format(Math.round(discountPrice))
-  const originalPrice = new Intl.NumberFormat().format(item.price)
+  const originalPrice = new Intl.NumberFormat().format(price)
+
+  const averageStar = calc ? calc.averageStar : 0
+  const reviewCount = calc ? calc.reviewCount : 0
 
   return (
     <div className={`flex flex-col pt-2 pb-5 w-full h-full`}>
@@ -101,18 +92,18 @@ export default async function ItemCard({ itemId }: ItemCardPropsType) {
           }}
         >
           <span className="font-extrabold">{brand.name} </span>
-          {basicInfo.itemName}
+          {itemName}
         </p>
       </div>
       <div className="w-full">
-        {item.discountRate !== 0 && (
+        {discountRate !== 0 && (
           <span className="text-xs line-through">{originalPrice}원</span>
         )}
         <div className="text-base font-semibold">
-          <span className="text-[#FF5452]">{basicInfo.discountRate}%</span>
+          <span className="text-[#FF5452]">{discountRate}%</span>
           <span className="ml-1">{finalPrice}원</span>
         </div>
-        {item.star && item.totalReviews && (
+        {averageStar !== 0 && reviewCount !== 0 && (
           <div className="flex flex-row gap-1 text-xs">
             <svg
               width={11}
@@ -125,9 +116,9 @@ export default async function ItemCard({ itemId }: ItemCardPropsType) {
                 d="m2.089 13 .906-4.073L0 6.205l3.94-.35L5.5 2l1.56 3.856 3.94.349-2.995 2.722L8.911 13 5.5 10.838 2.089 13Z"
               ></path>
             </svg>
-            <span className="text-[#777777]">{calc.averageStar}</span>
+            <span className="text-[#777777]">{averageStar}</span>
             <div className="bg-[#E5E5E5] border w-0 h-[12px] mt-[3px]"></div>
-            <span>{calc.reviewCount}건</span>
+            <span>{reviewCount}건</span>
           </div>
         )}
       </div>
