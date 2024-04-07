@@ -1,19 +1,20 @@
 "use client"
 
-import { Options } from "@/actions/itemOption"
+import { Options, OptionSepcific } from "@/actions/itemOption"
 import Image from "next/image"
+import { OptionName } from "../ItemBottomBar"
 
 type OptionDrawerProps = {
-  optionName: "color" | "size" | "etc"
+  optionName: OptionName
   optionDetail: Options | null
-  defaultOption: { value: string; id: number; optionId: number }
+  defaultOption: OptionSepcific
   showOptionDrawer: boolean
   handleOptionDetail: (
-    optionName: "color" | "size" | "etc",
-    optionObject: { value: string; id: number; optionId: number },
+    optionName: OptionName,
+    optionObject: OptionSepcific,
   ) => void
 
-  selectedOption: { value: string; id: number; optionId: number }
+  selectedOption: OptionSepcific
   isLast: boolean
 }
 
@@ -29,9 +30,9 @@ export default function OptionDrawer({
   return (
     <div
       id="drawer"
-      className={`fixed z-30 bg-white bottom-[-5px] w-full h-[80%] rounded-t-lg transform ${
+      className={`fixed z-40 bg-white bottom-[-5px] w-full h-[130%] rounded-t-lg transform ${
         showOptionDrawer ? "translate-y-0" : "translate-y-full"
-      } transition-transform duration-300 ease-in-out`}
+      } transition-transform duration-300 ease-in-out overflow-y-auto`}
     >
       <div className="w-full">
         <div
@@ -44,59 +45,63 @@ export default function OptionDrawer({
         >
           {showOptionDrawer && (
             <Image
-              width="0"
-              height="0"
+              width={15}
+              height={15}
               src="https://img.icons8.com/ios/100/back--v1.png"
               alt="상세 옵션 접기"
               style={{
                 transform: "rotate(-90deg)",
-                width: "20px",
-                height: "20px",
+                width: "auto",
+                height: "auto",
               }}
             />
           )}
         </div>
         <div>
           <div className="px-4">
-            <p className="border border-solid rounded-sm h-[40px] w-full flex items-center justify-between px-2 cursor-pointer text-sm">
+            <div
+              onClick={() => handleOptionDetail(optionName, defaultOption)}
+              className="border border-solid rounded-sm h-[40px] w-full flex items-center justify-between px-2 cursor-pointer text-sm"
+            >
               {defaultOption.value}
               <Image
-                width="0"
-                height="0"
+                width={15}
+                height={15}
                 src="https://img.icons8.com/ios/100/back--v1.png"
                 alt="상세 옵션 접기"
                 style={{
                   transform: "rotate(90deg)",
-                  width: "16px",
-                  height: "16px",
+                  width: "auto",
+                  height: "auto",
                 }}
               />
-            </p>
-            <div className="w-full">
-              <div className="border border-solid rounded-sm text-sm">
-                {optionDetail?.options.map((option) => (
-                  <div
-                    key={option.optionId}
-                    className={`p-2 ${
-                      selectedOption.value === option.value
-                        ? "bg-gray-200"
-                        : "hover:bg-gray-100"
-                    } cursor-pointer`}
-                    onClick={() =>
-                      handleOptionDetail(optionName, {
-                        value: option.value,
-                        id: option.id,
-                        optionId: option.optionId,
-                      })
-                    }
-                  >
-                    {option.value}
+            </div>
+            <div className="w-full h-full mt-2 flex flex-col gap-3 items-start">
+              {optionDetail?.options.map((option) => (
+                <button
+                  key={option.optionId}
+                  className={`p-2 w-full flex flex-row gap-2 justify-start items-center rounded-sm ${
+                    selectedOption.value === option.value
+                      ? "border border-black"
+                      : "hover:bg-gray-100"
+                  } cursor-pointer`}
+                  onClick={() =>
+                    handleOptionDetail(optionName, {
+                      value: option.value,
+                      id: option.id,
+                      optionId: option.optionId,
+                      stock: option.stock,
+                    })
+                  }
+                >
+                  <span className="text-sm">{option.value}</span>
+                  <span className="text-xs">
                     {option.stock === 0
                       ? " (품절)"
                       : isLast && ` (남은 수량: ${option.stock}개)`}
-                  </div>
-                ))}
-              </div>
+                  </span>
+                </button>
+              ))}
             </div>
           </div>
         </div>

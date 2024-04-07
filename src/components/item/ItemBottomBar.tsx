@@ -2,10 +2,13 @@
 
 import { deleteClip, postClip } from "@/actions/clip"
 import {
+  getItemOption,
   getItemOptionColor,
   getItemOptionEtc,
   getItemOptionSize,
+  ItemOption,
   Options,
+  OptionSepcific,
 } from "@/actions/itemOption"
 import heartBorder from "@/public/asset/images/heart-border.png"
 import heartFill from "@/public/asset/images/heart-fill.png"
@@ -16,31 +19,47 @@ import { useState } from "react"
 import OptionDrawer from "./option/OptionDrawer"
 import OptionSelector from "./option/OptionSelector"
 import { convertedOptionExistType } from "@/app/(footer)/item/[itemId]/page"
+import SelectedItemCard from "./option/SelectedItemCard"
+import { ItemBasicInfo } from "@/actions/item"
 
 type ItemBottomBarProps = {
   itemId: string
+  itemBasicInfo: ItemBasicInfo | null
   isCliped: boolean
   optionExist: convertedOptionExistType
 }
 
+export type OptionName = "color" | "size" | "etc"
+
+const optionOrder: OptionName[] = ["color", "size", "etc"]
+
 //옵션 종류별 기본 선택 값
 export const defaultOption = {
-  color: { value: "선택하세요. (색상)", id: 0, optionId: 0 },
-  size: { value: "선택하세요. (사이즈)", id: 0, optionId: 0 },
-  etc: { value: "선택하세요. (기타)", id: 0, optionId: 0 },
+  color: { value: "선택하세요. (색상)", id: 0, optionId: 0, stock: 0 },
+  size: { value: "선택하세요. (사이즈)", id: 0, optionId: 0, stock: 0 },
+  etc: { value: "선택하세요. (기타)", id: 0, optionId: 0, stock: 0 },
 }
 
 export default function ItemBottomBar({
   itemId,
+  itemBasicInfo,
   isCliped,
   optionExist,
 }: ItemBottomBarProps) {
   const { status } = useSession()
   const router = useRouter()
+  const lastOptionIdx = Object.values(optionExist).lastIndexOf(true)
   const [clickHeart, setClickHeart] = useState(isCliped)
   const [showOptions, setShowOptions] = useState(false)
 
-  //옵션 선택 창
+  //OptionSelector 열고 닫기
+  const [showOptionSelector, setShowOptionSelector] = useState({
+    color: false,
+    size: false,
+    etc: false,
+  })
+
+  //OptionDrawer 열고 닫기
   const [showOptionDetail, setShowOptionDetail] = useState({
     color: false,
     size: false,
@@ -53,7 +72,7 @@ export default function ItemBottomBar({
   //선택된 옵션
   const [selectedOption, setSelectedOption] = useState(defaultOption)
 
-  const lastOptionIdx = Object.values(optionExist).lastIndexOf(true)
+  const [itemOptions, setItemOptions] = useState<ItemOption[]>([])
 
   const handleHeart = async () => {
     const isClick = !clickHeart
@@ -83,7 +102,7 @@ export default function ItemBottomBar({
   }
 
   //상세 옵션 데이터 페칭
-  const getOptionDetailData = async (optionName: "color" | "size" | "etc") => {
+  const getOptionDetailData = async (optionName: OptionName) => {
     if (optionName === "color") {
       const colorData = await getItemOptionColor(itemId)
       setOptionDetail(colorData ?? null)
@@ -100,25 +119,81 @@ export default function ItemBottomBar({
     }
   }
 
-  //상세 옵션 선택 상세 옵션 창 열고 닫기
-  const handleOptionDetail = (
-    optionName: "color" | "size" | "etc",
-    optionObject: { value: string; id: number; optionId: number },
+  const toggleOptionSelector = (optionName: OptionName) => {
+    setShowOptionSelector({
+      ...showOptionSelector,
+      [optionName]: !showOptionSelector[optionName],
+    })
+    setShowOptionDetail({
+      ...showOptionDetail,
+      [optionName]: !showOptionDetail[optionName],
+    })
+  }
+
+  //상세 옵션 선택 & 상세 옵션 창 열고 닫기
+  const handleOptionDetail = async (
+    optionName: OptionName,
+    optionObject: OptionSepcific,
   ) => {
     setShowOptionDetail({
       ...showOptionDetail,
       [optionName]: !showOptionDetail[optionName],
     })
-    setSelectedOption({
-      ...selectedOption,
-      [optionName]: optionObject,
-    })
+
+    // 이전과 다른 옵션 선택 시 뒤의 모든 옵션을 초기화
+    const newSelectedOption = { ...selectedOption, [optionName]: optionObject }
+
+    if (selectedOption[optionName].optionId !== optionObject.optionId) {
+      const startIndex = optionOrder.indexOf(optionName) + 1
+      for (let i = startIndex; i < optionOrder.length; i++) {
+        const resetOptionName = optionOrder[i]
+        newSelectedOption[resetOptionName] = defaultOption[resetOptionName]
+      }
+    }
+    setSelectedOption(newSelectedOption)
+
+    //마지막 옵션 선택 시 옵션 정보 데이터 페칭
+    if (optionOrder.indexOf(optionName) === lastOptionIdx) {
+      const itemOption = await getItemOption(
+        newSelectedOption[optionName].optionId,
+      )
+      if (itemOption) {
+        setItemOptions([...itemOptions, itemOption])
+      }
+    }
   }
 
-  console.log(selectedOption)
+  //itemOptions 삭제 & selectedOption 초기화
+  const handleItemOptions = (index: number) => {
+    const newItemOptions = itemOptions.filter((_, i) => i !== index)
+    setItemOptions(newItemOptions)
+
+    if (newItemOptions.length === 0) {
+      setSelectedOption({
+        color: defaultOption.color,
+        size: defaultOption.size,
+        etc: defaultOption.etc,
+      })
+    }
+  }
 
   return (
     <div className="relative z-10">
+      {itemOptions.length !== 0 && (
+        <div className="fixed z-50 w-full pr-2 bottom-[52px] flex flex-row justify-end">
+          <strong className="flex flex-col justify-end mb-1 mr-1">
+            총합계
+          </strong>
+          <strong className="text-[25px] text-[#ff5452]">
+            {itemBasicInfo &&
+              itemBasicInfo.price &&
+              new Intl.NumberFormat().format(
+                itemBasicInfo.price * itemOptions.length,
+              )}
+            원
+          </strong>
+        </div>
+      )}
       <div
         className={`fixed bottom-0 w-full flex flex-row ${
           showOptions ? "z-20" : "z-10"
@@ -161,7 +236,9 @@ export default function ItemBottomBar({
         )}
       </div>
       <div
-        className={`fixed bg-white bottom-[48px] w-full h-[40%] rounded-t-lg transform ${
+        className={`fixed bg-white bottom-[48px] w-full h-[${
+          30 + itemOptions.length * 20
+        }%] min-h-[30%] max-h-[60%] rounded-t-lg transform ${
           showOptions ? "translate-y-0" : "translate-y-full"
         } transition-transform duration-300 ease-in-out`}
       >
@@ -176,60 +253,78 @@ export default function ItemBottomBar({
           >
             {showOptions && (
               <Image
-                width="0"
-                height="0"
+                width={15}
+                height={15}
                 src="https://img.icons8.com/ios/100/back--v1.png"
                 alt="옵션 접기"
+                aria-label="옵션접기"
                 style={{
                   transform: "rotate(-90deg)",
-                  width: "20px",
-                  height: "20px",
+                  width: "auto",
+                  height: "auto",
                 }}
               />
             )}
           </div>
         </div>
-        <div className="flex flex-col py-2 gap-3 text-sm">
-          {optionExist &&
-            Object.keys(optionExist).map((key) => {
-              const optionKey = key as "color" | "size" | "etc"
-              if (optionExist[optionKey]) {
-                return (
-                  <div
-                    key={optionKey}
-                    onClick={() => getOptionDetailData(optionKey)}
-                  >
-                    <OptionSelector
-                      handleOptionDetail={() =>
-                        handleOptionDetail(optionKey, selectedOption[optionKey])
-                      }
-                      selectedOption={selectedOption[optionKey]}
-                    />
-                  </div>
-                )
-              }
-            })}
+        <div className="overflow-y-auto">
+          <div className="flex flex-col py-2 gap-3 text-sm">
+            {optionExist &&
+              Object.keys(optionExist).map((key, index) => {
+                const optionKey = key as OptionName
+
+                if (optionExist[optionKey]) {
+                  return (
+                    <div
+                      key={optionKey}
+                      onClick={() => getOptionDetailData(optionKey)}
+                    >
+                      <OptionSelector
+                        disabled={
+                          index !== 0 &&
+                          selectedOption[
+                            Object.keys(optionExist)[index - 1] as OptionName
+                          ].id === 0 &&
+                          true
+                        }
+                        toggleOptionSelector={() =>
+                          toggleOptionSelector(optionKey)
+                        }
+                        selectedOption={selectedOption[optionKey]}
+                      />
+                    </div>
+                  )
+                }
+              })}
+          </div>
+          {itemOptions.length !== 0 && (
+            <SelectedItemCard
+              itemOptions={itemOptions}
+              itemBasicInfo={itemBasicInfo}
+              handleItemOptions={handleItemOptions}
+            />
+          )}
         </div>
+        {optionExist &&
+          Object.keys(optionExist).map((key, index) => {
+            const optionKey = key as OptionName
+            if (optionExist[optionKey]) {
+              return (
+                <div key={`${optionKey}-${index}`}>
+                  <OptionDrawer
+                    optionName={optionKey}
+                    optionDetail={optionDetail}
+                    defaultOption={defaultOption[optionKey]}
+                    showOptionDrawer={showOptionDetail[optionKey]}
+                    handleOptionDetail={handleOptionDetail}
+                    selectedOption={selectedOption[optionKey]}
+                    isLast={index === lastOptionIdx}
+                  />
+                </div>
+              )
+            }
+          })}
       </div>
-      {optionExist &&
-        Object.keys(optionExist).map((key, index) => {
-          const optionKey = key as "color" | "size" | "etc"
-          if (optionExist[optionKey]) {
-            return (
-              <div key={optionKey}>
-                <OptionDrawer
-                  optionName={optionKey}
-                  optionDetail={optionDetail}
-                  defaultOption={defaultOption[optionKey]}
-                  showOptionDrawer={showOptionDetail[optionKey]}
-                  handleOptionDetail={handleOptionDetail}
-                  selectedOption={selectedOption[optionKey]}
-                  isLast={index === lastOptionIdx}
-                />
-              </div>
-            )
-          }
-        })}
     </div>
   )
 }
