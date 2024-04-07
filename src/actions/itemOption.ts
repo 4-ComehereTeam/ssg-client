@@ -5,6 +5,17 @@ export type OptionExist = {
   hasEtc: boolean
 }
 
+export type Options = {
+  itemId: number
+  superOptionId?: number
+  options: {
+    optionId: number
+    id: number
+    value: string
+    stock: number
+  }[]
+}
+
 export async function getItemOptionExist(
   itemId: string | number,
 ): Promise<OptionExist | null> {
@@ -33,19 +44,9 @@ export async function getItemOptionExist(
   }
 }
 
-export type Color = {
-  itemId: number
-  colors: {
-    optionId: number
-    colorId: number
-    value: string
-    stock: number
-  }[]
-}
-
 export async function getItemOptionColor(
   itemId: string | number,
-): Promise<Color | null> {
+): Promise<Options | null> {
   try {
     const res = await fetch(
       `${process.env.API_BASE_URL}/option/color/${itemId}`,
@@ -60,7 +61,18 @@ export async function getItemOptionColor(
     if (res.ok) {
       const data = await res.json()
       console.log("getItemOptionColor success:", data.httpStatus)
-      return data.result
+
+      const transformedData: Options = {
+        itemId: data.result.itemId,
+        options: data.result.colors.map((color: any) => ({
+          optionId: color.optionId,
+          id: color.colorId,
+          value: color.value,
+          stock: color.stock,
+        })),
+      }
+
+      return transformedData
     } else {
       console.log("getItemOptionColor fail:", res.status)
       return null
@@ -71,23 +83,13 @@ export async function getItemOptionColor(
   }
 }
 
-export type Size = {
-  itemId: number
-  colorId: number
-  sizes: {
-    optionId: number
-    sizeId: number
-    value: string
-    stock: number
-  }[]
-}
-
 export async function getItemOptionSize(
   itemId: string | number,
-): Promise<Size | null> {
+  colorId: number,
+): Promise<Options | null> {
   try {
     const res = await fetch(
-      `${process.env.API_BASE_URL}/option/size/${itemId}`,
+      `${process.env.API_BASE_URL}/option/size/${itemId}?colorId=${colorId}`,
       {
         cache: "force-cache",
         method: "GET",
@@ -99,7 +101,18 @@ export async function getItemOptionSize(
     if (res.ok) {
       const data = await res.json()
       console.log("getItemOptionSize success:", data.httpStatus)
-      return data.result
+      const transformedData: Options = {
+        itemId: data.result.itemId,
+        superOptionId: data.result.colorId,
+        options: data.result.sizes.map((size: any) => ({
+          optionId: size.optionId,
+          id: size.sizeId,
+          value: size.value,
+          stock: size.stock,
+        })),
+      }
+
+      return transformedData
     } else {
       console.log("getItemOptionSize fail:", res.status)
       return null
@@ -110,23 +123,14 @@ export async function getItemOptionSize(
   }
 }
 
-export type Etc = {
-  itemId: number
-  sizeId: number
-  etcs: {
-    optionId: number
-    etcId: number
-    value: string
-    stock: number
-  }[]
-}
-
 export async function getItemOptionEtc(
   itemId: string | number,
-): Promise<Etc | null> {
+  colorId: number,
+  sizeId: number,
+): Promise<Options | null> {
   try {
     const res = await fetch(
-      `${process.env.API_BASE_URL}/option/etc/${itemId}`,
+      `${process.env.API_BASE_URL}/option/etc/${itemId}?colorId=${colorId}&sizeId=${sizeId}`,
       {
         cache: "force-cache",
         method: "GET",
@@ -138,7 +142,18 @@ export async function getItemOptionEtc(
     if (res.ok) {
       const data = await res.json()
       console.log("getItemOptionEtc success:", data.httpStatus)
-      return data.result
+      const transformedData: Options = {
+        itemId: data.result.itemId,
+        superOptionId: data.result.sizeId,
+        options: data.result.etcs.map((etc: any) => ({
+          optionId: etc.optionId,
+          id: etc.etcId,
+          value: etc.value,
+          stock: etc.stock,
+        })),
+      }
+
+      return transformedData
     } else {
       console.log("getItemOptionEtc fail:", res.status)
       return null
