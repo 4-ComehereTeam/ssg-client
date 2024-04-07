@@ -8,12 +8,14 @@ export type OptionExist = {
 export type Options = {
   itemId: number
   superOptionId?: number
-  options: {
-    optionId: number
-    id: number
-    value: string
-    stock: number
-  }[]
+  options: OptionSepcific[]
+}
+
+export type OptionSepcific = {
+  value: string
+  id: number
+  optionId: number
+  stock: number
 }
 
 export async function getItemOptionExist(
