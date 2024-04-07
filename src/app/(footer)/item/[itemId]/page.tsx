@@ -1,5 +1,5 @@
 import { getClip } from "@/actions/clip"
-import { getItemImages } from "@/actions/item"
+import { getItemBasicInfo, getItemImages } from "@/actions/item"
 import { getItemOptionExist } from "@/actions/itemOption"
 import ItemBottomBar from "@/components/item/ItemBottomBar"
 import ItemDescription from "@/components/item/ItemDescription"
@@ -28,6 +28,7 @@ export default async function ItemDetailPage({
     size: optionExist?.hasSize,
     etc: optionExist?.hasEtc,
   }
+  const basicInfo = await getItemBasicInfo(params.itemId)
 
   return (
     <main>
@@ -41,6 +42,7 @@ export default async function ItemDetailPage({
       <ReviewContainer itemId={params.itemId} />
       <ItemBottomBar
         itemId={params.itemId}
+        itemBasicInfo={basicInfo}
         isCliped={isCliped}
         optionExist={convertedOptionExist}
       />
