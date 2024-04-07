@@ -2,6 +2,7 @@
 
 import Image, { StaticImageData } from "next/image"
 import { signIn } from "next-auth/react"
+import { useRouter } from "next/navigation"
 
 type SocialButtonProps = {
   src: string | StaticImageData
@@ -16,13 +17,17 @@ export default function SocialButton({
   text,
   provider,
 }: SocialButtonProps) {
+  const router = useRouter()
   return (
     <button
-      onClick={(e) => {
+      onClick={async (e) => {
         e.preventDefault()
-        signIn(provider, {
-          callbackUrl: "/",
-        })
+        const result = await signIn(provider, { redirect: false })
+        if (result?.ok) {
+          // router.back()
+        } else {
+          router.replace("/member/signin")
+        }
       }}
     >
       <Image

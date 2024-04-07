@@ -16,13 +16,6 @@ export const options: NextAuthOptions = {
         if (!credentials?.signinId || !credentials?.password) {
           return null
         }
-        // console.log("credentials:", credentials)
-
-        /**
-         * 백엔드에서 받은 응답에 token있어야함
-         * user를 리턴하면 callbacks의 signIn에서 user로 전달되고
-         * 그 다음 jwt콜백의 user로 전달됨
-         */
         try {
           const res = await fetch(`${process.env.API_BASE_URL}/auth/signIn`, {
             cache: "no-store",
@@ -42,7 +35,7 @@ export const options: NextAuthOptions = {
             console.log("signin fail:", data.httpStatus)
             throw data.message
           }
-          console.log("signin fail:", res.status)
+          console.log("signin response status:", res.status)
 
           return null
         } catch (error) {
@@ -67,53 +60,87 @@ export const options: NextAuthOptions = {
   callbacks: {
     //signIn: authorize후 추가 확인
     async signIn({ user, profile, account }) {
-      // console.log("user:", user.id)
+      // console.log("user:", user) //모든 provider에서 제공
+      // console.log("profile:", profile)
       // console.log("account:", account)
-      // 간편 로그인용 accessToken 발급 받기
-      // credentials는 authorize에서 발급 받았으니 바로 통과
-      if (account?.provider !== "credentials") {
-        //TODO: 백엔드 통신 테스트하기
-        //   try {
-        //     const res = await fetch(`${process.env.API_BASE_URL}/auth/socialSignIn`, {
-        //       method: "GET",
-        //       headers: {
-        //         "Content-Type": "application/json",
-        //         "uuid": user.id
-        //       },
-        //     })
-        //     console.log("OAuth res status:", res.status)
-        //     if (res.ok) {
-        //       const member = await res.json()
-        //       return member.result
-        //     }
 
-        //     return "/member/signin"
-        //   } catch (error) {
-        //     console.log("OAuth error:", error)
-        //     return "/member/signin"
-        //   }
-        return true
-      }
+      //아직 안만들어짐
+      // if (account?.provider !== "credentials") {
+      //   try {
+      //     const res = await fetch(
+      //       `${process.env.API_BASE_URL}/auth/socialSignIn`,
+      //       {
+      //         method: "GET",
+      //         headers: {
+      //           "Content-Type": "application/json",
+      //         },
+      //         body: JSON.stringify({
+      //           id: user.id
+      //         })
+      //       },
+      //     )
+      //     if (res.ok) {
+      //       const data = await res.json()
+      //       if (data.httpStatus === "OK") {
+      //         data.result.accessToken = res.headers.get("accessToken")
+      //         //jwt콜백에서 저장됐는지 확인하기
+      //       } else {
+      //         throw data.message
+      //       }
+      //     } else {
+      //       console.log("socialSignin fail:", res.status)
+      //       return "/member/signin"
+      //     }
+      //   } catch (error) {
+      //     console.log("socialSignin error:", error)
+      //     return "/member/signin"
+      //   }
+      // }
+      const signinId =
+        account?.provider === "credentials" ? user.signinId : user.id
 
+      //휴면여부 조회
+      // try {
+      //   const dormancyRes = await fetch(
+      //     `${process.env.API_BASE_URL}/auth/dormancy/state`,
+      //     {
+      //       cache: "no-store",
+      //       method: "POST",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //       },
+      //       body: JSON.stringify({
+      //         signinId: signinId,
+      //       }),
+      //     },
+      //   )
+      //   if (dormancyRes.ok) {
+      //     const data = await dormancyRes.json()
+      //     console.log("getDormancy success:", data.httpStatus)
+      //     if (data.httpStatus === "OK") {
+      //       if (data.result) {
+      //         return "/member/certification"
+      //       }
+      //       return true
+      //     }
+      //     console.log("getDormancy fail:", data.httpStatus)
+      //     // return "/member/signin"
+      //     throw `httpStatus: ${data.httpStatus}`
+      //   }
+      //   // return "/member/signin"
+      //   throw `response status: ${dormancyRes.status}`
+      // } catch (error) {
+      //   console.log("getDormancy error:", error)
+      //   return "/member/signin"
+      // }
       return true
     },
 
     async session({ session, token }) {
-      /**
-       * session.user에 jwt콜백에서 받은 token을 할당
-       * session을 리턴하면 브라우저의
-       * 클라이언트 컴포넌트에서 {data:session} = useSession()으로
-       * session.user.accessToken 접근 가능
-       */
       session.user = token
       return session
     },
     async jwt({ token, user }) {
-      // console.log(token)
-      /**
-       * authorize에서 return한 user에 들어있는 access_token을
-       * session에 저장하기 위해 동일 선상에 추가해서 return
-       */
       return { ...token, ...user }
     },
     async redirect({ url, baseUrl }) {

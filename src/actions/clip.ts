@@ -74,7 +74,7 @@ export async function deleteClip(itemId: number | string) {
 
     if (res.ok) {
       const data = await res.json()
-      console.log("deleteClip success:", data)
+      console.log("deleteClip success:", data.httpStatus)
       return data
     }
     console.log("deleteClip status", res.status)
@@ -101,7 +101,7 @@ export async function deleteManyClips(itemIds: number[] | string[]) {
     })
     if (res.ok) {
       const data = await res.json()
-      console.log("delete many clips success:", data)
+      console.log("delete many clips success:", data.httpStatus)
       return data
     }
   } catch (error) {
