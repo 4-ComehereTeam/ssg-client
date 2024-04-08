@@ -31,7 +31,7 @@ export default async function ItemDetailPage({
   const basicInfo = await getItemBasicInfo(params.itemId)
 
   return (
-    <main>
+    <main className="overflow-hidden">
       <HeaderOfItem>
         <ReviewCntOfItem itemId={params.itemId} />
       </HeaderOfItem>
