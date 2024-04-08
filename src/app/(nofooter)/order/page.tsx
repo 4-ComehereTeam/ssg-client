@@ -7,6 +7,7 @@ import TermsOfService from "@/components/order/TermsOfService"
 import InformationOfOrderer from "@/components/order/InformationOfOrderer"
 import DeliveryItemList from "@/components/order/DeliveryItemList"
 import ButtonOfOrder from "@/components/ui/Buttons/ButtonOfOrder"
+import { Suspense } from "react"
 
 export default function OrderPage() {
   return (
@@ -19,7 +20,9 @@ export default function OrderPage() {
         <ExpectedPaymoney />
         <TermsOfService />
         <InformationOfOrderer />
-        <DeliveryItemList />
+        <Suspense>
+          <DeliveryItemList />
+        </Suspense>
         <ButtonOfOrder amount={10000} />
       </div>
     </>
