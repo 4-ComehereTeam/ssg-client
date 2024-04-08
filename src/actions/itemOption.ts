@@ -41,7 +41,7 @@ export async function getItemOptionExist(
       return null
     }
   } catch (error) {
-    console.log("getItemOptionExist fail(error):", error)
+    console.log("getItemOptionExist error:", error)
     return null
   }
 }
@@ -80,7 +80,7 @@ export async function getItemOptionColor(
       return null
     }
   } catch (error) {
-    console.log("getItemOptionColor fail(error):", error)
+    console.log("getItemOptionColor error:", error)
     return null
   }
 }
@@ -120,7 +120,7 @@ export async function getItemOptionSize(
       return null
     }
   } catch (error) {
-    console.log("getItemOptionSize fail(error):", error)
+    console.log("getItemOptionSize error:", error)
     return null
   }
 }
@@ -161,16 +161,17 @@ export async function getItemOptionEtc(
       return null
     }
   } catch (error) {
-    console.log("getItemOptionEtc fail(error):", error)
+    console.log("getItemOptionEtc error:", error)
     return null
   }
 }
 
-export type ItemOption = {
+export interface ItemOption {
   itemOptionId: number
   color: string | null
   size: string | null
   etc: string | null
+  stock: number
 }
 
 export async function getItemOption(
@@ -193,7 +194,40 @@ export async function getItemOption(
       return null
     }
   } catch (error) {
-    console.log("getItemOption fail(error):", error)
+    console.log("getItemOption error:", error)
+    return null
+  }
+}
+
+export interface ItemNoneOption {
+  itemOptionId: number
+  stock: number
+}
+
+export async function getItemNoneOption(
+  itemId: string | number,
+): Promise<ItemNoneOption | null> {
+  try {
+    const res = await fetch(
+      `${process.env.API_BASE_URL}/option/item/${itemId}`,
+      {
+        cache: "force-cache",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    )
+    if (res.ok) {
+      const data = await res.json()
+      console.log("getItemNoneOption success:", data.httpStatus)
+      return data.result
+    } else {
+      console.log("getItemNoneOption fail:", res.status)
+      return null
+    }
+  } catch (error) {
+    console.log("getItemNoneOption error:", error)
     return null
   }
 }
