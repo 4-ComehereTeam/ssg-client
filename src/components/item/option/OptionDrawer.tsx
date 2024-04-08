@@ -13,7 +13,6 @@ type OptionDrawerProps = {
     optionName: OptionName,
     optionObject: OptionSepcific,
   ) => void
-
   selectedOption: OptionSepcific
   isLast: boolean
 }
