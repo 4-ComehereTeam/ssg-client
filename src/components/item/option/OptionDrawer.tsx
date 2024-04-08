@@ -83,7 +83,8 @@ export default function OptionDrawer({
                     selectedOption.value === option.value
                       ? "border border-black"
                       : "hover:bg-gray-100"
-                  } cursor-pointer`}
+                  } ${option.stock === 0 && "text-gray-300"} cursor-pointer`}
+                  disabled={option.stock === 0}
                   onClick={() =>
                     handleOptionDetail(optionName, {
                       value: option.value,

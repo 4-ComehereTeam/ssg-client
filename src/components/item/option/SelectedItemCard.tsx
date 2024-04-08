@@ -25,41 +25,45 @@ export default function SeletedItemCard({
   return (
     <div className="mt-4 mb-24 flex flex-col gap-2">
       <div className="px-4">
-        <div className="py-4 flex flex-col gap-3 rounded-md bg-[#f8f8f8f8]">
-          <div className="px-4 flex flex-row justify-between ">
-            <p className="text-xs">{itemBasicInfo.itemName}</p>
-          </div>
-          <div className="px-4 flex flex-row justify-between items-center">
-            <div className="basis-1/3 bg-white flex flex-row justify-between items-center">
-              <button
-                className="w-[34px] h-[33px] text-[20px]"
-                onClick={() =>
-                  handleItemOptionCount(
-                    itemNoneOption.itemOptionId,
-                    itemNoneOption.count - 1,
-                  )
-                }
-                disabled={itemNoneOption.count < 2}
-              >
-                -
-              </button>
-              <span>{itemNoneOption.count}</span>
-              <button
-                className="w-[34px] h-[33px] text-[20px]"
-                onClick={() =>
-                  handleItemOptionCount(
-                    itemNoneOption.itemOptionId,
-                    itemNoneOption.count + 1,
-                  )
-                }
-                disabled={itemNoneOption.stock <= itemNoneOption.count}
-              >
-                +
-              </button>
+        {itemNoneOption.stock === 0 ? (
+          <p className="text-center">품절된 상품입니다.</p>
+        ) : (
+          <div className="py-4 flex flex-col gap-3 rounded-md bg-[#f8f8f8f8]">
+            <div className="px-4 flex flex-row justify-between ">
+              <p className="text-xs">{itemBasicInfo.itemName}</p>
             </div>
-            <span className="font-bold">{totalPrice}원</span>
+            <div className="px-4 flex flex-row justify-between items-center">
+              <div className="basis-1/3 bg-white flex flex-row justify-between items-center">
+                <button
+                  className="w-[34px] h-[33px] text-[20px]"
+                  onClick={() =>
+                    handleItemOptionCount(
+                      itemNoneOption.itemOptionId,
+                      itemNoneOption.count - 1,
+                    )
+                  }
+                  disabled={itemNoneOption.count < 2}
+                >
+                  -
+                </button>
+                <span>{itemNoneOption.count}</span>
+                <button
+                  className="w-[34px] h-[33px] text-[20px]"
+                  onClick={() =>
+                    handleItemOptionCount(
+                      itemNoneOption.itemOptionId,
+                      itemNoneOption.count + 1,
+                    )
+                  }
+                  disabled={itemNoneOption.stock <= itemNoneOption.count}
+                >
+                  +
+                </button>
+              </div>
+              <span className="font-bold">{totalPrice}원</span>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   )

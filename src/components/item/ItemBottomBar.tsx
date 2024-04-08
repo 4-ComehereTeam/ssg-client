@@ -282,16 +282,17 @@ export default function ItemBottomBar({
       <div className={`fixed bottom-0 w-full ${showOptions ? "z-20" : "z-10"}`}>
         {showOptions ? (
           <div className="flex flex-col">
-            {itemOptions.length !== 0 && (
-              <div className="z-50 py-4 w-full pr-2 bottom-[104px] flex flex-row justify-end bg-white">
-                <strong className="flex flex-col justify-end mb-1 mr-1">
-                  총합계
-                </strong>
-                <strong className="text-[25px] text-[#ff5452]">
-                  {itemBasicInfo && itemBasicInfo.price && totalPrice}원
-                </strong>
-              </div>
-            )}
+            {itemOptions.length !== 0 &&
+              itemOptions[itemOptions.length - 1].stock !== 0 && (
+                <div className="z-50 py-4 w-full pr-2 bottom-[104px] flex flex-row justify-end bg-white">
+                  <strong className="flex flex-col justify-end mb-1 mr-1">
+                    총합계
+                  </strong>
+                  <strong className="text-[25px] text-[#ff5452]">
+                    {itemBasicInfo && itemBasicInfo.price && totalPrice}원
+                  </strong>
+                </div>
+              )}
 
             <div className="grid grid-cols-2 w-full h-[52px] text-white">
               <button className="bg-black">장바구니</button>
