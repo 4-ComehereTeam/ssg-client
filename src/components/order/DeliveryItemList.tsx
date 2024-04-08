@@ -4,8 +4,12 @@ import Image from "next/image"
 import { useSearchParams } from "next/navigation"
 
 export default function DeliveryItemList() {
-  /** URL 쿼리스트링 값 읽고 변환*/
-  const searchParams = useSearchParams() //only client
+  /**
+   * URL 쿼리스트링 값 읽고 변환
+   * useSerchParams()는 클라이언트 컴포넌트에서만 사용할 수 있습니다.
+   * 그리고 useSearchParams()를 사용하는 컴포넌트는 상위 컴포넌트에서 <Suspense/>로 감싸야합니다.
+   * */
+  const searchParams = useSearchParams()
   const itemId = searchParams.get("itemId")
   const itemOptionIds = searchParams.getAll("itemOptionId")
   const counts = searchParams.getAll("count")
