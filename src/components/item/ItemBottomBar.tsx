@@ -256,7 +256,6 @@ export default function ItemBottomBar({
 
   const buy = async () => {
     if (status == "unauthenticated") {
-      setPurchaseResponseMessage("로그인해주세요.")
       router.push("/member/signin")
     } else {
       if (itemOptions.length > 0) {
