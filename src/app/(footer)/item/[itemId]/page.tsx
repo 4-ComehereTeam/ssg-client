@@ -8,6 +8,7 @@ import ItemInfo from "@/components/item/ItemInfo"
 import ReviewCntOfItem from "@/components/item/review/ReviewCntOfItem"
 import ReviewContainer from "@/components/item/review/ReviewContainer"
 import HeaderOfItem from "@/components/ui/Headers/HeaderOfItem"
+import { notFound } from "next/navigation"
 
 export type convertedOptionExistType = {
   color: boolean | undefined
@@ -29,6 +30,10 @@ export default async function ItemDetailPage({
     etc: optionExist?.hasEtc,
   }
   const basicInfo = await getItemBasicInfo(params.itemId)
+
+  if (!basicInfo) {
+    notFound()
+  }
 
   return (
     <main className="overflow-hidden">
