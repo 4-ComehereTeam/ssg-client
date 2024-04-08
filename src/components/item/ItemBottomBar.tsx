@@ -274,8 +274,6 @@ export default function ItemBottomBar({
     }
   }
 
-  console.log(itemOptions)
-
   return (
     <div className="relative z-10">
       <div className={`fixed bottom-0 w-full ${showOptions ? "z-20" : "z-10"}`}>
