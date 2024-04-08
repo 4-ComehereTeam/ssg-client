@@ -3,7 +3,6 @@
 import { ItemBasicInfo } from "@/actions/item"
 import Image from "next/image"
 import { ItemOptions } from "../ItemBottomBar"
-import "./optionCard.css"
 
 type SelectedItemOptionCardProps = {
   itemOptions: ItemOptions
@@ -24,10 +23,7 @@ export default function SelectedItemOptionCard({
     discountRate !== 0 ? price * ((100 - discountRate) / 100) : price
 
   return (
-    <div
-      id="selectedItemOptionCard"
-      className="mt-4 mb-24 flex flex-col gap-2 slide-in-left"
-    >
+    <div id="selectedItemOptionCard" className="mt-4 mb-24 flex flex-col gap-2">
       {itemOptions.map((itemOption, index) => (
         <div key={itemOption.itemOptionId} className="px-4">
           <div
