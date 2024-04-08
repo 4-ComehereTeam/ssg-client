@@ -129,18 +129,20 @@ export default function ItemBottomBar({
       setItemOptions([])
     }
 
-    const itemNoneOption = await getItemNoneOption(itemId)
-    if (itemNoneOption) {
-      setItemOptions([
-        {
-          itemOptionId: itemNoneOption.itemOptionId,
-          color: null,
-          size: null,
-          etc: null,
-          stock: itemNoneOption.stock,
-          count: 1,
-        },
-      ])
+    if (!isExistAnyOption) {
+      const itemNoneOption = await getItemNoneOption(itemId)
+      if (itemNoneOption) {
+        setItemOptions([
+          {
+            itemOptionId: itemNoneOption.itemOptionId,
+            color: null,
+            size: null,
+            etc: null,
+            stock: itemNoneOption.stock,
+            count: 1,
+          },
+        ])
+      }
     }
   }
 
