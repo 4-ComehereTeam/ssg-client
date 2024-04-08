@@ -103,6 +103,10 @@ export default function ItemBottomBar({
 
   const isExistAnyOption = Object.values(optionExist).some((exist) => exist)
 
+  const isTwoOrMoreTrueOption =
+    Object.values(optionExist).filter((value) => value === true).length >= 2
+  console.log(isTwoOrMoreTrueOption)
+
   const handleHeart = async () => {
     const isClick = !clickHeart
     if (status === "authenticated") {
@@ -160,6 +164,7 @@ export default function ItemBottomBar({
         selectedOption.color.id,
         selectedOption.size.id,
       )
+      console.log(etcData)
       setOptionDetail(etcData ?? null)
     }
   }
@@ -390,6 +395,7 @@ export default function ItemBottomBar({
                     >
                       <OptionSelector
                         disabled={
+                          isTwoOrMoreTrueOption &&
                           index !== 0 &&
                           selectedOption[
                             Object.keys(optionExist)[index - 1] as OptionName

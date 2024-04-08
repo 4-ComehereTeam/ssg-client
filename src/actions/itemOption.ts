@@ -7,7 +7,8 @@ export type OptionExist = {
 
 export type Options = {
   itemId: number
-  superOptionId?: number
+  superOptionId?: number | null
+  subOptionId?: number | null
   options: OptionSepcific[]
 }
 
@@ -89,9 +90,13 @@ export async function getItemOptionSize(
   itemId: string | number,
   colorId: number,
 ): Promise<Options | null> {
+  let path = `?colorId=${colorId}`
+  if (colorId === 0) {
+    path = ""
+  }
   try {
     const res = await fetch(
-      `${process.env.API_BASE_URL}/option/size/${itemId}?colorId=${colorId}`,
+      `${process.env.API_BASE_URL}/option/size/${itemId}${path}`,
       {
         cache: "force-cache",
         method: "GET",
@@ -130,9 +135,14 @@ export async function getItemOptionEtc(
   colorId: number,
   sizeId: number,
 ): Promise<Options | null> {
+  let path = `?colorId=${colorId}&sizeId=${sizeId}`
+  if (colorId === 0 || sizeId === 0) {
+    path = ""
+  }
+
   try {
     const res = await fetch(
-      `${process.env.API_BASE_URL}/option/etc/${itemId}?colorId=${colorId}&sizeId=${sizeId}`,
+      `${process.env.API_BASE_URL}/option/etc/${itemId}${path}`,
       {
         cache: "force-cache",
         method: "GET",
@@ -146,7 +156,8 @@ export async function getItemOptionEtc(
       console.log("getItemOptionEtc success:", data.httpStatus)
       const transformedData: Options = {
         itemId: data.result.itemId,
-        superOptionId: data.result.sizeId,
+        superOptionId: data.result.colorId,
+        subOptionId: data.result.sizeId,
         options: data.result.etcs.map((etc: any) => ({
           optionId: etc.optionId,
           id: etc.etcId,
