@@ -3,6 +3,8 @@
 import Image, { StaticImageData } from "next/image"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
+import { getSession } from "@/lib/getSession"
+import { idDuplCheck } from "@/actions/signup/idduplCheckAction"
 
 type SocialButtonProps = {
   src: string | StaticImageData
@@ -22,12 +24,7 @@ export default function SocialButton({
     <button
       onClick={async (e) => {
         e.preventDefault()
-        const result = await signIn(provider, { redirect: false })
-        if (result?.ok) {
-          // router.back()
-        } else {
-          router.replace("/member/signin")
-        }
+        await signIn(provider, { redirect: false })
       }}
     >
       <Image
