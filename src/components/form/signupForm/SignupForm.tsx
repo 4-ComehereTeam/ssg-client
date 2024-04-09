@@ -81,9 +81,11 @@ export default function SignupForm() {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault()
-    const result = await idDuplCheck(payload.signinId)
-    setIsDuplId(result ? false : true)
-    setCheckId(true)
+    if (/^[A-Za-z0-9]{6,20}$/.test(payload.signinId)) {
+      const result = await idDuplCheck(payload.signinId)
+      setIsDuplId(result)
+      setCheckId(true)
+    }
   }
 
   //주소 검색
@@ -164,11 +166,22 @@ export default function SignupForm() {
                   중복확인
                 </button>
               </div>
-              <input readOnly hidden name="checkId" value={checkId ? 1 : 0} />
-              {!checkId && payload.signinId.length > 0 && (
+
+              <input
+                readOnly
+                hidden
+                name="checkId"
+                value={checkId ? "1" : "0"}
+              />
+              {!checkId && (
                 <p className="text-[#FF5452]">아이디 중복확인을 해주세요.</p>
               )}
-              <input readOnly hidden name="isDuplId" value={isDuplId ? 1 : 0} />
+              <input
+                readOnly
+                hidden
+                name="isDuplId"
+                value={isDuplId ? "1" : "0"}
+              />
               {checkId && isDuplId && (
                 <p className="text-[#FF5452]">중복된 아이디입니다.</p>
               )}
@@ -236,10 +249,7 @@ export default function SignupForm() {
               <span className="text-[#FF5452]">*</span>주소
             </dt>
             <dd className="flex flex-row gap-1 justify-between w-full">
-              <button
-                className="w-full"
-                disabled={address.fullAddress.length > 0}
-              >
+              <button className="w-full">
                 <input
                   className={`py-2.5 w-full pl-3 text-xs whitespace-nowrap ${
                     address.zipCode.length > 0 ? "bg-[#F8F8F8]" : "bg-white"
