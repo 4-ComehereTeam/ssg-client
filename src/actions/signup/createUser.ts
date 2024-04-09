@@ -36,8 +36,6 @@ const RESIGN_LIMIT_COUNT = 3
 export async function createUser(initialState: any, formData: FormData) {
   const validateFields = SignupSchema.safeParse({
     signinId: formData.get("signinId"),
-    checkId: formData.get("checkId"),
-    isDuplId: formData.get("isDuplId"),
     password: formData.get("password"),
     name: formData.get("name"),
     fullAddress: formData.get("fullAddress"),
@@ -88,8 +86,6 @@ export async function createUser(initialState: any, formData: FormData) {
     }
   })
 
-  console.log(ssgPointAgrees, ssgcomAgrees)
-
   try {
     const res = await fetch(`${process.env.API_BASE_URL}/auth/signUp`, {
       method: "POST",
@@ -108,8 +104,9 @@ export async function createUser(initialState: any, formData: FormData) {
         ssgPointAgreesVo: ssgPointAgrees,
       }),
     })
-    if (res.ok) {
-      const data = await res.json()
+    const data = await res.json()
+    console.log(data)
+    if (data.isSuccess) {
       console.log("signup success:", data.httpStatus)
     } else {
       console.log("signup fail:", res.status)

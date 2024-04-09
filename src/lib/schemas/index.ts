@@ -21,12 +21,11 @@ export const SignupSchema = z.object({
       "아이디는 영어 또는 숫자로 6~20자리여야 합니다.",
     )
     .trim(),
-
-  checkId: z.string().refine((value) => value === "0", {
+  checkId: z.string().refine((value) => value === "1", {
     message: "아이디 중복확인을 해주세요.",
   }),
 
-  isDuplId: z.string().refine((value) => value === "1", {
+  isDuplId: z.string().refine((value) => value === "0", {
     message: "중복된 아이디입니다.",
   }),
 
