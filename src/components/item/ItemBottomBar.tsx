@@ -105,7 +105,6 @@ export default function ItemBottomBar({
 
   const isTwoOrMoreTrueOption =
     Object.values(optionExist).filter((value) => value === true).length >= 2
-  console.log(isTwoOrMoreTrueOption)
 
   const handleHeart = async () => {
     const isClick = !clickHeart
