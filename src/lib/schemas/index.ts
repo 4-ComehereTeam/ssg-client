@@ -41,7 +41,6 @@ export const SignupSchema = z.object({
     message: "이름은 필수 입력 항목입니다.",
   }),
 
-  //TODO: 주소 입력 폼 받으면 zipcode, address, detailAddress로 나누기
   fullAddress: z.string().min(1, "주소는 필수 입력 항목입니다."),
   phone: z
     .string({
@@ -54,4 +53,38 @@ export const SignupSchema = z.object({
   email: z.string().email({
     message: "이메일 형식에 맞지 않습니다. (예: user@ssg.com)",
   }),
+})
+
+export const SimpleSignupSchema = z.object({
+  name: z.string().min(1, {
+    message: "이름은 필수 입력 항목입니다.",
+  }),
+
+  phone: z
+    .string({
+      required_error: "휴대폰번호는 필수 입력 항목입니다.",
+    })
+    .regex(
+      /^01([0|1|6|7|8|9])([0-9]{4})([0-9]{4})$/,
+      "휴대폰번호 형식이 올바르지 않습니다. (예: 01012345678)",
+    )
+    .nullable()
+    .refine((data) => data !== null, {
+      message: "휴대폰번호는 필수 입력 항목입니다.",
+    }),
+  email: z
+    .string({
+      required_error: "이메일 형식에 맞지 않습니다. (예: user@ssg.com)",
+    })
+    .email({
+      message: "이메일 형식에 맞지 않습니다. (예: user@ssg.com)",
+    }),
+  gender: z
+    .string({
+      required_error: "성별은 필수 선택 항목입니다.",
+    })
+    .nullable()
+    .refine((data) => data !== null, {
+      message: "성별은 필수 선택 항목입니다.",
+    }),
 })
