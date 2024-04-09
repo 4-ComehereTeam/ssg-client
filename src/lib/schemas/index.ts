@@ -40,6 +40,14 @@ export const SignupSchema = z.object({
   name: z.string().min(1, {
     message: "이름은 필수 입력 항목입니다.",
   }),
+  gender: z
+    .string({
+      required_error: "성별은 필수 선택 항목입니다.",
+    })
+    .nullable()
+    .refine((data) => data !== null, {
+      message: "성별은 필수 선택 항목입니다.",
+    }),
 
   fullAddress: z.string().min(1, "주소는 필수 입력 항목입니다."),
   phone: z
