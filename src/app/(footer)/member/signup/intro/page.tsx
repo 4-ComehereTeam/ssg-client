@@ -9,11 +9,19 @@ import { socialSignup } from "@/data/social"
 import { getServerSession } from "next-auth"
 import { options } from "@/app/api/auth/[...nextauth]/options"
 import { redirect } from "next/navigation"
+import { getSession } from "next-auth/react"
+import { idDuplCheck } from "@/actions/signup/idduplCheckAction"
 
 export default async function SignupIntroPage() {
   const session = await getServerSession(options)
   if (session) {
-    redirect("/not-found")
+    const session = await getSession()
+    const isExistId = await idDuplCheck(session?.user.id)
+    if (!isExistId) {
+      redirect("/member/signup/social")
+    } else {
+      redirect("/") //TODO: 이전페이지로 리다이렉트 콜백??
+    }
   } else {
     return (
       <div>
