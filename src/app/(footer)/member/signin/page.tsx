@@ -1,14 +1,19 @@
-import { options } from "@/app/api/auth/[...nextauth]/options"
+import { idDuplCheck } from "@/actions/signup/idduplCheckAction"
 import SigninForm from "@/components/form/signinForm/SigninForm"
 import HeaderToBack from "@/components/ui/Headers/HeaderToBack"
-import { getServerSession } from "next-auth"
+import { getSession } from "@/lib/getSession"
 import { redirect } from "next/navigation"
 
 async function Page() {
-  const session = await getServerSession(options)
-  console.log(session)
+  const session = await getSession()
   if (session) {
-    redirect("/not-found")
+    console.log(session)
+    const isExistId = await idDuplCheck(session?.user.id)
+    if (!isExistId) {
+      redirect("/member/signup/social")
+    } else if (isExistId && session?.user.accessToken) {
+      redirect("/myssg/main") //TODO: 이전페이지로 리다이렉트 콜백??
+    }
   } else {
     return (
       <>
