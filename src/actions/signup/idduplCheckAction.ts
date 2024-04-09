@@ -17,6 +17,6 @@ export async function idDuplCheck(signinId: string): Promise<boolean> {
     return data.result ? false : true
   } catch (error) {
     console.log("idDuplCheck fail:", error)
-    return false
+    return true
   }
 }
