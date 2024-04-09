@@ -1,21 +1,9 @@
 "use server"
 
 import { SignupSchema } from "@/lib/schemas"
-import { SafeParseError } from "zod"
 import { checkExistingUserByEmail } from "./checkExistingUserByEmail"
 import { MktReceiveMethodsType } from "@/types/agreementType"
 import { getResignCount } from "./getResignCount"
-
-export type initialStateType = {
-  error: SafeParseError<{
-    signinId: string
-    password: string
-    name: string
-    address: string
-    phone: string
-    email: string
-  }>
-}
 
 const ssgPointAgrees: MktReceiveMethodsType = {
   ssgPointMktAgr1: false,
@@ -40,6 +28,7 @@ export async function createUser(initialState: any, formData: FormData) {
     isDuplId: formData.get("isDuplId"),
     password: formData.get("password"),
     name: formData.get("name"),
+    gender: formData.get("gender"),
     fullAddress: formData.get("fullAddress"),
     phone: formData.get("phone"),
     email: formData.get("email"),
@@ -56,7 +45,7 @@ export async function createUser(initialState: any, formData: FormData) {
     return { error: firstError }
   }
 
-  const { signinId, password, name, phone, email } = validateFields.data
+  const { signinId, password, name, gender, phone, email } = validateFields.data
 
   const addressInfo = {
     zipcode: formData.get("zipCode"),
@@ -88,7 +77,7 @@ export async function createUser(initialState: any, formData: FormData) {
   })
 
   try {
-    const res = await fetch(`${process.env.API_BASE_URL}/auth/signUp`, {
+    const res = await fetch(`${process.env.API_BASE_URL}/auth/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -99,7 +88,7 @@ export async function createUser(initialState: any, formData: FormData) {
         name: name,
         phone: phone,
         email: email,
-        gender: 0, //TODO: 회원가입 폼에 성별 선택 추가하기
+        gender: gender,
         addressInfoVo: addressInfo,
         ssgcomAgreesVo: ssgcomAgrees,
         ssgPointAgreesVo: ssgPointAgrees,
@@ -109,8 +98,7 @@ export async function createUser(initialState: any, formData: FormData) {
     if (data.isSuccess) {
       console.log("signup success:", data.httpStatus)
     } else {
-      console.log("signup fail:", res.status)
-      return { error: "회원가입에 실패했습니다." }
+      throw data
     }
   } catch (error) {
     console.log("signup error:", error)

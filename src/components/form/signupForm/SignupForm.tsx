@@ -25,6 +25,7 @@ import {
 import { AgreementsType, MktReceiveMethodsType } from "@/types/agreementType"
 import { useRouter } from "next/navigation"
 import Postcode from "@/components/address/PostCode"
+import GenderSelection from "@/components/ui/Buttons/GenderSelection"
 
 type SignupFormType = {
   signinId: string
@@ -240,6 +241,16 @@ export default function SignupForm() {
                 name="name"
                 placeholder="이름"
               />
+            </dd>
+          </dl>
+        </section>
+        <section className="py-4 border-b">
+          <dl className="flex flex-row h-10 items-center">
+            <dt className="w-20">
+              <span className="text-[#FF5452]">*</span>성별
+            </dt>
+            <dd className="grow flex flex-col gap-1">
+              <GenderSelection />
             </dd>
           </dl>
         </section>
