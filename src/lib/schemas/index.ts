@@ -1,3 +1,4 @@
+import { simpleSignupAgreeements } from "@/data/agreements"
 import * as z from "zod"
 
 export const CertificareSchema = z.object({})
@@ -64,6 +65,24 @@ export const SignupSchema = z.object({
 })
 
 export const SimpleSignupSchema = z.object({
+  ssgcomAgree1: z
+    .string()
+    .nullable()
+    .refine((value) => value === "1", {
+      message: simpleSignupAgreeements[0].text + "에 동의해주세요",
+    }),
+  ssgcomAgree2: z
+    .string()
+    .nullable()
+    .refine((value) => value === "1", {
+      message: simpleSignupAgreeements[1].text + "에 동의해주세요",
+    }),
+  over14: z
+    .string()
+    .nullable()
+    .refine((value) => value === "1", {
+      message: "만 14세 이상 회원 여부를 확인해주세요.",
+    }),
   name: z.string().min(1, {
     message: "이름은 필수 입력 항목입니다.",
   }),
