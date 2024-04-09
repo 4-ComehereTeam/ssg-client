@@ -1,6 +1,6 @@
 "use server"
 
-export const idDuplCheck = async (signinId: string) => {
+export async function idDuplCheck(signinId: string): Promise<boolean> {
   try {
     const res = await fetch(
       `${process.env.API_BASE_URL}/auth/signInId/check?signinId=${signinId}`,
@@ -12,12 +12,11 @@ export const idDuplCheck = async (signinId: string) => {
         },
       },
     )
-    if (res.ok) {
-      const data = await res.json()
-      console.log("check duplicated id success:", data.httpStatus)
-      return data.result
-    }
+    const data = await res.json()
+    console.log("idDuplCheck success:", data)
+    return data.result ? false : true
   } catch (error) {
-    console.log("check duplicated id fail:", error)
+    console.log("idDuplCheck fail:", error)
+    return false
   }
 }
