@@ -4,22 +4,27 @@ import { useState } from "react"
 import Postcode from "@/components/address/PostCode"
 import Link from "next/link"
 import HeaderToBackInModal from "@/components/ui/Headers/HeaderToBackInModal"
+import { AddressType } from "@/components/form/signupForm/SignupForm"
 
 function Address() {
   const [modalOpen, setModalOpen] = useState<boolean>(false)
-  const [fullAddress, setFullAddress] = useState("")
-  const [detailAddress, setDetailAddress] = useState("")
-  const [zipCode, setZipCode] = useState<string>()
-  console.log(fullAddress, detailAddress, zipCode) // detailAddress 출력
+  const [address, setAddress] = useState<AddressType>({
+    fullAddress: "",
+    detailAddress: "",
+    zipCode: "",
+  })
+  console.log(address) // detailAddress 출력
+
+  const handleAddress = (newAddress: AddressType) => {
+    setAddress(newAddress)
+  }
 
   return (
     <div>
       <Postcode
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
-        setFullAddress={setFullAddress}
-        setDetailAddress={setDetailAddress}
-        setZipCode={setZipCode}
+        handleAddress={handleAddress}
       />
       <HeaderToBackInModal setModalOpen={setModalOpen} title="배송지 추가" />
       <div className="px-3">
@@ -127,7 +132,7 @@ function Address() {
                     <input
                       type="number"
                       className="w-full"
-                      value={zipCode}
+                      value={address.zipCode}
                       readOnly
                       name="zipCode"
                     />
@@ -144,7 +149,7 @@ function Address() {
                 </button>
               </div>
             </li>
-            {fullAddress && (
+            {address.fullAddress && (
               <div className="mt-2 text-sm leading-5  ">
                 <div className="flex">
                   <div
@@ -154,7 +159,7 @@ function Address() {
                     도로명
                   </div>
                   <span className="mt-2">
-                    {fullAddress} <br />
+                    {address.fullAddress} <br />
                   </span>
                 </div>
               </div>
