@@ -21,6 +21,7 @@ export default function Checkbox({
         id={id}
         type="checkbox"
         name={id}
+        value={checked ? "1" : "0"}
         onChange={onChange}
         checked={checked}
         disabled={isDisabled}
