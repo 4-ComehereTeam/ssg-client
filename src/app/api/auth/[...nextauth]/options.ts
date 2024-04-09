@@ -4,6 +4,7 @@ import NaverProvider from "next-auth/providers/naver"
 import KakaoProvider from "next-auth/providers/kakao"
 import GoogleProvider from "next-auth/providers/google"
 import { getIsdormancyMember } from "@/actions/getIsdormancyMember"
+import { idDuplCheck } from "@/actions/signup/idduplCheckAction"
 
 export const options: NextAuthOptions = {
   providers: [
@@ -18,7 +19,7 @@ export const options: NextAuthOptions = {
           return null
         }
         try {
-          const res = await fetch(`${process.env.API_BASE_URL}/auth/signIn`, {
+          const res = await fetch(`${process.env.API_BASE_URL}/auth/signin`, {
             cache: "no-store",
             method: "POST",
             headers: {
@@ -33,9 +34,10 @@ export const options: NextAuthOptions = {
           if (data.result) {
             console.log("signin success:", data.httpStatus)
             data.result.accessToken = res.headers.get("accessToken")
+            data.result.id = data.result.signinId
             return data.result
           }
-          throw data.message
+          throw data
         } catch (error) {
           console.log("signin error:", error)
           return null
@@ -58,32 +60,39 @@ export const options: NextAuthOptions = {
   callbacks: {
     //signIn: authorize후 추가 확인
     async signIn({ user, profile, account }) {
-      // console.log("user:", user) //모든 provider에서 제공
+      console.log("user:", user) //모든 provider에서 제공
       // console.log("profile:", profile)
       // console.log("account:", account)
 
       if (account?.provider !== "credentials") {
-        try {
-          const res = await fetch(`${process.env.API_BASE_URL}/oauth/signin`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              signinId: user.id,
-            }),
-          })
-          const data = await res.json()
-          if (data.result) {
-            console.log("socialSignin success:", res.status)
-            data.result.accessToken = res.headers.get("accessToken")
-            //jwt콜백에서 저장됐는지 확인하기
-          } else {
-            throw data.message
+        //간편회원 아이디가 없으면 간편회원가입 페이지로 이동
+        const isExistId = await idDuplCheck(user.id)
+        if (isExistId) {
+          try {
+            const res = await fetch(
+              `${process.env.API_BASE_URL}/oauth/signin`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  signinId: user.id,
+                }),
+              },
+            )
+            const data = await res.json()
+            if (data.result) {
+              console.log("socialSignin success:", res.status)
+              data.result.accessToken = res.headers.get("accessToken")
+              //jwt콜백에서 저장됐는지 확인하기
+            } else {
+              throw data.message
+            }
+          } catch (error) {
+            console.log("socialSignin error:", error)
+            return "/member/signin"
           }
-        } catch (error) {
-          console.log("socialSignin error:", error)
-          return "/member/signup/intro"
         }
       }
       const signinId =
@@ -94,10 +103,8 @@ export const options: NextAuthOptions = {
       if (isDormancyMember) {
         return "/member/certification"
       }
-
       return true
     },
-
     async session({ session, token }) {
       session.user = token
       return session
