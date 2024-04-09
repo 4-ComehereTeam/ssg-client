@@ -6,8 +6,9 @@ import { redirect } from "next/navigation"
 
 async function Page() {
   const session = await getServerSession(options)
+  console.log(session)
   if (session) {
-    // redirect("/not-found")
+    redirect("/not-found")
   } else {
     return (
       <>
