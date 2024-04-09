@@ -16,5 +16,6 @@ declare module "next-auth" {
   interface User {
     // id: number // <- here it is
     signinId: string
+    accessToken: string | null
   }
 }
