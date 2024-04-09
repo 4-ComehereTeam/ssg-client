@@ -88,6 +88,8 @@ export async function createUser(initialState: any, formData: FormData) {
     }
   })
 
+  console.log(ssgPointAgrees, ssgcomAgrees)
+
   try {
     const res = await fetch(`${process.env.API_BASE_URL}/auth/signUp`, {
       method: "POST",
@@ -109,11 +111,12 @@ export async function createUser(initialState: any, formData: FormData) {
     if (res.ok) {
       const data = await res.json()
       console.log("signup success:", data.httpStatus)
+    } else {
+      console.log("signup fail:", res.status)
+      return { error: "회원가입에 실패했습니다." }
     }
-    console.log("signup success:", res.status)
-    return { error: "회원가입에 실패했습니다." }
   } catch (error) {
-    console.log("signup fail:", error)
+    console.log("signup error:", error)
     return { error: "회원가입에 실패했습니다." }
   }
 }
