@@ -36,6 +36,8 @@ const RESIGN_LIMIT_COUNT = 3
 export async function createUser(initialState: any, formData: FormData) {
   const validateFields = SignupSchema.safeParse({
     signinId: formData.get("signinId"),
+    checkId: formData.get("checkId"),
+    isDuplId: formData.get("isDuplId"),
     password: formData.get("password"),
     name: formData.get("name"),
     fullAddress: formData.get("fullAddress"),
@@ -50,12 +52,12 @@ export async function createUser(initialState: any, formData: FormData) {
   if (!validateFields.success) {
     const errors = validateFields.error.flatten().fieldErrors
     const firstError = Object.values(errors)[0]
+    console.log(errors)
     return { error: firstError }
   }
 
   const { signinId, password, name, phone, email } = validateFields.data
 
-  //{zipcode, address, detailAddress} 받아오기
   const addressInfo = {
     zipcode: formData.get("zipCode"),
     address: formData.get("fullAddress"),
@@ -70,7 +72,6 @@ export async function createUser(initialState: any, formData: FormData) {
   }
 
   const resignCount = await getResignCount(email)
-  console.log(resignCount)
   if (resignCount >= RESIGN_LIMIT_COUNT) {
     return { error: "3회 이상 탈퇴 시 30일 후에 가입할 수 있습니다." }
   }
@@ -105,7 +106,6 @@ export async function createUser(initialState: any, formData: FormData) {
       }),
     })
     const data = await res.json()
-    console.log(data)
     if (data.isSuccess) {
       console.log("signup success:", data.httpStatus)
     } else {
