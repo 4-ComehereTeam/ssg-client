@@ -17,9 +17,10 @@ export type AllReviewImages = {
 export default async function ReviewContainer({ itemId }: { itemId: string }) {
   const calc = await getItemCalc(itemId)
   const basicInfo = await getItemBasicInfo(itemId)
-  const reviewIds = await getItemReviewIds(basicInfo.itemCode)
+  const itemCode = basicInfo ? basicInfo.itemCode : "0"
+  const reviewIds = await getItemReviewIds(itemCode)
   const allReviewImages: AllReviewImages | null = await getItemAllReviewImages(
-    basicInfo.itemCode,
+    itemCode,
   )
 
   return (

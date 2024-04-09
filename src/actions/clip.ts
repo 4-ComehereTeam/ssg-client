@@ -1,13 +1,7 @@
 "use server"
 
-import { options } from "@/app/api/auth/[...nextauth]/options"
-import { getServerSession } from "next-auth"
+import { getSession } from "@/lib/getSession"
 import { revalidateTag } from "next/cache"
-
-async function getSession() {
-  const session = await getServerSession(options)
-  return session
-}
 
 //개별 상품 좋아요 조회
 export async function getClip(itemId: number | string) {

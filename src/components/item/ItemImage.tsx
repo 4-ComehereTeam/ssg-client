@@ -38,7 +38,7 @@ export default function ItemImage({ images }: ItemImageProps) {
             <SwiperSlide key={image.imageId}>
               <Image
                 src={image.url}
-                alt={image.alt}
+                alt={`${image.alt}-${image.imageId}`}
                 width={0}
                 height={0}
                 sizes="100vw"
