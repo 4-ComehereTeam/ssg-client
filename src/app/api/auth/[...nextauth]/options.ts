@@ -58,12 +58,7 @@ export const options: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    //signIn: authorize후 추가 확인
     async signIn({ user, profile, account }) {
-      console.log("user:", user) //모든 provider에서 제공
-      // console.log("profile:", profile)
-      // console.log("account:", account)
-
       if (account?.provider !== "credentials") {
         //간편회원 아이디가 없으면 간편회원가입 페이지로 이동
         const isExistId = await idDuplCheck(user.id)
