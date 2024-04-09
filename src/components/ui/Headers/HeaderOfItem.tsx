@@ -61,6 +61,7 @@ export default function HeaderOfItem({
     return () => {
       window.removeEventListener("scroll", handleScroll)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleScrollMoveToDesc = () => {

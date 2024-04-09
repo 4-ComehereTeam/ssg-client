@@ -5,26 +5,29 @@ import { getItemBasicInfo } from "@/actions/item"
 export default async function ItemBasicInfo({ itemId }: ItemIdType) {
   const basicInfo = await getItemBasicInfo(itemId)
 
-  const discountPrice =
-    basicInfo.discountRate !== 0
+  const discountPrice = basicInfo
+    ? basicInfo.discountRate !== 0
       ? basicInfo.price * ((100 - basicInfo.discountRate) / 100)
       : basicInfo.price
+    : 0
   const finalPrice = new Intl.NumberFormat().format(Math.round(discountPrice))
-  const originalPrice = new Intl.NumberFormat().format(basicInfo.price)
+  const originalPrice = new Intl.NumberFormat().format(
+    basicInfo ? basicInfo.price : 0,
+  )
   return (
     <div>
       <div className="flex flex-col gap-5 mb-2">
-        <div className="whitespace-pre-line">{basicInfo.itemName}</div>
+        <div className="whitespace-pre-line">{basicInfo?.itemName}</div>
         <div className="flex flex-col">
-          {basicInfo.discountRate !== 0 && (
+          {basicInfo?.discountRate !== 0 && (
             <span className="line-through text-[#777777]">
               {originalPrice}원
             </span>
           )}
           <p>
-            {basicInfo.discountRate !== 0 && (
+            {basicInfo?.discountRate !== 0 && (
               <span className="pr-2 text-[#FF5452] text-[25px] font-extrabold">
-                {basicInfo.discountRate}%
+                {basicInfo?.discountRate}%
               </span>
             )}
             <span className="text-[26px] font-extrabold">{finalPrice}원</span>
