@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import GenderSelectionButton from "../../ui/Buttons/GenderSelectionButton"
+import GenderSelectionButton from "../../ui/Buttons/GenderSelection"
 import { Dropdown } from "../../ui/Dropdown"
 import CertificationAgreeForm from "./CertificationAgreeForm"
 import { certificationAgreements } from "@/data/agreements"
