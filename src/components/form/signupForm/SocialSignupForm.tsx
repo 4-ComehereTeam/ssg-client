@@ -17,11 +17,11 @@ import {
 } from "@/components/shadcnUI/alert-dialog"
 import { useState } from "react"
 import { useFormState } from "react-dom"
-import { useRouter } from "next/navigation"
 import { AgreementsType, MktReceiveMethodsType } from "@/types/agreementType"
 import { createSimpleUser } from "@/actions/signup/createSimpleUser"
-import { useSession } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 import GenderSelection from "@/components/ui/Buttons/GenderSelection"
+import SocialSignupAgree from "./SocialSignupAgree"
 
 export default function SocialSignupForm() {
   const { data: session } = useSession()
@@ -34,7 +34,6 @@ export default function SocialSignupForm() {
   const [state, formAction] = useFormState(createSimpleUser, {
     error: "",
   })
-  const router = useRouter()
 
   //마케팅수신동의 - 쓱닷컴
   const handleSsgcomChange = (
@@ -64,25 +63,30 @@ export default function SocialSignupForm() {
     return result
   }
 
-  const handleRoute = () => {
-    if (!state?.error) router.push("/member/signin")
+  const handleRoute = async () => {
+    if (!state?.error) {
+      await signOut({ redirect: true, callbackUrl: "/member/signin" })
+    }
   }
 
   console.log()
 
   return (
     <form className="text-[14px] overflow-hidden" action={formAction}>
+      <h3 className="px-5 py-3.5 bg-[#F8F8F8] text-xs">약관 동의</h3>
+      <SocialSignupAgree />
       <h3 className="px-5 py-3.5 bg-[#F8F8F8] text-xs">회원 정보</h3>
       <section className="px-5 text-[13px] tracking-tight">
         <section className="py-4 border-b">
           <dl className="flex flex-row items-center">
             <dt className="w-20">이메일</dt>
-            <dd>
+            <dd className="w-full">
               <input
                 readOnly
                 type="text"
                 name="email"
                 value={session ? session.user.email : ""}
+                className="w-full"
               />
             </dd>
           </dl>
@@ -165,8 +169,8 @@ export default function SocialSignupForm() {
                   <br />
                   [마케팅 정보 수신 동의 변경일]
                   <br />
-                  `${new Date().getFullYear()}년 ${new Date().getMonth() + 1}월
-                  ${new Date().getDate()}일`
+                  {new Date().getFullYear()}년 {new Date().getMonth() + 1}월{" "}
+                  {new Date().getDate()}일
                   <br />
                   <br />
                   [마케팅 정보 수신 동의 안내]
