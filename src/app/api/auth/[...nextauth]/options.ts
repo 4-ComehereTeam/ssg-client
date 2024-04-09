@@ -79,8 +79,7 @@ export const options: NextAuthOptions = {
             const data = await res.json()
             if (data.result) {
               console.log("socialSignin success:", res.status)
-              data.result.accessToken = res.headers.get("accessToken")
-              //jwt콜백에서 저장됐는지 확인하기
+              user.accessToken = res.headers.get("accessToken")
             } else {
               throw data.message
             }
@@ -107,9 +106,9 @@ export const options: NextAuthOptions = {
     async jwt({ token, user }) {
       return { ...token, ...user }
     },
-    async redirect({ url, baseUrl }) {
-      return url.startsWith(baseUrl) ? url : baseUrl
-    },
+    // async redirect({ url, baseUrl }) {
+    //   return url.startsWith(baseUrl) ? url : baseUrl
+    // },
   },
   pages: {
     signIn: "/member/signin",
