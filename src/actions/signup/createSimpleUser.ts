@@ -16,6 +16,9 @@ const RESIGN_LIMIT_COUNT = 3
 
 export async function createSimpleUser(initialState: any, formData: FormData) {
   const validateFields = SimpleSignupSchema.safeParse({
+    ssgcomAgree1: formData.get("ssgcomAgree1"),
+    ssgcomAgree2: formData.get("ssgcomAgree2"),
+    over14: formData.get("over14"),
     name: formData.get("name"),
     phone: formData.get("phone"),
     email: formData.get("email"),
@@ -50,7 +53,6 @@ export async function createSimpleUser(initialState: any, formData: FormData) {
   })
 
   const session = await getSession()
-  console.log("in createSimpleUser:", session)
 
   try {
     const res = await fetch(`${process.env.API_BASE_URL}/oauth/signup`, {
@@ -68,12 +70,12 @@ export async function createSimpleUser(initialState: any, formData: FormData) {
     })
     const data = await res.json()
     if (data.isSuccess) {
-      console.log("signup success:", data.httpStatus)
+      console.log("socialSignup success:", data.httpStatus)
     } else {
       throw data
     }
   } catch (error) {
-    console.log("signup error:", error)
+    console.log("socialSignup error:", error)
     return { error: "회원가입에 실패했습니다." }
   }
 }
