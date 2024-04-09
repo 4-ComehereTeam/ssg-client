@@ -375,8 +375,8 @@ export default function SignupForm() {
                   <br />
                   [마케팅 정보 수신 동의 변경일]
                   <br />
-                  `${new Date().getFullYear()}년 ${new Date().getMonth() + 1}월
-                  ${new Date().getDate()}일`
+                  {new Date().getFullYear()}년 {new Date().getMonth() + 1}월{" "}
+                  {new Date().getDate()}일
                   <br />
                   <br />
                   [마케팅 정보 수신 동의 안내]
