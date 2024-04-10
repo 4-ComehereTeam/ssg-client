@@ -115,3 +115,39 @@ export const SimpleSignupSchema = z.object({
       message: "성별은 필수 선택 항목입니다.",
     }),
 })
+
+export const FindUserByEmailSchema = z.object({
+  email: z
+    .string({
+      required_error: "이메일 형식에 맞지 않습니다. (예: user@ssg.com)",
+    })
+    .email({
+      message: "이메일 형식에 맞지 않습니다. (예: user@ssg.com)",
+    }),
+  name: z.string().min(1, {
+    message: "이름은 필수 입력 항목입니다.",
+  }),
+})
+
+export const FindIdSchema = z.object({
+  email: z
+    .string({
+      required_error: "이메일 형식에 맞지 않습니다. (예: user@ssg.com)",
+    })
+    .email({
+      message: "이메일 형식에 맞지 않습니다. (예: user@ssg.com)",
+    }),
+  name: z.string().min(1, {
+    message: "이름은 필수 입력 항목입니다.",
+  }),
+})
+
+export const FindPwSchema = z.object({
+  newPassword: z
+    .string()
+    .regex(
+      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/,
+      "비밀번호는 영문, 숫자 조합 8~20자리여야 합니다.",
+    )
+    .trim(),
+})

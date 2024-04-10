@@ -33,7 +33,6 @@ export async function getClip(itemId: number | string) {
 export async function postClip(itemId: number | string) {
   revalidateTag("getClipItemIds")
   const session = await getSession()
-  console.log(session?.user.accessToken)
   try {
     const res = await fetch(`${process.env.API_BASE_URL}/clip/item/${itemId}`, {
       method: "POST",
