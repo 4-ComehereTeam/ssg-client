@@ -15,7 +15,7 @@ export async function findUserByEmail(initialState: any, formData: FormData) {
   if (!validateFields.success) {
     const errors = validateFields.error.flatten().fieldErrors
     const firstError = Object.values(errors)[0]
-    return { ...initialState, error: firstError }
+    return { error: firstError, isExistingMember: false }
   }
 
   const { email } = validateFields.data
@@ -32,17 +32,16 @@ export async function findUserByEmail(initialState: any, formData: FormData) {
     })
     if (res.ok) {
       const data = await res.json()
-      console.log("findUserByEmail success:", data.httpStatus)
-      return { ...initialState, isExistingMember: data.result ? true : false }
+      console.log("findUserByEmail success:", data)
+      if (data.result) {
+        return { error: "존재하지 않는 회원입니다.", isExistingMember: false }
+      } else {
+        return { error: "", isExistingMember: true }
+      }
     }
-    throw res.status
   } catch (error) {
     console.log("findUserByEmail error:", error)
-    return {
-      ...initialState,
-      error: "존재하지 않는 회원입니다.",
-      isExistingMember: false,
-    }
+    return { error: "존재하지 않는 회원입니다.", isExistingMember: false }
   }
 }
 export async function findId(initialState: any, formData: FormData) {
@@ -82,7 +81,7 @@ export async function findId(initialState: any, formData: FormData) {
   }
 }
 
-export async function findPw(initialState: any, formData: FormData) {
+export async function findPwModify(initialState: any, formData: FormData) {
   const validateFields = FindPwSchema.safeParse({
     newPassword: formData.get("newPassword"),
   })
@@ -90,7 +89,6 @@ export async function findPw(initialState: any, formData: FormData) {
   if (!validateFields.success) {
     const errors = validateFields.error.flatten().fieldErrors
     const firstError = Object.values(errors)[0]
-    console.log(errors)
     return { error: firstError }
   }
 
@@ -113,9 +111,9 @@ export async function findPw(initialState: any, formData: FormData) {
       }),
     })
     const data = await res.json()
-    console.log("findPassword success:", data.httpStatus)
+    console.log("findPwModify success:", data.httpStatus)
   } catch (error) {
-    console.log("findPassword error:", error)
+    console.log("findPwModify error:", error)
     return { error: "비밀번호 변경에 실패했습니다." }
   }
 }
