@@ -116,6 +116,19 @@ export const SimpleSignupSchema = z.object({
     }),
 })
 
+export const FindUserByEmailSchema = z.object({
+  email: z
+    .string({
+      required_error: "이메일 형식에 맞지 않습니다. (예: user@ssg.com)",
+    })
+    .email({
+      message: "이메일 형식에 맞지 않습니다. (예: user@ssg.com)",
+    }),
+  name: z.string().min(1, {
+    message: "이름은 필수 입력 항목입니다.",
+  }),
+})
+
 export const FindIdSchema = z.object({
   email: z
     .string({
