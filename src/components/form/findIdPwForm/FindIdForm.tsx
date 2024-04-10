@@ -13,15 +13,29 @@ import {
   AlertDialogHeader,
   AlertDialogTrigger,
 } from "@/components/shadcnUI/alert-dialog"
+import { useRouter } from "next/navigation"
 
 export default function FindIdForm() {
   const [state, formAction] = useFormState(findId, {
     error: "",
     signinId: "",
   })
+  const router = useRouter()
+
+  const handleRouter = () => {
+    router.push("/member/signin")
+  }
 
   if (state.signinId) {
-    return <div>{state.signinId}</div>
+    const signinId =
+      state.signinId.substring(0, 3) + "*".repeat(state.signinId.length - 3)
+    return (
+      <div>
+        <span>아이디</span>
+        <span>{signinId}</span>
+        <button onClick={handleRouter}>로그인하기</button>
+      </div>
+    )
   }
   return (
     <form className="grid grid-row-5 gap-2 mx-3" action={formAction}>
