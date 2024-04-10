@@ -1,6 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
   images: {
     remotePatterns: [
       {
@@ -21,6 +26,11 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "img.icons8.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "succ.ssgcdn.com",
         pathname: "**",
       },
     ],

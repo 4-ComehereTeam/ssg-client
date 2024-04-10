@@ -8,23 +8,30 @@ import QuickMenuItemLong from "./ui/QuickMenuItemLong";
 export default function QuickMenu(){
     const [scrollPercent, setScrollPercent] = useState(0);
 
-    const progress = (event:any) => {
-        const { scrollLeft } = event.target;
-        console.log("scrollLeft >>", scrollLeft);
+    // const progress = (event:any) => {
+    //     const { scrollLeft } = event.target;
+    //     console.log("scrollLeft >>", scrollLeft);
 
-        // 스크롤한 비율 계산
-        const percentScrolled = Math.ceil((scrollLeft / 416) * 80);
-        // scrollPercent 상태 변수 업데이트
-        console.log(percentScrolled, "%");
-        setScrollPercent(percentScrolled + 20);
-    }
+    //     // 스크롤한 비율 계산
+    //     const percentScrolled = Math.ceil((scrollLeft / 416) * 80);
+    //     // scrollPercent 상태 변수 업데이트
+    //     console.log(percentScrolled, "%");
+    //     setScrollPercent(percentScrolled + 20);
+    // }
+
+    const progress = (event: any) => {
+        const { scrollLeft } = event.target;
+    
+        const percentScrolled = Math.ceil((scrollLeft / (event.target.scrollWidth - screen.width)) * 90);
+        setScrollPercent(percentScrolled);
+    };
 
     console.log("scrollPercent >>", scrollPercent);
 
 return(
     <>
         <div className="overflow-auto scrollbar-hide" onScroll={progress}>
-            <div className="w-[750px] m-4" >
+            <div className="w-fit mx-4 my-10" >
 
                 <div className="flex ">
                     <QuickMenuItem name="쓱배송" path="https://m.ssg.com/page/dvstore_emart.ssg?mGnbYn=N" src="https://simg.ssgcdn.com/trans.ssg?src=/cmpt/banner/202401/2024010509051067186177991717_407.png&amp;w=128&amp;h=128"/>
@@ -40,7 +47,7 @@ return(
                     <QuickMenuItem name="자주구매" path="http://m.ssg.com/express/freqbuy.ssg" src="https://simg.ssgcdn.com/trans.ssg?src=/cmpt/banner/202401/2024010509191930136537917653_371.png&amp;w=128&amp;h=128"/>
                     <QuickMenuItem name="선물하기" path="https://m.ssg.com/service/gift/main.ssg" src="https://simg.ssgcdn.com/trans.ssg?src=/cmpt/banner/202401/2024010509195916439037718903_410.png&amp;w=128&amp;h=128"/>
                 </div>
-                <div className="flex">
+                <div className="flex my-4">
                     <QuickMenuItemLong name="백화점" path="https://m-shinsegaemall.ssg.com/page/dept/home.ssg?ldt=menu&amp;mccode=6009" src="https://simg.ssgcdn.com/trans.ssg?src=/cmpt/banner/202306/2023062211334531279051274015_740.png&amp;w=128&amp;h=192"/>
                     <QuickMenuItemLong name="S.I. Village" path="https://si.mfamily.ssg.com/" src="https://simg.ssgcdn.com/trans.ssg?src=/cmpt/banner/202403/2024031313232892407800438780_352.png&amp;w=128&amp;h=192"/>
                     <QuickMenuItemLong name="프리미엄 식품관" path="https://m.ssg.com/page/ssgfoodmarket/main.ssg" src="https://simg.ssgcdn.com/trans.ssg?src=/cmpt/banner/202306/2023062011223156401848383184_744.png&amp;w=128&amp;h=192"/>
@@ -55,8 +62,11 @@ return(
                     <QuickMenuItemLong name="페라가모" path="https://m-shinsegaemall.ssg.com/specialStore/salvatoreferragamo/main.ssg" src="https://simg.ssgcdn.com/trans.ssg?src=/cmpt/banner/202308/2023083016393675468768254976_98.png&amp;w=128&amp;h=192"/> 
                 </div>
 
-                <div className="bg-slate-300 h-0.5 w-full my-2">
+                {/* <div className="bg-slate-300 h-0.5 w-full my-2">
                     <div className={`bg-black h-0.5 `} style={{width : `${scrollPercent}%`}}></div>
+                </div> */}
+                <div className="h-[0.07rem] w-[98%] mx-auto my-2 bg-zinc-200 leading-10">
+                    <div className={`bg-black h-[0.15rem] `} style={{ width: `${scrollPercent + 10}%` }}></div>
                 </div>
 
             </div>

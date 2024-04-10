@@ -18,7 +18,7 @@ export default function ButtonOfOrder({amount}:{amount : number}){
     return(
         <>
             <Link href={"/order/complete"}>
-                <div className="bg-[#ff5452] p-4 sticky right-0 left-0 bottom-0 z-10 text-center">
+                <div className="bg-[#ff5452] p-4 fixed right-0 left-0 bottom-0 z-10 text-center ">
                     <span className="text-white font-normal">
                         <span className="font-bold">{addCommas(amount)}원</span> 결제하기
                     </span>

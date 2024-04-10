@@ -18,11 +18,9 @@ export default function SocialButton({
 }: SocialButtonProps) {
   return (
     <button
-      onClick={(e) => {
+      onClick={async (e) => {
         e.preventDefault()
-        signIn(provider, {
-          callbackUrl: "/",
-        })
+        await signIn(provider, { redirect: false })
       }}
     >
       <Image

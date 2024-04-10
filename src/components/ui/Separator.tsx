@@ -1,7 +1,8 @@
 interface SeparatorProps {
   className?: string
+  height?: string
 }
 
-export default function Separator({ className }: SeparatorProps) {
-  return <div className={`shrink-0 w-px h-3 bg-gray-400 ${className}`} />
+export default function Separator({ className, height = "3" }: SeparatorProps) {
+  return <div className={`shrink-0 h-${height} bg-gray-400 ${className}`} />
 }

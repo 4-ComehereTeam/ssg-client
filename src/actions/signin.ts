@@ -19,11 +19,9 @@ export async function signin(initialState: any, formData: FormData) {
   const { signinId, password } = validateFields.data
 
   try {
-    //auth의 credentialsProvider의 authorize 수행
     await signIn("credentials", {
       signinId: signinId,
       password: password,
-      redirectTo: "/", //TODO: 마이페이지로 리다이렉트하기
     })
   } catch (error) {
     if (error instanceof AuthError) {
@@ -34,7 +32,6 @@ export async function signin(initialState: any, formData: FormData) {
           return { error: "비정상적인 접근입니다." }
       }
     }
-    console.log("credentials error:", error)
     return { error: "비정상적인 접근입니다." }
   }
 }

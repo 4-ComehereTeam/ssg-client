@@ -62,3 +62,17 @@ export const certificationAgreements = [
   { num: 3, id: "agree4", text: "서비스 이용약관 동의" },
   { num: 4, id: "agreeAll", text: "전체 동의" },
 ]
+
+export const simpleSignupAgreeements = [
+  { num: 0, id: "ssgcomAgree1", text: "(필수) SSG.COM 회원 이용약관" },
+  {
+    num: 1,
+    id: "ssgcomAgree2",
+    text: "(필수) SSG.COM 회원 개인정보 수집 및 이용동의",
+  },
+  {
+    num: 2,
+    id: "over14",
+    text: "(필수) 만 14세 이상 회원입니다.",
+  },
+]

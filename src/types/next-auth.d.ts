@@ -4,7 +4,7 @@ declare module "next-auth" {
   interface Session {
     user: {
       id: string
-      token: string
+      accessToken: string
       name: string
       email: string
       uuid: string
@@ -15,5 +15,7 @@ declare module "next-auth" {
 declare module "next-auth" {
   interface User {
     // id: number // <- here it is
+    signinId: string
+    accessToken: string | null
   }
 }

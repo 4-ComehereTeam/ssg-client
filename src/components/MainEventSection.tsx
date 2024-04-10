@@ -17,7 +17,7 @@ export default function MainEventSection() {
   }
 
   return (
-    <section className='relative overflow-hidden pb-bottom '>
+    <section className='relative overflow-hidden pb-bottom min-h-[80vh]'>
       <div
         className='absolute overflow-hidden top-0 right-0 bottom-[50px] left-0 bg-cover border-solid border-0'
         style={{
