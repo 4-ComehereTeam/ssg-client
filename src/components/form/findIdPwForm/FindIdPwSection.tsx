@@ -48,7 +48,7 @@ export default function FindIdPwSection({ findId }: { findId: boolean }) {
       <div className="flex flex-col gap-7 py-5 text-xs bg-white border-x-[1px] border-x-gray-300">
         {isFindId ? (
           <FindIdForm />
-        ) : !isExistingMember ? (
+        ) : isExistingMember ? (
           <FindPwForm payload={payload} />
         ) : (
           <FindUserForm handleExistingMember={handleExistingMember} />
