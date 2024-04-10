@@ -12,6 +12,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/shadcnUI/alert-dialog"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 export default function FindPwForm({
   payload,
@@ -25,12 +26,19 @@ export default function FindPwForm({
     newPassword: "",
     confirmPassword: "",
   })
+  const router = useRouter()
 
   const handlePasswordConfirm = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPsswards({
       ...passwords,
       [e.target.name]: e.target.value,
     })
+  }
+
+  const handleRouter = () => {
+    if (!state?.error) {
+      router.push("/member/signin")
+    }
   }
 
   return (
@@ -66,6 +74,7 @@ export default function FindPwForm({
         <AlertDialogTrigger
           type="submit"
           className="px-16 text-lg text-white whitespace-nowrap bg-[#FF5B7E] h-10 rounded"
+          onClick={handleRouter}
         >
           확인
         </AlertDialogTrigger>
