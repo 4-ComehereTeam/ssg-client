@@ -11,6 +11,7 @@ import {
   AlertDialogHeader,
   AlertDialogTrigger,
 } from "@/components/shadcnUI/alert-dialog"
+import { useState } from "react"
 
 export default function FindPwForm({
   payload,
@@ -20,23 +21,47 @@ export default function FindPwForm({
   const [state, formAction] = useFormState(findPw, {
     error: "",
   })
+  const [passwords, setPsswards] = useState({
+    newPassword: "",
+    confirmPassword: "",
+  })
+
+  const handlePasswordConfirm = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPsswards({
+      ...passwords,
+      [e.target.name]: e.target.value,
+    })
+  }
+
   return (
     <form className="grid grid-row-5 gap-2 mx-3" action={formAction}>
       <h3 className="font-bold text-xs">비밀번호 변경</h3>
       <input hidden readOnly name="email" value={payload.email} />
       <input hidden readOnly name="name" value={payload.name} />
       <input
+        className="h-8 text-sm pl-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-orange-500 focus:ring-orange-500 block w-full sm:text-sm focus:ring-1 rounded"
         placeholder="영문, 숫자 조합 8~20자리"
         name="newPassword"
         type="password"
-        className="h-8 text-sm pl-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-orange-500 focus:ring-orange-500 block w-full sm:text-sm focus:ring-1 rounded"
+        onChange={handlePasswordConfirm}
       />
       <input
+        className="h-8 text-sm pl-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-orange-500 focus:ring-orange-500 block w-full sm:text-sm focus:ring-1 rounded"
         placeholder="비밀번호 확인"
         name="confirmPassword"
         type="password"
-        className="h-8 text-sm pl-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-orange-500 focus:ring-orange-500 block w-full sm:text-sm focus:ring-1 rounded"
+        onChange={handlePasswordConfirm}
       />
+      {passwords.newPassword.length > 0 &&
+        passwords.confirmPassword.length > 0 &&
+        passwords.newPassword !== passwords.confirmPassword && (
+          <p className="text-[#FF5452]">비밀번호가 일치하지 않습니다.</p>
+        )}
+      {passwords.newPassword.length > 0 &&
+        passwords.confirmPassword.length > 0 &&
+        passwords.newPassword === passwords.confirmPassword && (
+          <p className="text-[#4fdd43]">비밀번호가 일치합니다.</p>
+        )}
       <AlertDialog>
         <AlertDialogTrigger
           type="submit"
