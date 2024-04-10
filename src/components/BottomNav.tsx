@@ -5,7 +5,10 @@ export default function BottomNav() {
   return (
     <nav className="sticky bottom-0 border-t border-slate-200 flex justify-between w-full bg-white z-50 h-[50px]">
       <div className="text-center flex items-center justify-center flex-grow">
-        <Link href="#" className="flex flex-col justify-center items-center">
+        <Link
+          href="/category"
+          className="flex flex-col justify-center items-center"
+        >
           <Image
             width="28"
             height="28"
