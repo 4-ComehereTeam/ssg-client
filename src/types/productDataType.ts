@@ -10,4 +10,6 @@ export interface ProductDataType {
   salePrice: number | null;
   reviewRating: number;
   reviewCount: number;
+  imageUrl : string
+  alt : string
 }

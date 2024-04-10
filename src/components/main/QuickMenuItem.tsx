@@ -14,7 +14,7 @@ const lineBreak = (text: string) => {
 
 export default function QuickMenuItem({ name, path, src }: QuickMenuItemProp) {
   return (
-    <div className=" text-center text-xs mr-[12px] font-[Pretendard-Thin] w-[64px]">
+    <div className=" text-center text-xs mr-[12px] w-[64px] font-[Pretendard-Light]">
       <a href={path} className="w-[64px] block ">
         <div className="w-[64px]">
           <Image

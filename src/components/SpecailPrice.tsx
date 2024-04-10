@@ -15,7 +15,9 @@ export default function SpecailPrice() {
         sale={null}
         salePrice={null}
         reviewRating={0}
-        reviewCount={0} />
+        reviewCount={0} 
+        imageUrl={""}
+        alt={""}/>
     </div>
   )
 }

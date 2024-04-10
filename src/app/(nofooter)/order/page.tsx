@@ -10,7 +10,6 @@ import ButtonOfOrder from "@/components/ui/Buttons/ButtonOfOrder";
 
 export default function OrderPage(){
 
-
     return(
         <>
             <HeaderToBack title="결제하기" />

@@ -33,7 +33,7 @@ export default function LargeCategorySlideButton() {
     <div className='col-start-2 col-end-auto ms-[(1rem)*-1] me-[(1rem)*-1] top-[46px] sticky z-[1000] bg-white'>
       <div className='flex-start flex-shrink-0 align-middle relative pr-[54px] overflow-x-scroll'>
         <div className='h-[56px] overflow-hidden text-nowrap flex'>
-          <div className='flex-nowrap pt-[10px] pb-[10px] ps-3 pe-1 overflow-scroll'>
+          <div className='flex-nowrap pt-[10px] pb-[10px] ps-3 pe-1 overflow-scroll scrollbar-hide'>
             {
               lCategoryDummy.map((category, idx) => {
                 if (category.title === '') {
