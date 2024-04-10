@@ -3,22 +3,17 @@
 import { useState } from "react"
 import FindIdForm from "./FindIdForm"
 import FindPwForm from "./FindPwForm"
-import FindUserForm from "./FindUserForm"
 
 export default function FindIdPwSection({ findId }: { findId: boolean }) {
   const [isFindId, setIsFindId] = useState(findId)
-  const [isExistingMember, setIsExistingMember] = useState(false)
   const [payload, setPayload] = useState({
     email: "",
     name: "",
   })
 
-  const handleExistingMember = (
-    isExistingMember: boolean,
-    payload: { email: string; name: string },
-  ) => {
-    setIsExistingMember(isExistingMember)
+  const goModifyPwPage = (payload: { email: string; name: string }) => {
     setPayload(payload)
+    setIsFindId(false)
   }
 
   return (
@@ -47,18 +42,16 @@ export default function FindIdPwSection({ findId }: { findId: boolean }) {
       </ul>
       <div className="flex flex-col gap-7 py-5 text-xs bg-white border-x-[1px] border-x-gray-300">
         {isFindId ? (
-          <FindIdForm />
-        ) : isExistingMember ? (
-          <FindPwForm payload={payload} />
+          <FindIdForm goModifyPwPage={goModifyPwPage} />
         ) : (
-          <FindUserForm handleExistingMember={handleExistingMember} />
+          <FindPwForm payload={payload} />
         )}
-        <ul className="text-[10px] mt-5 px-3 list-disc list-inside">
-          <li>
+        <ul className="text-[10px] mt-5 px-3 max-w-[550px] list-disc list-inside">
+          <li className="w-full">
             이메일계정을 통해 {isFindId ? "아이디" : "비밀번호"}를 찾을 수
             있습니다.
           </li>
-          <li>
+          <li className="w-full">
             SSG에서 제공드리는 방법으로 {isFindId ? "아이디" : "비밀번호"}를
             찾으실 수 없는 고객님께서는 SSG 고객센터(1577-3419)로 연락주시기
             바랍니다.

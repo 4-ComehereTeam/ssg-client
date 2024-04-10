@@ -14,11 +14,12 @@ import {
 import { useFormState } from "react-dom"
 import { findUserByEmail } from "@/actions/findIdPw"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 export default function FindUserForm({
-  handleExistingMember,
+  handlePayload,
 }: {
-  handleExistingMember: (
+  handlePayload: (
     isExistingMember: boolean,
     payload: { email: string; name: string },
   ) => void
@@ -31,12 +32,23 @@ export default function FindUserForm({
     email: "",
     name: "",
   })
+  const router = useRouter()
 
   const onChangePayload = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPayload({
       ...payload,
       [e.target.name]: e.target.value,
     })
+  }
+
+  const goModifyPwPage = () => {
+    if (state?.isExistingMember) {
+      handlePayload(state.isExistingMember, {
+        email: payload.email,
+        name: payload.name,
+      })
+      router.refresh()
+    }
   }
 
   return (
@@ -63,25 +75,25 @@ export default function FindUserForm({
       <AlertDialog>
         <AlertDialogTrigger
           type="submit"
-          className="px-16 text-lg text-white whitespace-nowrap bg-[#FF5B7E] h-10 rounded"
-          onClick={() => handleExistingMember(state.isExistingMember, payload)}
+          className={`px-16 text-lg text-white whitespace-nowrap bg-[#FF5B7E] h-10 rounded`}
         >
           확인
         </AlertDialogTrigger>
-        {state.error && (
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogDescription>
-                <span>{state?.error}</span>
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel className="bg-[#FF5452] text-white">
-                확인
-              </AlertDialogCancel>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        )}
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogDescription>
+              {state?.error ? state.error : "비밀번호를 변경합니다."}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel
+              className="bg-[#FF5B7E] text-white"
+              onClick={goModifyPwPage}
+            >
+              확인
+            </AlertDialogCancel>
+          </AlertDialogFooter>
+        </AlertDialogContent>
       </AlertDialog>
     </form>
   )
