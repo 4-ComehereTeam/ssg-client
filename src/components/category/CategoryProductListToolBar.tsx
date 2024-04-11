@@ -1,3 +1,5 @@
+"use client"
+
 import backArrow from "@/asset/images/backArrow.svg"
 import Link from "next/link"
 import React, { useState } from "react"
@@ -6,10 +8,7 @@ import Image from "next/image"
 // import CategoryListModal from '@/components/modal/CategoryListModal';
 
 export default function CategoryProductListToolBar() {
-  // 카테고리 리스트 모달 상태 관리용 useState 선언
   const [isOpenModal, setIsOpenModal] = useState(false)
-
-  // 뒤로가기 버튼 클릭용 useRouter 선언
   const router = useRouter()
 
   return (
@@ -23,11 +22,8 @@ export default function CategoryProductListToolBar() {
             router.back()
           }}
         >
-          <span className="w-[1px] h-[1px] -mx-[1px] -my-[1px] p-0 overflow-hidden text-nowrap absolute">
-            이전 페이지
-          </span>
           <div className="w-5 h-5 inline-block flex-shrink-0 align-middle">
-            <Image alt="backArrow" src={backArrow} width={30} height={30} />
+            <Image alt="이전 페이지" src={backArrow} width={30} height={30} />
           </div>
         </Link>
       </div>
@@ -40,7 +36,7 @@ export default function CategoryProductListToolBar() {
             width="24"
             height="24"
             src="https://img.icons8.com/material-rounded/24/expand-arrow--v1.png"
-            alt="expand-arrow--v1"
+            alt="하위 카테고리 펼치기"
             className="-rotate-90"
           />
         </div>
@@ -50,9 +46,6 @@ export default function CategoryProductListToolBar() {
         >
           <p className="text-sm font-bold overflow-hidden text-ellipsis">
             중/소/세부분류
-            <span className="w-[1px] h-[1px] overflow-hidden text-nowrap absolute p-0 -ms-[1px] -me-[1px]">
-              열기
-            </span>
           </p>
           <div
             className={`w-4 h-4 inline-block ${
@@ -63,7 +56,7 @@ export default function CategoryProductListToolBar() {
               width="10"
               height="10"
               src="https://img.icons8.com/material-sharp/24/give-way--v1.png"
-              alt="give-way--v1"
+              alt="중"
             />
           </div>
         </button>
@@ -76,7 +69,7 @@ export default function CategoryProductListToolBar() {
               width="20"
               height="20"
               src="https://img.icons8.com/external-those-icons-lineal-those-icons/24/external-heart-love-those-icons-lineal-those-icons.png"
-              alt="external-heart-love-those-icons-lineal-those-icons"
+              alt="카테고리 좋아요"
             />
           </div>
         </button>
@@ -88,7 +81,7 @@ export default function CategoryProductListToolBar() {
               width="20"
               height="20"
               src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/64/external-share-interface-kiranshastry-lineal-kiranshastry-2.png"
-              alt="external-share-interface-kiranshastry-lineal-kiranshastry-2"
+              alt="공유"
             />
           </div>
         </button>
