@@ -21,7 +21,6 @@ export default function SubCategorySlideButton({
   const [isOpenAllCategory, setIsOpenAllCategory] = useState(false)
   const buttonRefs = useRef<HTMLButtonElement[]>([])
 
-  /** useRef를 사용하여 선택된 값이 중앙으로 오도록 설정 */
   const handleCategoryClick = (index: number) => {
     setSelectedIndex(index)
     if (buttonRefs.current[index]) {
@@ -91,7 +90,7 @@ export default function SubCategorySlideButton({
                     width="24"
                     height="24"
                     src="https://img.icons8.com/material-rounded/24/expand-arrow--v1.png"
-                    alt="expand-arrow--v1"
+                    alt="카테고리 펼치기"
                     className="-rotate-90"
                   />
                 </div>
