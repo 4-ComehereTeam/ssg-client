@@ -15,7 +15,7 @@ export default function BigCategory({
   }
   return (
     <div>
-      <div>
+      <div className="flex flex-col items-center">
         <Image
           src={src}
           width={64}
@@ -23,7 +23,9 @@ export default function BigCategory({
           alt={bigCategoryName}
           priority
         />
-        <p className="text-[10px] text-gray-500">{bigCategoryName}</p>
+        <p className="text-[11px] text-gray-500 text-center">
+          {bigCategoryName}
+        </p>
       </div>
     </div>
   )
