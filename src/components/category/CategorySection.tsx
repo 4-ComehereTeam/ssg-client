@@ -3,7 +3,7 @@
 import {
   BigCategoriesData,
   getMiddleCategories,
-  MiddleCategories,
+  Categories,
 } from "@/actions/category/category"
 import CategoryTable from "./CategoryTable"
 import { useState } from "react"
@@ -20,7 +20,7 @@ export default function CategorySection({
       isOpen: false,
     })),
   )
-  const [middleCategories, setMiddleCategories] = useState<MiddleCategories>([])
+  const [middleCategories, setMiddleCategories] = useState<Categories>([])
 
   const handleMiddleCategories = async (bigCategoryId: number) => {
     setOpenMiddles((prevOpenMiddles) =>
