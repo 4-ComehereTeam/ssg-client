@@ -1,5 +1,5 @@
 import { getBigCategories } from "@/actions/category/category"
-import CategoryTable from "@/components/category/CategoryTable"
+import CategorySection from "@/components/category/CategorySection"
 import { redirect } from "next/navigation"
 
 export default async function CategoryPage() {
@@ -7,5 +7,5 @@ export default async function CategoryPage() {
   if (!result) {
     redirect("/not-found")
   }
-  return <CategoryTable bigCategoriesData={result} />
+  return <CategorySection bigCategoriesData={result} />
 }
