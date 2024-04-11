@@ -39,7 +39,6 @@ export default function CategorySection({
   const openBigId = openMiddles.find((mid) => mid.isOpen)?.id
   const isOpenMid = openMiddles.find((mid) => mid.isOpen)?.isOpen
 
-  console.log(openMiddles)
   return (
     <>
       {Array.from({ length: row }, (_, index) => {
