@@ -1,11 +1,14 @@
-'use client'
-
-import SubCategorySlideButton from "@/components/category/SubCategorySlideButton";
-import ProductList from "@/components/category/ProductList";
-import SubCategoryTable from "@/components/category/SubCategoryTable";
-import CategoryProductListToolBar from "@/components/category/CategoryProductListToolBar";
-export default function CategoryProductListPage() {
-
+import SubCategorySlideButton from "@/components/category/SubCategorySlideButton"
+import ProductList from "@/components/category/ProductList"
+import SubCategoryTable from "@/components/category/SubCategoryTable"
+import CategoryProductListToolBar from "@/components/category/CategoryProductListToolBar"
+export default function CategoryProductListPage({
+  params,
+}: {
+  params: string[]
+}) {
+  //params의 뒤 2개 id만 가지고 api 호출
+  console.log("params:", params)
   return (
     <div className="min-h-screen">
       <div className="contents">
