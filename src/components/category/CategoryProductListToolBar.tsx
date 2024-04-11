@@ -7,10 +7,25 @@ import { useRouter } from "next/navigation"
 import Image from "next/image"
 // import CategoryListModal from '@/components/modal/CategoryListModal';
 
-export default function CategoryProductListToolBar() {
+type CategoryProductListToolBarProps = {
+  bigCategoryName: string
+  midCategoryName: string
+  smallCategoryName: string
+}
+
+export default function CategoryProductListToolBar({
+  bigCategoryName,
+  midCategoryName,
+  smallCategoryName,
+}: CategoryProductListToolBarProps) {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const router = useRouter()
-
+  const superCategoryName = smallCategoryName
+    ? midCategoryName
+    : bigCategoryName
+  const subCategoryName = smallCategoryName
+    ? smallCategoryName
+    : midCategoryName
   return (
     <div className="flex flex-row w-full h-[46px] bg-white items-center pl-3 pr-3 sticky top-0 z-10">
       <div className="items-center h-full">
@@ -29,14 +44,16 @@ export default function CategoryProductListToolBar() {
       </div>
       <div className="pl-5 pr-3 items-center flex">
         <div className="inline-flex flex-wrap content-center">
-          <p className="text-gray-600 text-sm text-ellipsis">대/중/소분류</p>
+          <p className="text-gray-600 text-sm text-ellipsis">
+            {superCategoryName}
+          </p>
         </div>
         <div className="w-3 h-3 inline-block flex-shrink-0 align-middle mx-1">
           <Image
             width="24"
             height="24"
             src="https://img.icons8.com/material-rounded/24/expand-arrow--v1.png"
-            alt="하위 카테고리 펼치기"
+            alt="카테고리 펼치기"
             className="-rotate-90"
           />
         </div>
@@ -45,7 +62,7 @@ export default function CategoryProductListToolBar() {
           className="inline-flex h-8 justify-center items-center"
         >
           <p className="text-sm font-bold overflow-hidden text-ellipsis">
-            중/소/세부분류
+            {subCategoryName ? subCategoryName : "전체보기"}
           </p>
           <div
             className={`w-4 h-4 inline-block ${
@@ -56,7 +73,7 @@ export default function CategoryProductListToolBar() {
               width="10"
               height="10"
               src="https://img.icons8.com/material-sharp/24/give-way--v1.png"
-              alt="중"
+              alt="전체 카테고리 펼치기"
             />
           </div>
         </button>

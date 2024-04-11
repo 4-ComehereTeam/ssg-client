@@ -10,6 +10,7 @@ import {
   getSmallCategoryName,
 } from "@/actions/category/category"
 import { redirect } from "next/navigation"
+import { getCategoryItemsCount } from "@/actions/category/categoryItems"
 
 function validSearchParams(searchParams: {
   big?: number
@@ -37,7 +38,12 @@ export default async function CategoryProductListPage({
   searchParams: { big: number; mid: number; small: number }
 }) {
   console.log("searchParams:", searchParams)
-  if (!validSearchParams(searchParams)) {
+  const categoryItemsCountData = await getCategoryItemsCount(
+    searchParams.big,
+    searchParams.mid,
+    searchParams.small,
+  )
+  if (!validSearchParams(searchParams) || !categoryItemsCountData) {
     redirect("/not-found")
   }
   let bigCategoryName = ""
@@ -100,10 +106,14 @@ export default async function CategoryProductListPage({
             bigCtgId={searchParams.big}
             midCtgId={searchParams.mid}
             superSubCategories={superSubCategories}
+            categoryItemsCount={categoryItemsCountData.count}
           />
         )}
       </div>
-      <ProductList categoryIds={searchParams} />
+      <ProductList
+        categoryIds={searchParams}
+        categoryItemsCount={categoryItemsCountData.count}
+      />
     </div>
   )
 }
