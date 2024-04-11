@@ -19,12 +19,13 @@ export default function SubCategoryDrawer({
   subCategories: Categories
 }) {
   return (
-    <div
-      className={`fixed h-[100vw] bottom-[40%] w-full ${
-        isOpenAllCategory ? "z-20 bg-[#383838c7] animate-fade-in" : "z-[-10]"
-      }`}
-      onClick={() => handleDrawer(selectedIndex)}
-    >
+    <>
+      <div
+        className={`fixed h-[100vw] bottom-[40%] w-full ${
+          isOpenAllCategory ? "z-20 bg-[#383838c7] animate-fade-in" : "z-[-10]"
+        }`}
+        onClick={() => handleDrawer(selectedIndex)}
+      ></div>
       <div
         id="drawer"
         className={`fixed z-20 bg-white bottom-0 w-full h-[60%] rounded-t-[20px] transform ${
@@ -49,21 +50,28 @@ export default function SubCategoryDrawer({
                 onClick={() => handleDrawer(index)}
               >
                 <input
+                  id={`subCategory-${subCtg.id}`}
+                  name={`subCategory-${subCtg.id}`}
                   type="radio"
                   onChange={() => handleDrawer(index)}
                   checked={selectedIndex === index}
-                  className={`w-[20px] h-[20px] rounded-full appearance-none border border-gray-400 ${
+                  className={`w-[13px] h-[13px] rounded-full appearance-none ring-1  ring-offset-2 ${
                     selectedIndex === index
-                      ? "bg-[#FE5B5B] ring-offset-4 ring-[#FE5B5B]"
-                      : "bg-white"
+                      ? "bg-[#FE5B5B] ring-[#FE5B5B]"
+                      : "bg-white ring-gray-400"
                   }`}
                 />
-                {subCtg.name}
+                <label
+                  htmlFor={`subCategory-${subCtg.id}`}
+                  className={`w-full ${selectedIndex === index && "font-bold"}`}
+                >
+                  {subCtg.name}
+                </label>
               </Link>
             ))}
           </ul>
         </div>
       </div>
-    </div>
+    </>
   )
 }
