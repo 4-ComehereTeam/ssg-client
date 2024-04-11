@@ -7,6 +7,7 @@ import {
 } from "@/actions/item"
 import Link from "next/link"
 import Heart from "./Heart"
+import { getClip } from "@/actions/clip"
 
 interface ItemCardPropsType {
   itemId: number
@@ -17,6 +18,7 @@ export default async function ItemCard({ itemId }: ItemCardPropsType) {
   const basicInfo = await getItemBasicInfo(itemId)
   const brand = await getItemBrand(itemId)
   const calc = await getItemCalc(itemId)
+  const isCliped = await getClip(itemId)
 
   const itemName = basicInfo ? basicInfo.itemName : ""
   const discountRate = basicInfo ? basicInfo.discountRate : 0
@@ -34,7 +36,7 @@ export default async function ItemCard({ itemId }: ItemCardPropsType) {
       <Link href={`/item/${itemId}`}>
         <Image
           src={thumbnail.url}
-          alt={thumbnail.alt}
+          alt={`${itemId}-${thumbnail.alt}`}
           sizes="100vw"
           style={{
             width: "100%",
@@ -46,7 +48,7 @@ export default async function ItemCard({ itemId }: ItemCardPropsType) {
         />
       </Link>
       <div className="flex flex-row justify-end items-center">
-        <Heart itemId={itemId} />
+        <Heart itemId={itemId} clicked={isCliped} />
         {/* 장바구니 담는 서버액션을 장바구니 컴포넌트로 분리 */}
         <button className="w-[28px] h-[28px]">
           <svg
@@ -91,7 +93,7 @@ export default async function ItemCard({ itemId }: ItemCardPropsType) {
             WebkitBoxOrient: "vertical",
           }}
         >
-          <span className="font-extrabold">{brand.name} </span>
+          <span className="font-extrabold">{brand && brand.name} </span>
           {itemName}
         </p>
       </div>
@@ -100,7 +102,9 @@ export default async function ItemCard({ itemId }: ItemCardPropsType) {
           <span className="text-xs line-through">{originalPrice}원</span>
         )}
         <div className="text-base font-semibold">
-          <span className="text-[#FF5452]">{discountRate}%</span>
+          {discountRate !== 0 && (
+            <span className="text-[#FF5452]">{discountRate}%</span>
+          )}
           <span className="ml-1">{finalPrice}원</span>
         </div>
         {averageStar !== 0 && reviewCount !== 0 && (
