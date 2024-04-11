@@ -9,11 +9,15 @@ export default function BigCategory({
   bigCategoryName: string
   bigCategoriesCount: number
 }) {
+  const src = lCategoryDummy.find((lctg) => lctg.id === bigCategoryId)?.img_url
+  if (!src) {
+    return
+  }
   return (
     <div>
       <div>
         <Image
-          src={lCategoryDummy[bigCategoryId - 1].img_url}
+          src={src}
           width={64}
           height={64}
           alt={bigCategoryName}

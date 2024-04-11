@@ -1,9 +1,6 @@
 "use client"
 
-import {
-  BigCategoriesData,
-  MiddleCategories,
-} from "@/actions/category/category"
+import { BigCategoriesData, Categories } from "@/actions/category/category"
 import BigCategory from "./BigCategory"
 import MiddleCategory from "./MiddleCategory"
 
@@ -22,7 +19,7 @@ export default function CategoryTable({
   handleMiddleCategories: (bigCategoryId: number) => Promise<void>
   isOpenMid: boolean | undefined
   openBigId: number | undefined
-  middleCategories: MiddleCategories
+  middleCategories: Categories
 }) {
   const isCurrentRow = (bigCategoryId: number) =>
     bigCategoryId >= start + 1 && bigCategoryId <= end
