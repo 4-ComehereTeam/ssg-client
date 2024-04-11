@@ -1,26 +1,42 @@
 "use client"
 
-import { deleteClip } from "@/actions/clip"
+import { deleteClip, postClip } from "@/actions/clip"
 import Image from "next/image"
 import { useState } from "react"
 import heartFill from "@/public/asset/images/heart-fill.png"
 import heartBorder from "@/public/asset/images/heart-border.png"
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 
-export default function Heart({ itemId }: { itemId: number }) {
-  const [clickHeart, setClickHeart] = useState(true)
+export default function Heart({
+  itemId,
+  clicked,
+}: {
+  itemId: number
+  clicked: boolean
+}) {
+  const [clickHeart, setClickHeart] = useState(clicked)
+  const { data: session } = useSession()
+  const router = useRouter()
 
   const handleHeart = async () => {
-    setClickHeart(!clickHeart)
-    if (clickHeart) {
-      await deleteClip(itemId)
+    if (session?.user.accessToken) {
+      setClickHeart(!clickHeart)
+      if (clickHeart) {
+        await deleteClip(itemId)
+      } else {
+        await postClip(itemId)
+      }
+    } else {
+      router.push("/member/signin")
     }
   }
   return (
     <button className="w-[28px] h-[28px]" onClick={() => handleHeart()}>
       {clickHeart ? (
-        <Image src={heartFill} alt={"싫어요"} width={20} height={20} />
+        <Image src={heartFill} alt={"관심상품 등록"} width={20} height={20} />
       ) : (
-        <Image src={heartBorder} alt={"싫어요"} width={20} height={20} />
+        <Image src={heartBorder} alt={"관심상품 취소"} width={20} height={20} />
       )}
     </button>
   )
