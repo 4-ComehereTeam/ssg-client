@@ -1,9 +1,9 @@
 export type BigCategoriesData = {
   count: number
-  bigCategories: BigCategories
+  bigCategories: Categories
 }
 
-export type BigCategories = {
+export type Categories = {
   id: number
   name: string
 }[]
@@ -24,20 +24,15 @@ export async function getBigCategories(): Promise<BigCategoriesData | null> {
     }
     return null
   } catch (error) {
-    console.log("getBigCategories fail:", error)
+    console.log("getBigCategories error:", error)
     return null
   }
 }
 
 export type MiddleCategoriesData = {
   bigCategoryId: number
-  middleCategories: MiddleCategories
+  middleCategories: Categories
 }
-
-export type MiddleCategories = {
-  id: number
-  name: string
-}[]
 
 export async function getMiddleCategories(
   bigCtegoryId: number,
@@ -60,20 +55,15 @@ export async function getMiddleCategories(
     }
     return null
   } catch (error) {
-    console.log("getMiddleCategories fail:", error)
+    console.log("getMiddleCategories error:", error)
     return null
   }
 }
 
 export type SmallCategoriesData = {
   middleCategoryId: number
-  smallCategories: SmallCategories
+  smallCategories: Categories
 }
-
-export type SmallCategories = {
-  id: number
-  name: string
-}[]
 
 export async function getSmallCategories(
   middleCtegoryId: number,
@@ -96,27 +86,21 @@ export async function getSmallCategories(
     }
     return null
   } catch (error) {
-    console.log("getSmallCategories fail:", error)
+    console.log("getSmallCategories error:", error)
     return null
   }
 }
 
-export type DetailCategoriesData = {
-  smallCategoryId: number
-  detailCategories: DetailCategories
+export type CategoryName = {
+  categoryName: string
 }
 
-export type DetailCategories = {
-  id: number
-  name: string
-}[]
-
-export async function getDetailCategories(
-  smallCtegoryId: number,
-): Promise<DetailCategoriesData | null> {
+export async function getBigCategoryName(
+  bigCtegoryId: number,
+): Promise<CategoryName | null> {
   try {
     const res = await fetch(
-      `${process.env.API_BASE_URL}/categories/detail/${smallCtegoryId}`,
+      `${process.env.API_BASE_URL}/categories/big/name/${bigCtegoryId}`,
       {
         method: "GET",
         headers: {
@@ -124,15 +108,53 @@ export async function getDetailCategories(
         },
       },
     )
-
-    if (res.ok) {
-      const data = await res.json()
-      console.log("getDetailCategories success:", data.httpStatus)
-      return data.result
-    }
-    return null
+    const data = await res.json()
+    console.log("getBigCategoryName success:", data.httpStatus)
+    return data.result
   } catch (error) {
-    console.log("getDetailCategories fail:", error)
+    console.log("getBigCategoryName error:", error)
+    return null
+  }
+}
+export async function getMidCategoryName(
+  midCtegoryId: number,
+): Promise<CategoryName | null> {
+  try {
+    const res = await fetch(
+      `${process.env.API_BASE_URL}/categories/middle/name/${midCtegoryId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    )
+    const data = await res.json()
+    console.log("getMidCategoryName success:", data.httpStatus)
+    return data.result
+  } catch (error) {
+    console.log("getMidCategoryName error:", error)
+    return null
+  }
+}
+export async function getSmallCategoryName(
+  smallCtegoryId: number,
+): Promise<CategoryName | null> {
+  try {
+    const res = await fetch(
+      `${process.env.API_BASE_URL}/categories/small/name/${smallCtegoryId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    )
+    const data = await res.json()
+    console.log("getSmallCategoryName success:", data.httpStatus)
+    return data.result
+  } catch (error) {
+    console.log("getSmallCategoryName error:", error)
     return null
   }
 }
