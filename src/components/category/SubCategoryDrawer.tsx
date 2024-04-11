@@ -1,4 +1,5 @@
 import { Categories } from "@/actions/category/category"
+import Image from "next/image"
 import Link from "next/link"
 
 export default function SubCategoryDrawer({
@@ -21,22 +22,36 @@ export default function SubCategoryDrawer({
   return (
     <>
       <div
-        className={`fixed h-[100vw] bottom-[40%] w-full ${
+        className={`fixed h-full bottom-[40%] w-full ${
           isOpenAllCategory ? "z-20 bg-[#383838c7] animate-fade-in" : "z-[-10]"
         }`}
         onClick={() => handleDrawer(selectedIndex)}
       ></div>
       <div
         id="drawer"
-        className={`fixed z-20 bg-white bottom-0 w-full h-[60%] rounded-t-[20px] transform ${
+        className={`fixed z-20 bg-white bottom-0 w-full h-[70%] max-h-[560px] rounded-t-[20px] transform ${
           isOpenAllCategory ? "translate-y-0" : "translate-y-full"
         } transition-transform duration-200 ease-in-out`}
       >
         <div className="flex flex-col items-center border-b-[1px]">
           <div className="w-[40px] h-[4px] mt-2 bg-[#e5e5e5] rounded-sm"></div>
           <h3 className="h-10 text-center pt-2 font-bold">전체 카테고리</h3>
+          <div
+            className="absolute top-[23px] right-4"
+            onClick={() => handleDrawer(selectedIndex)}
+          >
+            <Image
+              width="19"
+              height="19"
+              src="https://img.icons8.com/ios/50/delete-sign--v1.png"
+              alt="전체 카테고리 닫기"
+            />
+          </div>
         </div>
-        <div className="overflow-y-scroll">
+        <div
+          className="fixed w-full h-full overflow-y-auto"
+          style={{ height: "calc(80%)" }}
+        >
           <ul className="flex flex-col px-5 py-3 text-sm">
             {subCategories.map((subCtg, index) => (
               <Link
