@@ -7,6 +7,8 @@ import {
 } from "@/actions/category/category"
 import CategoryTable from "./CategoryTable"
 import { useState } from "react"
+import CategoryShopCard from "./CategoryShopCard"
+import { categoryShops } from "@/data/categoryShop"
 
 export default function CategorySection({
   bigCategoriesData,
@@ -40,7 +42,8 @@ export default function CategorySection({
   const isOpenMid = openMiddles.find((mid) => mid.isOpen)?.isOpen
 
   return (
-    <>
+    <div>
+      <p className="px-4 text-sm font-bold mt-4">전체 카테고리</p>
       {Array.from({ length: row }, (_, index) => {
         const start = index * 5
         const end = start + 5
@@ -57,6 +60,12 @@ export default function CategorySection({
           />
         )
       })}
-    </>
+      <p className="px-4 text-sm font-bold mt-8">더 특별한 쇼핑</p>
+      <div className="grid grid-cols-2 gap-3 px-4 mt-2">
+        {categoryShops.map((shop) => (
+          <CategoryShopCard key={`shop-${shop.id}`} shop={shop} />
+        ))}
+      </div>
+    </div>
   )
 }
