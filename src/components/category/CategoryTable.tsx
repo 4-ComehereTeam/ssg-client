@@ -47,7 +47,6 @@ export default function CategoryTable({
         <MiddleCategory
           bigCategoryId={openBigId}
           middleCategories={middleCategories}
-          isOpen={isOpenMid}
         />
       )}
     </div>
