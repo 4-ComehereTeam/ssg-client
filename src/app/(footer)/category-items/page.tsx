@@ -37,7 +37,6 @@ export default async function CategoryProductListPage({
 }: {
   searchParams: { big: number; mid: number; small: number }
 }) {
-  console.log("searchParams:", searchParams)
   const categoryItemsCountData = await getCategoryItemsCount(
     searchParams.big,
     searchParams.mid,
