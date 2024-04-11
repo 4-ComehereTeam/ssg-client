@@ -1,9 +1,8 @@
-import {
-  getCategoryItems,
-  getCategoryItemsCount,
-} from "@/actions/category/categoryItems"
+import { getCategoryItems } from "@/actions/category/categoryItems"
 import ItemCard from "../item/ItemCard"
 import Image from "next/image"
+import { Suspense } from "react"
+import Loading from "@/app/loading"
 
 export default async function ProductList({
   categoryIds,
@@ -52,7 +51,9 @@ export default async function ProductList({
         </div>
         <div className="grid grid-cols-2 gap-2">
           {categoryItemsData.itemIds.map((itemId) => (
-            <ItemCard key={`${itemId}-categoryItemId`} itemId={itemId} />
+            <Suspense key={`${itemId}-categoryItemId`} fallback={<Loading />}>
+              <ItemCard itemId={itemId} />
+            </Suspense>
           ))}
         </div>
       </div>
