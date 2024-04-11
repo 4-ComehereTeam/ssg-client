@@ -22,8 +22,8 @@ export default async function SpecialProduct({id, src, brand, name, subtitle, pr
 
   return (
     <div>
-      <div className='relative pt-[0.625rem] pb-5 mx-4 my-2.5'>
-        <div className='relative'>
+      <div className='static pt-[0.625rem] pb-5 mx-4 my-2.5'>
+        <div className='static'>
           <a
             href={src}>
             <div className='relative'>
@@ -33,7 +33,6 @@ export default async function SpecialProduct({id, src, brand, name, subtitle, pr
                   src={imageUrl}
                   fill={true}
                   alt={alt}
-                  objectFit='cover'
                   className='will-change-auto max-w-[100%]'
                         /> 
                 </div>

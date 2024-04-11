@@ -1,4 +1,3 @@
-'use client'
 import LargeCategorySlideButton from '@/components/LargeCategorySlideButton';
 import SpecailPrice from '@/components/SpecailPrice';
 import TabList from '@/components/TabList'

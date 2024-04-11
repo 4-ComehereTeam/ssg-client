@@ -75,13 +75,13 @@ export async function getSpecialPriceDetail(bundleID : number) {
 
     if (res.ok) {
       const data = await res.json()
-      console.log("getSpecialPriceInfo success:", data)
+      console.log("getSpecialPriceDetail success:", data)
       return data.result
     }
-    console.log("getSpecialPriceInfo fail", res.status)
+    console.log("getSpecialPriceDetail fail", res.status)
     return false
   } catch (error) {
-    console.log("getSpecialPriceInfo fail:", error)
+    console.log("getSpecialPriceDetail fail:", error)
     return false
   }
 }

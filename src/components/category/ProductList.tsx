@@ -20,7 +20,9 @@ export default function ProductList() {
               sale={item.sale}
               salePrice={item.salePrice}
               reviewRating={item.reviewRating}
-              reviewCount={item.reviewCount}              
+              reviewCount={item.reviewCount}         
+              imageUrl={""}
+              alt={""}
             />
         )
       })}

@@ -155,3 +155,29 @@ export async function getItemThumbnail(itemId: string | number) {
     return null
   }
 }
+
+export async function getItemList(){
+  try{
+    const res = await fetch(
+      `${process.env.API_BASE_URL}/items`,
+      {
+        cache : "force-cache",
+        method : "GET",
+        headers : {
+          "Content-Type" : "application/json",
+        },
+      }
+    )
+    if(res.ok) {
+      const data = await res.json()
+      console.log("getItemList success :", data.httpStatus)
+      return data.result
+    } else {
+      console.log("getItemList fail :", res.status)
+      return null
+    }
+  } catch (error){
+    console.log("getItemList fail(erroe) :", error)
+    return null
+  }
+}

@@ -1,23 +1,19 @@
 import React from 'react'
 import SpecialProduct from '@/components/SpecailProduct'
+import { getSpecialPrice } from '@/actions/specialPrice/specialPrice'
+import SpecialCard from './SpecialCard';
 
-export default function SpecailPrice() {
+export default async function SpecailPrice() {
+
+  const data = await getSpecialPrice();
+  console.log("SpecailPrice.getSpecialPrice() >>", data.bundles);
+
   return (
     <div>
-      <SpecialProduct
-        name={"첫그릇 장만하기"}
-        brand={"광주요"}
-        subtitle={"~25%할인"}
-        price={30000}
-        id={0}
-        src={'#'}
-        store={null}
-        sale={null}
-        salePrice={null}
-        reviewRating={0}
-        reviewCount={0} 
-        imageUrl={""}
-        alt={""}/>
+      {data.bundles.map((item : number, index : number) => (
+        <SpecialCard itemId={item} key={index} />
+      ))}
     </div>
   )
+
 }
