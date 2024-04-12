@@ -5,12 +5,16 @@ import Link from "next/link"
 import React, { useState } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
-// import CategoryListModal from '@/components/modal/CategoryListModal';
+
+type CategoryName = {
+  id: number | undefined
+  name: string
+}
 
 type CategoryProductListToolBarProps = {
-  bigCategoryName: string
-  midCategoryName: string
-  smallCategoryName: string
+  bigCategoryName: CategoryName
+  midCategoryName: CategoryName
+  smallCategoryName: CategoryName
 }
 
 export default function CategoryProductListToolBar({
@@ -20,12 +24,22 @@ export default function CategoryProductListToolBar({
 }: CategoryProductListToolBarProps) {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const router = useRouter()
-  const superCategoryName = smallCategoryName
+  const superCategoryName = smallCategoryName.id
     ? midCategoryName
     : bigCategoryName
-  const subCategoryName = smallCategoryName
+  const subCategoryName = smallCategoryName.id
     ? smallCategoryName
     : midCategoryName
+
+  let superPath = `/category-items?big=${superCategoryName.id}`
+  if (smallCategoryName.id) {
+    superPath = `/category-items?big=${bigCategoryName.id}&mid=${midCategoryName.id}`
+  }
+
+  let subPath = `/category-items?big=${bigCategoryName.id}&mid=${midCategoryName.id}`
+  if (smallCategoryName.id) {
+    subPath = `/category-items?big=${bigCategoryName.id}&mid=${midCategoryName.id}&small=${smallCategoryName.id}`
+  }
   return (
     <div className="flex flex-row w-full h-[46px] bg-white items-center pl-3 pr-3 sticky top-0 z-10">
       <div className="items-center h-full">
@@ -43,11 +57,11 @@ export default function CategoryProductListToolBar({
         </Link>
       </div>
       <div className="pl-5 pr-3 items-center flex">
-        <div className="inline-flex flex-wrap content-center">
+        <Link href={superPath} className="inline-flex flex-wrap content-center">
           <p className="text-gray-600 text-sm text-ellipsis">
-            {superCategoryName}
+            {superCategoryName.name}
           </p>
-        </div>
+        </Link>
         <div className="w-3 h-3 inline-block flex-shrink-0 align-middle mx-1">
           <Image
             width="24"
@@ -62,9 +76,9 @@ export default function CategoryProductListToolBar({
           className="inline-flex h-8 justify-center items-center"
         >
           <p className="text-sm font-bold overflow-hidden text-ellipsis">
-            {subCategoryName ? subCategoryName : "전체보기"}
+            {subCategoryName.id ? subCategoryName.name : "전체보기"}
           </p>
-          <div
+          {/* <div
             className={`w-4 h-4 inline-block ${
               isOpenModal ? "rotate-180" : ""
             } flex justify-center items-center`}
@@ -75,7 +89,7 @@ export default function CategoryProductListToolBar({
               src="https://img.icons8.com/material-sharp/24/give-way--v1.png"
               alt="전체 카테고리 펼치기"
             />
-          </div>
+          </div> */}
         </button>
       </div>
       <div className="flex-grow flex-shrink basis-0 justify-stretch self-stretch"></div>
@@ -103,7 +117,6 @@ export default function CategoryProductListToolBar({
           </div>
         </button>
       </div>
-      {/* {isOpenModal && <CategoryListModal />} */}
     </div>
   )
 }

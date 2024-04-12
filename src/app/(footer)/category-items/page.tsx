@@ -11,18 +11,21 @@ import {
 } from "@/actions/category/category"
 import { redirect } from "next/navigation"
 import { getCategoryItemsCount } from "@/actions/category/categoryItems"
+import HeaderWithSearchBar from "@/components/ui/Headers/HeaderWithSearchBar"
 
-function validSearchParams(searchParams: {
+type searchParamsType = {
   big?: number
   mid?: number
   small?: number
-}): boolean {
-  /**
-   * 하위 카테고리 id만으로 접근 불가
-   * big -> 전체보기
-   * big & mid -> 중분류까지
-   * big & mid & small -> 소분류까지
-   */
+}
+
+/**
+ * 하위 카테고리 id만으로 접근 불가
+ * big -> 전체보기
+ * big & mid -> 중분류까지
+ * big & mid & small -> 소분류까지
+ */
+function validSearchParams(searchParams: searchParamsType): boolean {
   if (searchParams.mid && !searchParams.big) {
     return false
   }
@@ -32,19 +35,7 @@ function validSearchParams(searchParams: {
   return true
 }
 
-export default async function CategoryProductListPage({
-  searchParams,
-}: {
-  searchParams: { big: number; mid: number; small: number }
-}) {
-  const categoryItemsCountData = await getCategoryItemsCount(
-    searchParams.big,
-    searchParams.mid,
-    searchParams.small,
-  )
-  if (!validSearchParams(searchParams) || !categoryItemsCountData) {
-    redirect("/not-found")
-  }
+async function categoryNameFilter(searchParams: searchParamsType) {
   let bigCategoryName = ""
   let midCategoryName = ""
   let smallCategoryName = ""
@@ -66,6 +57,28 @@ export default async function CategoryProductListPage({
       smallCategoryName = res.categoryName
     }
   }
+  return {
+    big: { id: searchParams.big, name: bigCategoryName },
+    mid: { id: searchParams.mid, name: midCategoryName },
+    small: { id: searchParams.small, name: smallCategoryName },
+  }
+}
+
+export default async function CategoryProductListPage({
+  searchParams,
+}: {
+  searchParams: { big: number; mid: number; small: number }
+}) {
+  const categoryItemsCountData = await getCategoryItemsCount(
+    searchParams.big,
+    searchParams.mid,
+    searchParams.small,
+  )
+  if (!validSearchParams(searchParams) || !categoryItemsCountData) {
+    redirect("/not-found")
+  }
+
+  const categoryNames = await categoryNameFilter(searchParams)
 
   const middleCategoriesData = await getMiddleCategories(searchParams.big)
   let smallCategoriesData = null
@@ -86,11 +99,12 @@ export default async function CategoryProductListPage({
 
   return (
     <div className="min-h-screen">
+      <HeaderWithSearchBar />
       <div className="contents">
         <CategoryProductListToolBar
-          bigCategoryName={bigCategoryName}
-          midCategoryName={midCategoryName}
-          smallCategoryName={smallCategoryName}
+          bigCategoryName={categoryNames.big}
+          midCategoryName={categoryNames.mid}
+          smallCategoryName={categoryNames.small}
         />
         {subCategories && (
           <SubCategorySlideButton
