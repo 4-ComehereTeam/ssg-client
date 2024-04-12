@@ -1,6 +1,6 @@
 import type { NextRequest, NextFetchEvent } from "next/server"
 import { NextResponse } from "next/server"
-import { apiAuthPrefix, authRequeiredRoutes } from "./routes"
+import { apiAuthPrefix, authRequeiredRoutes, protectedRoutes } from "./routes"
 
 export async function middleware(req: NextRequest, event: NextFetchEvent) {
   const accessToken = req.cookies.get("next-auth.session-token")
@@ -10,13 +10,22 @@ export async function middleware(req: NextRequest, event: NextFetchEvent) {
     nextUrl.pathname.startsWith(authRequeiredRoute),
   )
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
+  const isProtectedRoute = protectedRoutes.some((protectedRoute) =>
+    nextUrl.pathname.startsWith(protectedRoute),
+  )
 
   if (isApiAuthRoute) {
     return null
   }
 
+  if (accessToken && isProtectedRoute) {
+    return NextResponse.redirect(new URL("/not-found", nextUrl))
+  }
+
   if (!accessToken && isRequiredAuth) {
-    return NextResponse.redirect(new URL("/member/signin", nextUrl))
+    return NextResponse.redirect(
+      new URL(`/member/signin?callbackUrl=${nextUrl.href}`, nextUrl),
+    )
   }
 }
 
