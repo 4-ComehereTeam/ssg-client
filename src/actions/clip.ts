@@ -1,13 +1,7 @@
 "use server"
 
-import { options } from "@/app/api/auth/[...nextauth]/options"
-import { getServerSession } from "next-auth"
+import { getSession } from "@/lib/getSession"
 import { revalidateTag } from "next/cache"
-
-async function getSession() {
-  const session = await getServerSession(options)
-  return session
-}
 
 //개별 상품 좋아요 조회
 export async function getClip(itemId: number | string) {
@@ -39,7 +33,6 @@ export async function getClip(itemId: number | string) {
 export async function postClip(itemId: number | string) {
   revalidateTag("getClipItemIds")
   const session = await getSession()
-  console.log(session?.user.accessToken)
   try {
     const res = await fetch(`${process.env.API_BASE_URL}/clip/item/${itemId}`, {
       method: "POST",

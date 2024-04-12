@@ -1,6 +1,15 @@
 "use server"
 
-export async function getItemBasicInfo(itemId: string | number) {
+export type ItemBasicInfo = {
+  itemName: string
+  itemCode: string
+  price: number
+  discountRate: number
+}
+
+export async function getItemBasicInfo(
+  itemId: string | number,
+): Promise<ItemBasicInfo | null> {
   try {
     const res = await fetch(
       `${process.env.API_BASE_URL}/items/detail/${itemId}`,

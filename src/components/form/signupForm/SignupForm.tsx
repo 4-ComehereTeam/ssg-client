@@ -25,15 +25,22 @@ import {
 import { AgreementsType, MktReceiveMethodsType } from "@/types/agreementType"
 import { useRouter } from "next/navigation"
 import Postcode from "@/components/address/PostCode"
+import GenderSelection from "@/components/ui/Buttons/GenderSelection"
 
-type signupFormType = {
+type SignupFormType = {
   signinId: string
   password: string
   confirmPassword: string
 }
 
+export type AddressType = {
+  fullAddress: string
+  detailAddress: string
+  zipCode: string
+}
+
 export default function SignupForm() {
-  const [payload, setPayload] = useState<signupFormType>({
+  const [payload, setPayload] = useState<SignupFormType>({
     signinId: "",
     password: "",
     confirmPassword: "",
@@ -41,9 +48,11 @@ export default function SignupForm() {
   const [isDuplId, setIsDuplId] = useState(false)
   const [checkId, setCheckId] = useState(false)
   const [isOpenAddress, setOpenAddress] = useState<boolean>(false)
-  const [fullAddress, setFullAddress] = useState<string>("")
-  const [detailAddress, setDetailAddress] = useState<string>("")
-  const [zipCode, setZipCode] = useState<string>("")
+  const [address, setAddress] = useState<AddressType>({
+    fullAddress: "",
+    detailAddress: "",
+    zipCode: "",
+  })
   const [ssgPointAgrees, setSsgPointAgrees] = useState<MktReceiveMethodsType>(
     ssgPointMktReceiveMethods.reduce((acc, { id }) => {
       acc[id] = false
@@ -73,9 +82,11 @@ export default function SignupForm() {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault()
-    const result = await idDuplCheck(payload.signinId)
-    setIsDuplId(result ? false : true)
-    setCheckId(true)
+    if (/^[A-Za-z0-9]{6,20}$/.test(payload.signinId)) {
+      const result = await idDuplCheck(payload.signinId)
+      setIsDuplId(result)
+      setCheckId(true)
+    }
   }
 
   //주소 검색
@@ -84,6 +95,10 @@ export default function SignupForm() {
   ) => {
     e.preventDefault()
     setOpenAddress(true)
+  }
+
+  const handleAddress = (newAddress: AddressType) => {
+    setAddress(newAddress)
   }
 
   //마케팅수신동의 - 신세계포인트
@@ -127,7 +142,7 @@ export default function SignupForm() {
   }
 
   return (
-    <form className="text-[14px]" action={formAction}>
+    <form className="text-[14px] overflow-hidden" action={formAction}>
       <h3 className="px-5 py-3.5 bg-[#F8F8F8] text-xs">회원 정보</h3>
       <section className="px-5 text-[13px] tracking-tight">
         <section className="py-4 border-b">
@@ -152,11 +167,22 @@ export default function SignupForm() {
                   중복확인
                 </button>
               </div>
-              <input readOnly hidden name="checkId" value={checkId ? 1 : 0} />
-              {!checkId && payload.signinId.length > 0 && (
+
+              <input
+                readOnly
+                hidden
+                name="checkId"
+                value={checkId ? "1" : "0"}
+              />
+              {!checkId && (
                 <p className="text-[#FF5452]">아이디 중복확인을 해주세요.</p>
               )}
-              <input readOnly hidden name="isDuplId" value={isDuplId ? 1 : 0} />
+              <input
+                readOnly
+                hidden
+                name="isDuplId"
+                value={isDuplId ? "1" : "0"}
+              />
               {checkId && isDuplId && (
                 <p className="text-[#FF5452]">중복된 아이디입니다.</p>
               )}
@@ -219,17 +245,29 @@ export default function SignupForm() {
           </dl>
         </section>
         <section className="py-4 border-b">
-          <dl className="flex flex-row h-14 items-center">
+          <dl className="flex flex-row h-10 items-center">
             <dt className="w-20">
-              <span className="text-[#FF5452]">*</span>주소
+              <span className="text-[#FF5452]">*</span>성별
             </dt>
             <dd className="grow flex flex-col gap-1">
-              <div className="grow flex flex-row gap-1 justify-between">
+              <GenderSelection />
+            </dd>
+          </dl>
+        </section>
+        <section className="py-4 border-b">
+          <dl className="flex flex-row h-14 items-center">
+            <dt className="flex-none w-20">
+              <span className="text-[#FF5452]">*</span>주소
+            </dt>
+            <dd className="flex flex-row gap-1 justify-between w-full">
+              <button className="w-full">
                 <input
-                  className="grow py-2.5 pl-3 text-xs whitespace-nowrap bg-white border border-solid border-[#D9D9D9]"
+                  className={`py-2.5 w-full pl-3 text-xs whitespace-nowrap ${
+                    address.zipCode.length > 0 ? "bg-[#F8F8F8]" : "bg-white"
+                  } border border-solid border-[#D9D9D9]`}
                   type="text"
                   name="fullAddress"
-                  value={fullAddress}
+                  value={address.fullAddress}
                   readOnly
                 />
                 <input
@@ -237,29 +275,27 @@ export default function SignupForm() {
                   type="text"
                   name="zipCode"
                   readOnly
-                  value={zipCode}
+                  value={address.zipCode}
                 />
                 <input
                   hidden
                   type="text"
                   name="detailAddress"
                   readOnly
-                  value={detailAddress}
+                  value={address.detailAddress}
                 />
-                <button
-                  onClick={(e) => handleAddressBtn(e)}
-                  className="w-24 text-xs text-center text-white bg-[#666666] border border-slate-300 font-[550]"
-                >
-                  우편번호
-                </button>
-                <Postcode
-                  modalOpen={isOpenAddress}
-                  setModalOpen={setOpenAddress}
-                  setFullAddress={setFullAddress}
-                  setDetailAddress={setDetailAddress}
-                  setZipCode={setZipCode}
-                />
-              </div>
+              </button>
+              <button
+                className="w-24 text-xs text-center text-white bg-[#666666] border border-slate-300 font-[550]"
+                onClick={(e) => handleAddressBtn(e)}
+              >
+                우편번호
+              </button>
+              <Postcode
+                modalOpen={isOpenAddress}
+                setModalOpen={setOpenAddress}
+                handleAddress={handleAddress}
+              />
             </dd>
           </dl>
         </section>
@@ -339,8 +375,8 @@ export default function SignupForm() {
                   <br />
                   [마케팅 정보 수신 동의 변경일]
                   <br />
-                  `${new Date().getFullYear()}년 ${new Date().getMonth() + 1}월
-                  ${new Date().getDate()}일`
+                  {new Date().getFullYear()}년 {new Date().getMonth() + 1}월{" "}
+                  {new Date().getDate()}일
                   <br />
                   <br />
                   [마케팅 정보 수신 동의 안내]

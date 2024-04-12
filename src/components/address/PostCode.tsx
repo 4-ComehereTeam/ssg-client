@@ -2,24 +2,28 @@
 // import HeaderTitle from '@/components/ui/HeaderTitle'
 import React, { useState } from "react"
 import DaumPostcodeEmbed from "react-daum-postcode"
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTrigger,
+} from "../shadcnUI/alert-dialog"
+import { AddressType } from "../form/signupForm/SignupForm"
 interface AddaddressProps {
   modalOpen: boolean
   setModalOpen: (value: boolean) => void
-  setFullAddress: (value: string) => void
-  setDetailAddress: (value: string) => void
-  setZipCode: (value: string) => void
+  handleAddress: (newAddress: AddressType) => void
 }
 export default function Postcode({
   modalOpen,
   setModalOpen,
-  setFullAddress,
-  setDetailAddress,
-  setZipCode,
+  handleAddress,
 }: AddaddressProps) {
   const [fullAddr, setFullAddr] = useState("")
   const [detailAddr, setDetailAddr] = useState("")
   const [zCode, setzCode] = useState("")
-  const [jibunAddr, setJibunAddr] = useState("")
 
   const settingDetailAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDetailAddr(e.target.value)
@@ -27,14 +31,11 @@ export default function Postcode({
   let zonecode = ""
   let full = ""
   let extraAddress = ""
-  let jibunAddress = ""
 
   const handleComplete = (data: any) => {
     zonecode = data.zonecode
     full = data.address
     extraAddress = ""
-    jibunAddress = data.jibunAddress
-    jibunAddress = data.jibunAddress
 
     if (data.addressType === "R") {
       if (data.bname !== "") {
@@ -48,47 +49,56 @@ export default function Postcode({
     }
     setFullAddr(full)
     setzCode(zonecode)
-    setFullAddress(full)
-    setZipCode(zonecode)
-    setJibunAddr(jibunAddress)
+    handleAddress({ fullAddress: full, zipCode: zonecode, detailAddress: "" })
   }
   const closeModal = () => {
-    setDetailAddr(detailAddr)
-    setDetailAddress(detailAddr)
-    setModalOpen(false)
+    if (fullAddr.length > 0 && detailAddr.length > 0) {
+      setDetailAddr(detailAddr)
+      handleAddress({
+        fullAddress: fullAddr,
+        zipCode: zCode,
+        detailAddress: detailAddr,
+      })
+      setModalOpen(false)
+    }
   }
 
-  // TODO: 모달창 스크롤되게 만들기
   return (
     modalOpen && (
       <div
-        className="bg-white top-0 left-0 right-0 bottom-0"
-        style={{ zIndex: "1000", position: "fixed" }}
+        className="bg-white top-0 left-0 right-0 bottom-0 overflow-y-auto"
+        style={{ zIndex: "20", position: "fixed" }}
       >
         {/* <HeaderTitle title="배송지 추가" /> */}
         <div className="">
           <DaumPostcodeEmbed onComplete={handleComplete} autoClose={false} />
         </div>
-        <div className="mx-5 my-5">
-          <ul className="flex flex-col gap-2 h-28 justify-between">
-            <li className="">
-              <span className="absolute mr-3 px-2 py-1 w-24 bg-[#F6F6F6] text-center text-[#928888]">
-                우편번호
-              </span>
-              <span className="absolute left-32">{zCode}</span>
-            </li>
-            <li className="">
-              <span className="absolute mr-3 px-2 py-1 w-24 bg-[#F6F6F6] text-center text-[#928888]">
-                도로명 주소
-              </span>
-              <span className="absolute left-32">{fullAddr}</span>
-            </li>
-            <li className="">
-              <span className="absolute mr-3 px-2 py-1 w-24 bg-[#F6F6F6] text-center text-[#928888]">
-                지번 주소
-              </span>
-              <span className="absolute left-32">{jibunAddr}</span>
-            </li>
+        <div className="px-5 my-5 w-full">
+          <ul className="flex flex-col gap-2  h-18 justify-between">
+            {zCode.length > 0 && (
+              <li className="flex flex-row items-center gap-2">
+                <span className="flex-none px-2 py-1 w-[70px] bg-[#F6F6F6] text-center text-[#928888] text-nowrap">
+                  우편번호
+                </span>
+                <span className="left-32">{zCode}</span>
+              </li>
+            )}
+            {fullAddr.length > 0 && (
+              <li className="flex flex-row gap-2 items-center">
+                <span className="flex-none px-2 py-1 w-[70px] bg-[#F6F6F6] text-center text-[#928888] text-nowrap">
+                  주소
+                </span>
+                <span>{fullAddr}</span>
+              </li>
+            )}
+            {fullAddr.length > 0 && detailAddr.length > 0 && (
+              <li className="flex flex-row gap-2 items-center">
+                <span className="flex-none px-2 py-1 w-[70px] bg-[#F6F6F6] text-center text-[#928888] text-nowrap">
+                  상세 주소
+                </span>
+                <span>{detailAddr}</span>
+              </li>
+            )}
           </ul>
         </div>
         <div className="px-5 pt-7 w-full">
@@ -100,15 +110,36 @@ export default function Postcode({
             placeholder="상세주소를 입력해주세요."
           />
           <div className="flex justify-center">
-            <button
+            <AlertDialog>
+              <AlertDialogTrigger
+                className="h-[40px] w-full mt-1 text-xs text-center text-white bg-[#222222] border border-slate-300 font-[550]"
+                onClick={() => closeModal()}
+              >
+                확인
+              </AlertDialogTrigger>
+              {detailAddr.length < 1 && (
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    {zCode.length < 1 || fullAddr.length < 1
+                      ? "주소를 선택해주세요."
+                      : detailAddr.length === 0 && "상세주소를 입력해주세요."}
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel className="w-full h-10 mt-3 font-bold bg-[#FF5452] text-white">
+                      닫기
+                    </AlertDialogCancel>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              )}
+            </AlertDialog>
+            {/* <button
               className="w-full h-10 mt-3 font-bold bg-[#FF5452] text-white"
               onClick={() => {
                 closeModal()
               }}
-              // style={{ backgroundColor: "red", color: "white" }}
             >
               확인
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

@@ -15,7 +15,7 @@ export default async function ItemDescription({ itemId }: ItemIdType) {
         </h3>
         <div className="text-xs text-[#777777]">
           <span>상품번호: </span>
-          <span>{basicInfo.itemCode}</span>
+          <span>{basicInfo?.itemCode}</span>
         </div>
         <div className="py-5 flex flex-row justify-between border-b-[1px]">
           <div className="flex flex-row w-full">

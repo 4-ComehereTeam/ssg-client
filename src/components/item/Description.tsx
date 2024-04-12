@@ -12,7 +12,6 @@ export default function Description({ description }: DescriptionProps) {
   const [isExpanded, setIsExpanded] = useState(false)
   const [isButtonVisible, setIsButtonVisible] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
-  // const updatedDescription = updateDescription(description)
 
   useEffect(() => {
     const checkContentHeight = () => {

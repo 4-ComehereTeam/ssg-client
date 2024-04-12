@@ -1,60 +1,51 @@
 "use client"
 
-import { lCategoryDummy } from "@/lib/lCategoryDummy"
-import { largeCategoryType } from "@/types/largeCategoryType"
-import React, { useState } from "react"
-import GroupNav from "./GroupNav"
+import { BigCategoriesData, Categories } from "@/actions/category/category"
+import BigCategory from "./BigCategory"
+import MiddleCategory from "./MiddleCategory"
 
-export default function CategoryTable() {
-  const [selectedLCategory, setSelectedLCategory] = useState<number>(0)
-  const [isOpen, setIsOpen] = useState<Boolean[]>(
-    Array(lCategoryDummy.length).fill(false),
-  )
-
-  const handleOpen = (e: React.MouseEvent<HTMLLIElement>) => {
-    const role = e.currentTarget.getAttribute("role")
-    if (role) {
-      const index = parseInt(role)
-      if (!isOpen[index]) {
-        setIsOpen((prev) => {
-          return prev.map((item, idx) => {
-            return index === idx ? !item : false
-          })
-        })
-      }
-    }
-  }
+export default function CategoryTable({
+  bigCategoriesData,
+  start,
+  end,
+  handleMiddleCategories,
+  isOpenMid,
+  openBigId,
+  middleCategories,
+}: {
+  bigCategoriesData: BigCategoriesData
+  start: number
+  end: number
+  handleMiddleCategories: (bigCategoryId: number) => Promise<void>
+  isOpenMid: boolean | undefined
+  openBigId: number | undefined
+  middleCategories: Categories
+}) {
+  const isCurrentRow = (bigCategoryId: number) =>
+    bigCategoryId >= start + 1 && bigCategoryId <= end
   return (
     <div>
-      <div className="h-screen">
-        <div className="pt-[15px] pr-[10px] pb-[25px] pl-[10px]">
-          {lCategoryDummy
-            .reduce((acc: largeCategoryType[][], item, index) => {
-              const groupIndex = Math.floor(index / 5)
-              if (!acc[groupIndex]) {
-                acc[groupIndex] = []
-              }
-              acc[groupIndex].push(item)
-              return acc
-            }, [])
-            .map((group, groupIndex) => (
-              <div className="py-2 min-h-[80px]" key={groupIndex}>
-                <GroupNav
-                  group={group}
-                  gx={groupIndex}
-                  handleOpen={(e) => {
-                    handleOpen(e)
-                    setSelectedLCategory(
-                      parseInt(e.currentTarget.getAttribute("value") ?? "0"),
-                    )
-                  }}
-                  selectedLCategory={selectedLCategory}
-                  isOpen={isOpen[groupIndex]}
-                />
-              </div>
-            ))}
-        </div>
+      <div className="grid grid-cols-5 auto-rows-auto px-[10px]">
+        {bigCategoriesData.bigCategories.slice(start, end).map((big) => (
+          <div
+            key={big.id}
+            className="py-2 min-h-[80px]"
+            onClick={() => handleMiddleCategories(big.id)}
+          >
+            <BigCategory
+              bigCategoryId={big.id}
+              bigCategoryName={big.name}
+              bigCategoriesCount={bigCategoriesData.count}
+            />
+          </div>
+        ))}
       </div>
+      {isOpenMid && openBigId && isCurrentRow(openBigId) && (
+        <MiddleCategory
+          bigCategoryId={openBigId}
+          middleCategories={middleCategories}
+        />
+      )}
     </div>
   )
 }

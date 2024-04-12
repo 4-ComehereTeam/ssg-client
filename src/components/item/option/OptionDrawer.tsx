@@ -1,36 +1,37 @@
 "use client"
 
+import { Options, OptionSepcific } from "@/actions/itemOption"
 import Image from "next/image"
+import { OptionName } from "../ItemBottomBar"
 
 type OptionDrawerProps = {
-  optionSpecific: string
-  defaultOption: string
-  options: any
-  showOptionDetailSpecific: boolean
-  toggleOptionDetail: () => void
-  selectedOption: string
-  handleSelectedOption: (
-    optionKind: string,
-    option: string,
-    optionDetail: "color" | "size" | "etc",
+  optionName: OptionName
+  optionDetail: Options | null
+  defaultOption: OptionSepcific
+  showOptionDrawer: boolean
+  handleOptionDetail: (
+    optionName: OptionName,
+    optionObject: OptionSepcific,
   ) => void
+  selectedOption: OptionSepcific
+  isLast: boolean
 }
 
 export default function OptionDrawer({
-  optionSpecific,
+  optionName,
+  optionDetail,
   defaultOption,
-  options,
-  showOptionDetailSpecific,
-  toggleOptionDetail,
+  showOptionDrawer,
+  handleOptionDetail,
   selectedOption,
-  handleSelectedOption,
+  isLast,
 }: OptionDrawerProps) {
   return (
     <div
       id="drawer"
-      className={`fixed z-30 bg-white bottom-0 w-full h-[497px] rounded-t-lg transform ${
-        showOptionDetailSpecific ? "translate-y-0" : "translate-y-full"
-      } transition-transform duration-300 ease-in-out`}
+      className={`fixed z-40 bg-white bottom-[-5px] w-full h-[130%] rounded-t-lg transform ${
+        showOptionDrawer ? "translate-y-0" : "translate-y-full"
+      } transition-transform duration-300 ease-in-out overflow-y-auto`}
     >
       <div className="w-full">
         <div
@@ -39,69 +40,68 @@ export default function OptionDrawer({
             boxShadow:
               "0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -2px rgba(0, 0, 0, 0.1)",
           }}
-          onClick={toggleOptionDetail}
+          onClick={() => handleOptionDetail(optionName, selectedOption)}
         >
-          {showOptionDetailSpecific && (
+          {showOptionDrawer && (
             <Image
-              width="0"
-              height="0"
+              width={15}
+              height={15}
               src="https://img.icons8.com/ios/100/back--v1.png"
-              alt="back--v1"
+              alt="상세 옵션 접기"
               style={{
                 transform: "rotate(-90deg)",
-                width: "20px",
-                height: "20px",
+                width: "auto",
+                height: "auto",
               }}
             />
           )}
         </div>
         <div>
           <div className="px-4">
-            <p className="border border-solid rounded-sm h-[40px] w-full flex items-center justify-between px-2 cursor-pointer text-sm">
-              {defaultOption}
+            <div
+              onClick={() => handleOptionDetail(optionName, defaultOption)}
+              className="border border-solid rounded-sm h-[40px] w-full flex items-center justify-between px-2 cursor-pointer text-sm"
+            >
+              {defaultOption.value}
               <Image
-                width="0"
-                height="0"
+                width={15}
+                height={15}
                 src="https://img.icons8.com/ios/100/back--v1.png"
-                alt="back--v1"
+                alt="상세 옵션 접기"
                 style={{
                   transform: "rotate(90deg)",
-                  width: "16px",
-                  height: "16px",
+                  width: "auto",
+                  height: "auto",
                 }}
               />
-            </p>
-            <div className="w-full">
-              <div className="border border-solid rounded-sm text-sm">
-                {options.map(
-                  (option: {
-                    optionId: number
-                    value: string
-                    stock: number
-                  }) => (
-                    <div
-                      key={option.optionId}
-                      className={`p-2 ${
-                        selectedOption === option.value
-                          ? "bg-gray-200"
-                          : "hover:bg-gray-100"
-                      } cursor-pointer`}
-                      onClick={() =>
-                        handleSelectedOption(
-                          optionSpecific,
-                          option.value,
-                          optionSpecific as "color" | "size" | "etc",
-                        )
-                      }
-                    >
-                      {option.value}
-                      {option.stock === 0
-                        ? " (품절)"
-                        : ` (남은 수량: ${option.stock}개)`}
-                    </div>
-                  ),
-                )}
-              </div>
+            </div>
+            <div className="w-full h-full mt-2 flex flex-col gap-3 items-start">
+              {optionDetail?.options.map((option) => (
+                <button
+                  key={option.optionId}
+                  className={`p-2 w-full flex flex-row gap-2 justify-start items-center rounded-sm ${
+                    selectedOption.value === option.value
+                      ? "border border-black"
+                      : "hover:bg-gray-100"
+                  } ${option.stock === 0 && "text-gray-300"} cursor-pointer`}
+                  disabled={option.stock === 0}
+                  onClick={() =>
+                    handleOptionDetail(optionName, {
+                      value: option.value,
+                      id: option.id,
+                      optionId: option.optionId,
+                      stock: option.stock,
+                    })
+                  }
+                >
+                  <span className="text-sm">{option.value}</span>
+                  <span className="text-xs">
+                    {option.stock === 0
+                      ? " (품절)"
+                      : isLast && ` (남은 수량: ${option.stock}개)`}
+                  </span>
+                </button>
+              ))}
             </div>
           </div>
         </div>

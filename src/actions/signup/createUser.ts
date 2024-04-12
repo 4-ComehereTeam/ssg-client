@@ -1,21 +1,9 @@
 "use server"
 
 import { SignupSchema } from "@/lib/schemas"
-import { SafeParseError } from "zod"
 import { checkExistingUserByEmail } from "./checkExistingUserByEmail"
 import { MktReceiveMethodsType } from "@/types/agreementType"
 import { getResignCount } from "./getResignCount"
-
-export type initialStateType = {
-  error: SafeParseError<{
-    signinId: string
-    password: string
-    name: string
-    address: string
-    phone: string
-    email: string
-  }>
-}
 
 const ssgPointAgrees: MktReceiveMethodsType = {
   ssgPointMktAgr1: false,
@@ -40,6 +28,7 @@ export async function createUser(initialState: any, formData: FormData) {
     isDuplId: formData.get("isDuplId"),
     password: formData.get("password"),
     name: formData.get("name"),
+    gender: formData.get("gender"),
     fullAddress: formData.get("fullAddress"),
     phone: formData.get("phone"),
     email: formData.get("email"),
@@ -52,12 +41,12 @@ export async function createUser(initialState: any, formData: FormData) {
   if (!validateFields.success) {
     const errors = validateFields.error.flatten().fieldErrors
     const firstError = Object.values(errors)[0]
+    console.log(errors)
     return { error: firstError }
   }
 
-  const { signinId, password, name, phone, email } = validateFields.data
+  const { signinId, password, name, gender, phone, email } = validateFields.data
 
-  //{zipcode, address, detailAddress} 받아오기
   const addressInfo = {
     zipcode: formData.get("zipCode"),
     address: formData.get("fullAddress"),
@@ -72,7 +61,6 @@ export async function createUser(initialState: any, formData: FormData) {
   }
 
   const resignCount = await getResignCount(email)
-  console.log(resignCount)
   if (resignCount >= RESIGN_LIMIT_COUNT) {
     return { error: "3회 이상 탈퇴 시 30일 후에 가입할 수 있습니다." }
   }
@@ -89,7 +77,7 @@ export async function createUser(initialState: any, formData: FormData) {
   })
 
   try {
-    const res = await fetch(`${process.env.API_BASE_URL}/auth/signUp`, {
+    const res = await fetch(`${process.env.API_BASE_URL}/auth/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -100,20 +88,20 @@ export async function createUser(initialState: any, formData: FormData) {
         name: name,
         phone: phone,
         email: email,
-        gender: 0, //TODO: 회원가입 폼에 성별 선택 추가하기
+        gender: gender,
         addressInfoVo: addressInfo,
         ssgcomAgreesVo: ssgcomAgrees,
         ssgPointAgreesVo: ssgPointAgrees,
       }),
     })
-    if (res.ok) {
-      const data = await res.json()
+    const data = await res.json()
+    if (data.isSuccess) {
       console.log("signup success:", data.httpStatus)
+    } else {
+      throw data
     }
-    console.log("signup success:", res.status)
-    return { error: "회원가입에 실패했습니다." }
   } catch (error) {
-    console.log("signup fail:", error)
+    console.log("signup error:", error)
     return { error: "회원가입에 실패했습니다." }
   }
 }
