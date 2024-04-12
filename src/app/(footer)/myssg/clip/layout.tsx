@@ -1,4 +1,4 @@
-import HeaderToBack from "@/components/ui/Headers/HeaderToBack"
+import HeaderToBackNotSticky from "@/components/ui/Headers/HeaderToBackNotSticky"
 
 export default function layout({
   children,
@@ -7,7 +7,7 @@ export default function layout({
 }>) {
   return (
     <>
-      <HeaderToBack title="좋아요" />
+      <HeaderToBackNotSticky title="좋아요" />
       {children}
     </>
   )
