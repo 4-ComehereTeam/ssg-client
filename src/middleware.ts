@@ -21,7 +21,7 @@ export async function middleware(req: NextRequest, event: NextFetchEvent) {
   if (isApiAuthRoute) {
     return null
   }
-  console.log(nextUrl.pathname)
+
   if (accessToken && isProtectedRoute) {
     return NextResponse.redirect(new URL("/not-found", nextUrl))
   }
