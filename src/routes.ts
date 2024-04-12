@@ -11,7 +11,9 @@ export const authRequeiredRoutes = ["/myssg/"]
 export const protectedRoutes = [
   "/member/findIdPw",
   "/member/signin",
-  "/member/signup",
+  "/member/signup/intro",
+  "/member/signup/agree",
+  "/member/signup/form",
 ]
 
 /**

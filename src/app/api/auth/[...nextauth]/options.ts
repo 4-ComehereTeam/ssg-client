@@ -87,6 +87,8 @@ export const options: NextAuthOptions = {
             console.log("socialSignin error:", error)
             return "/member/signin"
           }
+        } else {
+          return "/member/signup/social"
         }
       }
       const signinId =
@@ -106,9 +108,9 @@ export const options: NextAuthOptions = {
     async jwt({ token, user }) {
       return { ...token, ...user }
     },
-    // async redirect({ url, baseUrl }) {
-    //   return url.startsWith(baseUrl) ? url : baseUrl
-    // },
+    async redirect({ url, baseUrl }) {
+      return url.startsWith(baseUrl) ? url : baseUrl + url
+    },
   },
   pages: {
     signIn: "/member/signin",
