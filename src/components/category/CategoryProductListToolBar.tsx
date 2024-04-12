@@ -117,7 +117,6 @@ export default function CategoryProductListToolBar({
           </div>
         </button>
       </div>
-      {/* {isOpenModal && <CategoryListModal />} */}
     </div>
   )
 }
