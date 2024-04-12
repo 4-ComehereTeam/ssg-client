@@ -36,14 +36,13 @@ export default async function ClipPage() {
   const accessToken = session ? session.user.accessToken : null
   const itemIds = await getClipItemIds(accessToken)
 
-  //Header 추가하기
   return (
     <>
       <ClipHeader />
       <ClipNavbar clipNums={itemIds.length} />
       <ClipMain itemIds={itemIds}>
         {itemIds.map((itemId: number) => (
-          <ItemCard key={itemId} itemId={itemId} />
+          <ItemCard key={`itemId`} itemId={itemId} />
         ))}
       </ClipMain>
     </>
