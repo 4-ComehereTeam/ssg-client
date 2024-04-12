@@ -12,7 +12,7 @@ export default function TopNav({ index }: { index: string }) {
 
   return (
     <>
-      <nav className="overflow-auto w-full top-0 left-0 sticky z-50 bg-white ">
+      <nav className="overflow-auto w-full top-0 left-0 sticky z-20 bg-white ">
         <ul className="flex justify-between text-[15px] leading-3 font-normal  whitespace-nowrap">
           <li className="text-center my-auto flex-grow font-[Pretendard-Light] ">
             <Link
@@ -42,7 +42,7 @@ export default function TopNav({ index }: { index: string }) {
           </li>
           <li className="text-center my-auto flex-grow font-[Pretendard-Light]">
             <Link
-              href="#"
+              href="/best"
               className={
                 underline == "베스트"
                   ? "border-b-[3px] border-black pb-[10px] font-bold"

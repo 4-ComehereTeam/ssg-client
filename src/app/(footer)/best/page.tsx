@@ -1,7 +1,7 @@
 import { getBigCategories } from "@/actions/category/category"
 import BestItems from "@/components/best/BestItems"
 import CategorySlideButton from "@/components/best/CategorySlideButton"
-import TopNav from "@/components/TopNav"
+import TopNav from "@/components/main/TopNav"
 import HeaderWithSearchBar from "@/components/ui/Headers/HeaderWithSearchBar"
 
 export default async function page({
@@ -14,7 +14,7 @@ export default async function page({
   return (
     <main>
       <HeaderWithSearchBar />
-      <TopNav />
+      <TopNav index="베스트" />
       {bigCategoryData && (
         <CategorySlideButton categories={bigCategoryData.bigCategories} />
       )}
