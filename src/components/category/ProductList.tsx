@@ -1,14 +1,8 @@
-<<<<<<< HEAD
-import React from 'react';
-// import { exampleProductData } from '@/lib/exampleProductData';
-import PopularProduct from './PopularProduct';
-=======
 import { getCategoryItems } from "@/actions/category/categoryItems"
 import ItemCard from "../item/ItemCard"
 import Image from "next/image"
 import { Suspense } from "react"
 import Loading from "@/app/loading"
->>>>>>> ea820c8be8ba93e82dd277104e54dbf509523294
 
 export default async function ProductList({
   categoryIds,
@@ -47,29 +41,6 @@ export default async function ProductList({
     )
   }
   return (
-<<<<<<< HEAD
-    <div className='grid-cols-custom grid gap-y-0 gap-x-2 ms-4 me-4'>
-      {/* {exampleProductData.map((item) => {
-        return (
-            <PopularProduct
-              key={item.id}
-              id={item.id}
-              src={item.src}
-              store={item.store}
-              brand={item.brand}
-              name={item.name}
-              subtitle={item.subtitle}
-              price={item.price}
-              sale={item.sale}
-              salePrice={item.salePrice}
-              reviewRating={item.reviewRating}
-              reviewCount={item.reviewCount}         
-              imageUrl={""}
-              alt={""}
-            />
-        )
-      })} */}
-=======
     <div className="col-start-2 col-end-auto">
       <div className="grid-cols-custom grid gap-y-0 gap-x-2 ms-4 me-4">
         <div className="text-xs flex pt-3">
@@ -86,7 +57,6 @@ export default async function ProductList({
           ))}
         </div>
       </div>
->>>>>>> ea820c8be8ba93e82dd277104e54dbf509523294
     </div>
   )
 }

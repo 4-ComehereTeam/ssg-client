@@ -1,29 +1,22 @@
-'use server'
+"use server"
 
-import { options } from "@/app/api/auth/[...nextauth]/options"
-import { getServerSession } from "next-auth"
-import { revalidateTag } from "next/cache"
-
-async function getSession() {
-  const session = await getServerSession(options)
-  return session
+type SpecialPrice = {
+  bundles: number[]
+  currentPage: number
+  hasNext: boolean
 }
 
-export async function getSpecialPrice() {
-  revalidateTag("getSpecialPrice")
-  const session = await getSession();
+export async function getSpecialPrice(): Promise<SpecialPrice | false> {
   try {
     const res = await fetch(`${process.env.API_BASE_URL}/bundle`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: session ? session.user.accessToken : null,
       },
     })
-
     if (res.ok) {
       const data = await res.json()
-      console.log("getSpecialPrice success:", data)
+      console.log("getSpecialPrice success:", data.httpStatus)
       return data.result
     }
     console.log("getSpecialPrice fail", res.status)
@@ -34,22 +27,18 @@ export async function getSpecialPrice() {
   }
 }
 
-export async function getSpecialPriceInfo(bundleID : number) {
-  revalidateTag("getSpecialPriceInfo")
-  const session = await getSession();
+export async function getSpecialPriceInfo(bundleID: number) {
   try {
     const res = await fetch(`${process.env.API_BASE_URL}/bundle/${bundleID}`, {
-      
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: session ? session.user.accessToken : null,
       },
     })
 
     if (res.ok) {
       const data = await res.json()
-      console.log("getSpecialPriceInfo success:", data)
+      console.log("getSpecialPriceInfo success:", data.httpStatus)
       return data.result
     }
     console.log("getSpecialPriceInfo fail", res.status)
@@ -60,22 +49,21 @@ export async function getSpecialPriceInfo(bundleID : number) {
   }
 }
 
-export async function getSpecialPriceDetail(bundleID : number) {
-  revalidateTag("getSpecialPriceDetail")
-  const session = await getSession();
+export async function getSpecialPriceDetail(bundleID: number) {
   try {
-    const res = await fetch(`${process.env.API_BASE_URL}/bundle/item/${bundleID}`, {
-      
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: session ? session.user.accessToken : null,
+    const res = await fetch(
+      `${process.env.API_BASE_URL}/bundle/item/${bundleID}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       },
-    })
+    )
 
     if (res.ok) {
       const data = await res.json()
-      console.log("getSpecialPriceDetail success:", data)
+      console.log("getSpecialPriceDetail success:", data.httpStatus)
       return data.result
     }
     console.log("getSpecialPriceDetail fail", res.status)
