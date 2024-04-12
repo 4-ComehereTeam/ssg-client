@@ -15,14 +15,9 @@ export async function getClip(itemId: number | string) {
         Authorization: session ? session.user.accessToken : null,
       },
     })
-
-    if (res.ok) {
-      const data = await res.json()
-      console.log("getClip success:", data.httpStatus)
-      return data.result.isCliped
-    }
-    console.log("getClip fail", res.status)
-    return false
+    const data = await res.json()
+    console.log("getClip success:", data.httpStatus)
+    return data.result.isCliped
   } catch (error) {
     console.log("getClip fail:", error)
     return false
