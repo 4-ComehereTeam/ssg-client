@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import ItemCard from "../item/ItemCard"
 import Checkbox from "../ui/Checkbox"
 import ClipCancleButton from "./ClipCancleButton"
 import ClipEditButton from "./ClipEditButton"
@@ -103,22 +102,23 @@ export default function ClipMain({ itemIds, children }: ClipMainPropsType) {
             <ClipEditButton onEditMode={() => handleEditMode()} />
           </div>
         )}
+        {isEditMode && (
+          <div className="absolute px-4 py-2 left-0 w-full h-full grid grid-cols-2 sm:grid-cols-4 gap-2 justify-between">
+            {itemIds.map((itemId) => (
+              <Checkbox
+                key={itemId}
+                id={"item" + itemId.toString()}
+                text=""
+                onChange={() => handleClick(itemId)}
+                checked={allCheck || clicks[itemId]}
+                isDisabled={false}
+                checkboxShape="absolute square w-[19px] h-[19px]"
+              />
+            ))}
+          </div>
+        )}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 justify-between">
-          {itemIds.map((itemId) => (
-            <div key={itemId} className="w-full h-full">
-              {isEditMode && (
-                <Checkbox
-                  id={"item" + itemId.toString()}
-                  text=""
-                  onChange={() => handleClick(itemId)}
-                  checked={allCheck || clicks[itemId]}
-                  isDisabled={false}
-                  checkboxShape="square absolute mt-2 w-[19px] h-[19px]"
-                />
-              )}
-              {children}
-            </div>
-          ))}
+          {children}
         </div>
       </div>
     </section>
