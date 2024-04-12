@@ -69,8 +69,6 @@ export default function SocialSignupForm() {
     }
   }
 
-  console.log()
-
   return (
     <form className="text-[14px] overflow-hidden" action={formAction}>
       <h3 className="px-5 py-3.5 bg-[#F8F8F8] text-xs">약관 동의</h3>

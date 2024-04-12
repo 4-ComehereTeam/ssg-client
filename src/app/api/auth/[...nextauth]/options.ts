@@ -59,6 +59,7 @@ export const options: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user, profile, account }) {
+      console.log(user)
       if (account?.provider !== "credentials") {
         //간편회원 아이디가 없으면 간편회원가입 페이지로 이동
         const isExistId = await idDuplCheck(user.id)
@@ -106,9 +107,9 @@ export const options: NextAuthOptions = {
     async jwt({ token, user }) {
       return { ...token, ...user }
     },
-    // async redirect({ url, baseUrl }) {
-    //   return url.startsWith(baseUrl) ? url : baseUrl
-    // },
+    async redirect({ url, baseUrl }) {
+      return url.startsWith(baseUrl) ? url : baseUrl + url
+    },
   },
   pages: {
     signIn: "/member/signin",

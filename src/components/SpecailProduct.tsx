@@ -2,8 +2,10 @@ import React from 'react'
 import CartIcon from '@/asset/images/CartIcon'
 import { ProductDataType } from '@/types/productDataType'
 import HeartIcon from '@/asset/images/HeartIcon'
+import { getSpecialPrice } from '@/actions/specialPrice/specialPrice'
+import Image from 'next/image'
 
-export default function SpecialProduct({id, src, brand, name, subtitle, price}: ProductDataType) {
+export default async function SpecialProduct({id, src, brand, name, subtitle, price, imageUrl, alt}: ProductDataType) {
 
   const addCommas = (number :number) => {
     let result = '';
@@ -20,20 +22,20 @@ export default function SpecialProduct({id, src, brand, name, subtitle, price}: 
 
   return (
     <div>
-      <div className='relative pt-[0.625rem] pb-5 mx-4 my-2.5'>
-        <div className='relative'>
+      <div className='static pt-[0.625rem] pb-5 mx-4 my-2.5'>
+        <div className='static'>
           <a
-            href='#'>
+            href={src}>
             <div className='relative'>
               <div className= 'overflow-hidden justify-center items-center '>
-                {/* <Image
-                src='/images/1.jpg'
-                fill={true}
-                alt='name'
-                objectFit='cover'
-                className='will-change-auto max-w-[100%]'
-                      /> */}
-                <div className=' bg-slate-700 w-[100vw] h-[50vw]'></div>
+                <div className='w-[100vw] h-[50vw]'>
+                  <Image
+                  src={imageUrl}
+                  fill={true}
+                  alt={alt}
+                  className='will-change-auto max-w-[100%]'
+                        /> 
+                </div>
               </div>
             </div>
           </a>
