@@ -13,7 +13,7 @@ export async function signin(initialState: any, formData: FormData) {
   if (!validateFields.success) {
     const errors = validateFields.error.flatten().fieldErrors
     const firstError = Object.values(errors)[0]
-    return { error: firstError }
+    return { ...initialState, error: firstError }
   }
 
   const { signinId, password } = validateFields.data
@@ -22,16 +22,21 @@ export async function signin(initialState: any, formData: FormData) {
     await signIn("credentials", {
       signinId: signinId,
       password: password,
+      redirect: true,
+      callbackUrl: initialState.callbackUrl,
     })
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error) {
         case "CredentialsSignin":
-          return { error: "아이디 또는 비밀번호가 일치하지 않습니다." }
+          return {
+            ...initialState,
+            error: "아이디 또는 비밀번호가 일치하지 않습니다.",
+          }
         default:
-          return { error: "비정상적인 접근입니다." }
+          return { ...initialState, error: "비정상적인 접근입니다." }
       }
     }
-    return { error: "비정상적인 접근입니다." }
+    return { ...initialState, error: "비정상적인 접근입니다." }
   }
 }
