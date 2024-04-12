@@ -1,8 +1,7 @@
-'use client'
 import LargeCategorySlideButton from '@/components/LargeCategorySlideButton';
 import SpecailPrice from '@/components/SpecailPrice';
 import TabList from '@/components/TabList'
-import TopNav from '@/components/TopNav';
+import TopNav from '@/components/main/TopNav';
 import HeaderWithSearchBar from '@/components/ui/Headers/HeaderWithSearchBar';
 import React,{ useState } from 'react'
 
@@ -21,7 +20,7 @@ export default function page() {
   return (
     <div className="w-full h-100">
       <HeaderWithSearchBar />
-      <TopNav />
+      <TopNav index={'특가'}/>
       <TabList TablistTitles={TablistTitles} />
       <LargeCategorySlideButton />
       {/* <LargeCategoryList onClose={handleClose}/> */}

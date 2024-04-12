@@ -90,6 +90,9 @@ const config = {
         "fade-in": "fade-in 0.3s ease-out",
         skeleton: "skeleton 1.5s ease-in-out infinite",
       },
+      gridTemplateColumns: {
+        'custom': 'repeat(auto-fill, minmax(calc(50% - 8px), 1fr))',
+      },
     },
   },
   plugins: [require("tailwindcss-animate"), require("tailwind-scrollbar-hide")],

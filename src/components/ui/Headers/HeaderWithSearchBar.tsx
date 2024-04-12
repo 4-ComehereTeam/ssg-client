@@ -9,7 +9,7 @@ export default function HeaderWithSearchBar() {
   }
 
   return (
-    <header className="flex flex-row justify-between items-center py-[8px] px-[10px] h-[56px] w-full">
+    <header className="flex flex-row justify-between items-center py-[8px] px-[14px] h-[56px] w-full">
       <div className="flex flex-shrink-0">
         <a href="/">
           <Image

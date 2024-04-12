@@ -33,6 +33,29 @@ export default function LargeCategorySlideButton() {
   }
 
   return (
+<<<<<<< HEAD
+    <div className='col-start-2 col-end-auto ms-[(1rem)*-1] me-[(1rem)*-1] top-[46px] sticky z-[1000] bg-white'>
+      <div className='flex-start flex-shrink-0 align-middle relative pr-[54px] overflow-x-scroll'>
+        <div className='h-[56px] overflow-hidden text-nowrap flex'>
+          <div className='flex-nowrap pt-[10px] pb-[10px] ps-3 pe-1 overflow-scroll scrollbar-hide'>
+            {
+              lCategoryDummy.map((category, idx) => {
+                if (category.title === '') {
+                  return;
+                }
+                return (
+                  <button
+                    key={idx}
+                    ref={el => buttonRefs.current[idx] = el!}
+                    onClick={() => { handleCategoryClick(category.title, idx) }}
+                    className={`min-w-min h-[36px] text-xs font-semibold border mr-[5px] pl-2 pr-2 
+                    ${isSelected === category.title ? 'bg-black text-white border-black' : 'bg-white text-xs  text-black border-gray-200'}`}>
+                    {category.title}
+                  </button>
+                )
+              })
+            }
+=======
     <div className="col-start-2 col-end-auto ms-[(1rem)*-1] me-[(1rem)*-1] top-[46px] sticky z-[1000] bg-white">
       <div className="flex-start flex-shrink-0 align-middle relative pr-[54px] overflow-x-scroll">
         <div className="h-[56px] overflow-hidden text-nowrap flex">
@@ -61,6 +84,7 @@ export default function LargeCategorySlideButton() {
                 </button>
               )
             })}
+>>>>>>> ea820c8be8ba93e82dd277104e54dbf509523294
           </div>
           <div className="bg-white top-[10px] absolute  bottom-[10px] right-0 pr-4">
             <button
