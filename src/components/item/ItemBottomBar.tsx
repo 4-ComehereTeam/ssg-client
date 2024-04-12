@@ -32,6 +32,7 @@ import {
   AlertDialogTrigger,
 } from "../shadcnUI/alert-dialog"
 import SelectedItemCard from "./option/SelectedItemCard"
+import { SIGNIN_WITH_CALLBACK } from "@/routes"
 // import SeletedItemCard from "./option/SeletedItemCard"
 
 type ItemBottomBarProps = {
@@ -115,7 +116,7 @@ export default function ItemBottomBar({
         await deleteClip(Number(itemId))
       }
     } else {
-      router.push("/member/signin")
+      router.push(SIGNIN_WITH_CALLBACK)
     }
     setClickHeart(isClick)
   }
