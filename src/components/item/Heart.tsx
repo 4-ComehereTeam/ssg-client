@@ -7,6 +7,7 @@ import heartFill from "@/public/asset/images/heart-fill.png"
 import heartBorder from "@/public/asset/images/heart-border.png"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
+import { SIGNIN_WITH_CALLBACK } from "@/routes"
 
 export default function Heart({
   itemId,
@@ -28,7 +29,7 @@ export default function Heart({
         await postClip(itemId)
       }
     } else {
-      router.push("/member/signin")
+      router.push(SIGNIN_WITH_CALLBACK)
     }
   }
   return (
