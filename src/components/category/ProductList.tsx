@@ -1,12 +1,12 @@
 import React from 'react';
-import { exampleProductData } from '@/lib/exampleProductData';
+// import { exampleProductData } from '@/lib/exampleProductData';
 import PopularProduct from './PopularProduct';
 
 export default function ProductList() {
 
   return (
     <div className='grid-cols-custom grid gap-y-0 gap-x-2 ms-4 me-4'>
-      {exampleProductData.map((item) => {
+      {/* {exampleProductData.map((item) => {
         return (
             <PopularProduct
               key={item.id}
@@ -25,7 +25,7 @@ export default function ProductList() {
               alt={""}
             />
         )
-      })}
+      })} */}
     </div>
   );
 }

@@ -30,7 +30,7 @@ export default function MainSlideButton() {
   */
 
   return (
-    <div className="col-start-2 col-end-auto ms-[(1rem)*-1] me-[(1rem)*-1] top-[46px] bg-white">
+    <div className="col-start-2 col-end-auto ms-[(1rem)*-1] me-[(1rem)*-1] bg-white sticky top-[46px] z-50">
       <div className="flex-start flex-shrink-0 align-middle relative pr-[54px]">
         <div className="h-[56px] overflow-hidden text-nowrap flex">
           <div className="flex-nowrap pt-[10px] pb-[10px] ps-3 pe-1 overflow-scroll scrollbar-hide">
