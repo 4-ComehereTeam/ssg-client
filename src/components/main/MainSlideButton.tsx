@@ -1,12 +1,12 @@
 "use client"
 
-import { getCategories } from "@/actions/category/category"
+// import { getCategories } from "@/actions/category/category"
 import Image from "next/image"
 import React, { useState, useRef } from "react"
 
 export default function MainSlideButton() {
   // 카테고리 페이지에서 선택한 중분류 카테고리 값이 주어지면 됩니다.
-  const [isSelected, setIsSelected] = useState();
+  const [isSelected, setIsSelected] = useState()
 
   const buttonRefs = useRef<HTMLButtonElement[]>([])
 
