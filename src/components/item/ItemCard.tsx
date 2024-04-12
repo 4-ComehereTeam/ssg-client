@@ -32,7 +32,7 @@ export default async function ItemCard({ itemId }: ItemCardPropsType) {
   const reviewCount = calc ? calc.reviewCount : 0
 
   return (
-    <div className={`flex flex-col pt-2 pb-5 w-full h-full`}>
+    <div className={`flex flex-col pt-2 pb-5`}>
       <Link href={`/item/${itemId}`}>
         <Image
           src={thumbnail.url}
