@@ -46,10 +46,9 @@ export default function CategorySlideButton({
       })
     }
   }
-  console.log(selectedCtgId)
   return (
     <>
-      <div className="sticky col-start-2 col-end-auto ms-[(1rem)*-1] me-[(1rem)*-1] top-[46px] bg-white">
+      <div className="sticky z-20 col-start-2 col-end-auto ms-[(1rem)*-1] me-[(1rem)*-1] top-[46px] bg-white">
         <div className="flex-start flex-shrink-0 align-middle relative pr-[54px]">
           <div className="h-[56px] overflow-hidden text-nowrap flex">
             <div className="flex-nowrap pt-[10px] pb-[10px] ps-3 pe-1 overflow-scroll scrollbar-hide">
