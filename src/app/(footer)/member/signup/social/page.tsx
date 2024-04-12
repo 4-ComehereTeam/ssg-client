@@ -11,7 +11,6 @@ export default async function SimpleSignupFormPage() {
   const session = await getServerSession(options)
   if (session) {
     const session = await getSession()
-    console.log(session)
     const isExistId = await idDuplCheck(session?.user.id)
     if (isExistId) {
       redirect(SIGNIN_WITH_CALLBACK)
