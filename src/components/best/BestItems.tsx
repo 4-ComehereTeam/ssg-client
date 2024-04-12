@@ -27,23 +27,19 @@ export default async function BestItems({
     )
   }
   return (
-    <div className="col-start-2 col-end-auto mt-2">
-      <div className="grid-cols-custom grid gap-y-0 gap-x-2 ms-4 me-4">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-          {bestItemsData.items.map((itemId, index) => (
-            <div key={`${itemId}-bestItemId`}>
-              <Suspense fallback={<Loading />}>
-                <span className="absolute w-[20px] h-[20px] bg-[#666666] text-white text-[11px] text-center leading-[20px] mt-2">
-                  {Math.floor(index / 10) < 1
-                    ? (index + 1).toString().padStart(2, "0")
-                    : index + 1}
-                </span>
-                <ItemCard itemId={itemId} />
-              </Suspense>
-            </div>
-          ))}
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 px-3">
+      {bestItemsData.items.map((itemId, index) => (
+        <div key={`${itemId}-bestItemId`}>
+          <Suspense fallback={<Loading />}>
+            <span className="absolute w-[20px] h-[20px] bg-[#666666] text-white text-[11px] text-center leading-[20px] mt-2">
+              {Math.floor(index / 10) < 1
+                ? (index + 1).toString().padStart(2, "0")
+                : index + 1}
+            </span>
+            <ItemCard itemId={itemId} />
+          </Suspense>
         </div>
-      </div>
+      ))}
     </div>
   )
 }
