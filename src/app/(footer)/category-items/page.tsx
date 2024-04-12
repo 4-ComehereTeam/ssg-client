@@ -11,6 +11,7 @@ import {
 } from "@/actions/category/category"
 import { redirect } from "next/navigation"
 import { getCategoryItemsCount } from "@/actions/category/categoryItems"
+import HeaderWithSearchBar from "@/components/ui/Headers/HeaderWithSearchBar"
 
 type searchParamsType = {
   big?: number
@@ -98,6 +99,7 @@ export default async function CategoryProductListPage({
 
   return (
     <div className="min-h-screen">
+      <HeaderWithSearchBar />
       <div className="contents">
         <CategoryProductListToolBar
           bigCategoryName={categoryNames.big}
