@@ -13,7 +13,6 @@ export default function CategoryDrawer({
   handleDrawer: (index: number) => void
   categories: Categories
 }) {
-  console.log(selectedCtgId)
   return (
     <>
       <div
