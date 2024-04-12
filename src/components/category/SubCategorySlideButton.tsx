@@ -81,12 +81,13 @@ export default function SubCategorySlideButton({
                 </Link>
               ))}
             </div>
-            <div className="bg-white top-[10px] absolute bottom-[10px] right-0 pr-4">
+            <div className="flex flex-row top-[10px] absolute bottom-[10px] right-0 pr-4">
+              <div className="w-[20px] h-[36px] bg-gradient-to-l from-white"></div>
               <button
                 onClick={handleOpenAllCategory}
-                className="min-w-9 min-h-9 rotate-90 inline-flex items-center justify-center text-sm border border-gray-200"
+                className="bg-white min-w-9 min-h-9 rotate-90 inline-flex items-center justify-center text-sm border border-gray-200"
               >
-                <div className="w-[18px] h-[18px] text-black font-bold">
+                <div className="w-[18px] h-[18px] bg-white text-black font-bold">
                   <Image
                     width="24"
                     height="24"
