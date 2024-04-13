@@ -37,13 +37,15 @@ export default async function PopularProduct({
           <a href={`/item/${id}`}>
             <div className="relative">
               <div className="overflow-hidden justify-center items-center">
-                <Image
-                  src={thumbnail.url}
-                  fill
-                  alt={thumbnail.alt}
-                  objectFit="cover"
-                  className="will-change-auto max-w-[100%]"
-                />
+                {thumbnail && (
+                  <Image
+                    src={thumbnail.url}
+                    fill
+                    alt={thumbnail.alt}
+                    objectFit="cover"
+                    className="will-change-auto max-w-[100%]"
+                  />
+                )}
                 <div className=" bg-slate-700 w-[175.2px] h-[200px]"></div>
               </div>
             </div>
@@ -91,7 +93,7 @@ export default async function PopularProduct({
         <a className="block mt-[0.625rem] pr-[1.25rem]">
           {/* --------브랜드, 이름-------- */}
           <p className="text-ellipsis line-clamp-2 text-sm">
-            <span className="font-bold">{itemBrand.name}</span>
+            <span className="font-bold">{itemBrand?.name}</span>
             {info?.itemName}
           </p>
           {/* --------브랜드, 이름-------- */}
@@ -138,7 +140,7 @@ export default async function PopularProduct({
               <span className="border-0 w-[1px] h-[1px] -my-px -mx-px px-0 py-0 overflow-hidden whitespace-nowrap absolute">
                 리뷰 별점
               </span>
-              {calc.averageStar}
+              {calc?.averageStar}
               <span className="border-0 w-[1px] h-[1px] -my-px -mx-px px-0 py-0 overflow-hidden whitespace-nowrap absolute">
                 점
               </span>
@@ -148,7 +150,7 @@ export default async function PopularProduct({
               <span className="border-0 w-[1px] h-[1px] -my-px -mx-px px-0 py-0 overflow-hidden whitespace-nowrap absolute">
                 리뷰 갯수
               </span>
-              {calc.reviewCount}건
+              {calc?.reviewCount}건
             </p>
           </div>
         </a>
