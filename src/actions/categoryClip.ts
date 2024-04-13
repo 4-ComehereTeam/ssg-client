@@ -45,7 +45,6 @@ export async function getIsClipedCategory(
   if (categoryId.smallCategoryId) {
     path = `bigCategoryId=${categoryId.bigCategoryId}&middleCategoryId=${categoryId.middleCategoryId}&smallCategoryId=${categoryId.smallCategoryId}`
   }
-  console.log(path)
   const session = await getSession()
   try {
     const res = await fetch(
