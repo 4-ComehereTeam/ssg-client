@@ -21,11 +21,7 @@ export default async function ProductList({
     categoryIds.small,
   )
 
-  if (
-    !categoryItemsData ||
-    !categoryItemsData.itemIds.length ||
-    !categoryItemsCount
-  ) {
+  if (!categoryItemsData || !categoryItemsCount) {
     return (
       <div className="h-[100vw] overflow-hidden">
         <div className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] flex flex-col items-center">
@@ -41,21 +37,19 @@ export default async function ProductList({
     )
   }
   return (
-    <div className="col-start-2 col-end-auto">
-      <div className="grid-cols-custom grid gap-y-0 gap-x-2 ms-4 me-4">
-        <div className="text-xs flex pt-3">
-          <span className="font-bold">
-            {new Intl.NumberFormat().format(categoryItemsCount)}개
-          </span>
-          <span className="text-gray-500">의 상품이 있습니다.</span>
-        </div>
-        <div className="grid grid-cols-2 gap-2">
-          {categoryItemsData.itemIds.map((itemId) => (
-            <Suspense key={`${itemId}-categoryItemId`} fallback={<Loading />}>
-              <ItemCard itemId={itemId} />
-            </Suspense>
-          ))}
-        </div>
+    <div className="col-start-2 col-end-auto px-3">
+      <div className="text-xs flex pt-3">
+        <span className="font-bold">
+          {new Intl.NumberFormat().format(categoryItemsCount)}개
+        </span>
+        <span className="text-gray-500">의 상품이 있습니다.</span>
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        {categoryItemsData.itemIds.map((itemId) => (
+          <Suspense key={`${itemId}-categoryItemId`} fallback={<Loading />}>
+            <ItemCard itemId={itemId} />
+          </Suspense>
+        ))}
       </div>
     </div>
   )
