@@ -6,8 +6,9 @@ import {
   getItemThumbnail,
 } from "@/actions/item"
 import Link from "next/link"
-import Heart from "./Heart"
-import { getClip } from "@/actions/clip"
+import { getClip } from "@/actions/itemClip"
+import { SkeletonCard } from "../ui/SkeletonCard"
+import ItemHeart from "./ItemHeart"
 
 interface ItemCardPropsType {
   itemId: number
@@ -19,6 +20,10 @@ export default async function ItemCard({ itemId }: ItemCardPropsType) {
   const brand = await getItemBrand(itemId)
   const calc = await getItemCalc(itemId)
   const isCliped = await getClip(itemId)
+
+  if (!thumbnail || !basicInfo || !calc) {
+    return <SkeletonCard />
+  }
 
   const itemName = basicInfo ? basicInfo.itemName : ""
   const discountRate = basicInfo ? basicInfo.discountRate : 0
@@ -48,7 +53,7 @@ export default async function ItemCard({ itemId }: ItemCardPropsType) {
         />
       </Link>
       <div className="flex flex-row justify-end items-center">
-        <Heart itemId={itemId} clicked={isCliped} />
+        <ItemHeart itemId={itemId} clicked={isCliped} />
         {/* 장바구니 담는 서버액션을 장바구니 컴포넌트로 분리 */}
         <button className="w-[28px] h-[28px]">
           <svg
