@@ -2,7 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import serviceLogo from "@/asset/images/serviceLogo.svg"
 import Separator from "./ui/Separator"
-import SigninStateBar from "./ui/SigninStateBar"
+import SigninStateBar from "./SigninStateBar"
 
 export default function Footer() {
   return (
