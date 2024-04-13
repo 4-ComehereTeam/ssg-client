@@ -13,8 +13,8 @@ export default function CategoryEditBar({
     confirm && alert("삭제되었습니다.")
   }
   return (
-    <div className="z-10 right-0 fixed bottom-0 w-full grid grid-cols-2 h-12 text-white tracking-tighter">
-      <button className="bg-[#FF5452]" onClick={handleDeleteButton}>
+    <div className="z-10 right-0 fixed bottom-0 w-full h-12 text-white tracking-tighter">
+      <button className="bg-[#FF5452] size-full" onClick={handleDeleteButton}>
         삭제
       </button>
     </div>
