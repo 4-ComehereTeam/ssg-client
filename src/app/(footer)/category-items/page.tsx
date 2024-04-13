@@ -102,9 +102,9 @@ export default async function CategoryProductListPage({
       <HeaderWithSearchBar />
       <div className="contents">
         <CategoryProductListToolBar
-          bigCategoryName={categoryNames.big}
-          midCategoryName={categoryNames.mid}
-          smallCategoryName={categoryNames.small}
+          bigCategory={categoryNames.big}
+          midCategory={categoryNames.mid}
+          smallCategory={categoryNames.small}
         />
         {subCategories && (
           <SubCategorySlideButton
