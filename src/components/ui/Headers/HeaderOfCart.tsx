@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation"
 export default function HeaderOfCart({ title }: { title: string }) {
   const router = useRouter()
   return (
-    <header className="h-[45px] flex items-center border-b-[1px] border-[rgba(0, 0, 0, 0.07)] sticky top-0 shadow-md bg-white z-50">
+    <header className="h-[45px] flex items-center border-b-[1px] border-[rgba(0, 0, 0, 0.07)] sticky top-0 bg-white z-50">
       <div
         className="w-[50px] h-full items-center flex justify-center"
         onClick={() => router.back()}

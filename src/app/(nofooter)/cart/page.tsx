@@ -5,7 +5,6 @@ import HeaderOfCart from '@/components/ui/Headers/HeaderOfCart'
 function Cart() {
     return (
         <main>
-            {/* <HeaderTitle title="장바구니" /> */}
             <HeaderOfCart title='장바구니'/>
             <DeliveryAddress />
             <ChangeAddress />

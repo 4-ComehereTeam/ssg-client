@@ -5,9 +5,9 @@ import AddressModal from '../address/AddressModal'
 export default function ChangeAddress() {
     const [modalOpen, setModalOpen] = useState<boolean>(false)
     return (
-        <section className="mx-5 mb-10">
+        <section className="mx-5 mb-10 font-[Pretendard-Light]">
             <button
-                className="w-full h-9 border"
+                className="w-full h-9 border text-sm text-[#888888]"
                 onClick={() => {
                     setModalOpen(true)
                 }}

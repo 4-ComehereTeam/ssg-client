@@ -6,13 +6,13 @@ export default function DeliveryAddress() {
             id: 1,
             name: '자취방',
             zipCode: 12312,
-            addressBase: '부산광역시 센텀',
-            addressDetail: '스파로스',
+            addressBase: '부산광역시 해운대구 APEC로 17',
+            addressDetail: ', 4층 신세계아이앤씨 (우동)',
             isMain: '기본배송지',
         },
     ]
     return (
-        <section className="my-5 mx-5 z-[2]">
+        <section className="my-5 mx-5 z-[2] font-[Pretendard-Light]">
             <div className="flex mb-2 ">
                 {/* <Image src={LocationIcon} alt="위치" width={20} /> */}
                 <Image
@@ -21,16 +21,16 @@ export default function DeliveryAddress() {
                     src="https://img.icons8.com/ios/50/place-marker--v1.png"
                     alt="place-marker--v1"
                 />
-                <h3 className="text- base font-bold">{addData[0].name}</h3>
+                <h3 className="text-base mx-1 font-extrabold">{addData[0].name}</h3>
                 <span
-                    className="ml-1 px-2 text-sm justify-center items-center flex"
+                    className="ml-1 px-1 text-xs justify-center items-center flex"
                     style={{ backgroundColor: '#ff5452', color: 'white' }}
                 >
                     {addData[0].isMain}
                 </span>
             </div>
 
-            <p className="text-sm">
+            <p className="text-sm text-[#888888]">
                 [{addData[0].zipCode}] {addData[0].addressBase} {addData[0].addressDetail}{' '}
             </p>
         </section>
