@@ -3,8 +3,29 @@
 import { getSession } from "@/lib/getSession"
 import { revalidateTag } from "next/cache"
 
+export async function getClipItemIds(): Promise<number[]> {
+  const session = await getSession()
+  try {
+    const res = await fetch(`${process.env.API_BASE_URL}/clip/items`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: session ? session.user.accessToken : null,
+      },
+      next: { tags: ["getClipItemIds"] },
+    })
+
+    const data = await res.json()
+    console.log("getClipItemIds success", data.httpStatus)
+    return data.result.itemIds
+  } catch (error) {
+    console.log("getClipItemIds error", error)
+    return []
+  }
+}
+
 //개별 상품 좋아요 조회
-export async function getClip(itemId: number | string) {
+export async function getClip(itemId: number | string): Promise<boolean> {
   revalidateTag("getClipItemIds")
   const session = await getSession()
   try {
@@ -16,7 +37,9 @@ export async function getClip(itemId: number | string) {
       },
     })
     const data = await res.json()
-    console.log("getClip success:", data.httpStatus)
+    if (data.httpStatus) {
+      console.log("getClip success:", data.httpStatus)
+    }
     return data.result.isCliped
   } catch (error) {
     console.log("getClip fail:", error)

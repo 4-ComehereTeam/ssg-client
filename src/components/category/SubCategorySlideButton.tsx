@@ -20,7 +20,6 @@ export default function SubCategorySlideButton({
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [isOpenAllCategory, setIsOpenAllCategory] = useState(false)
   const buttonRefs = useRef<HTMLButtonElement[]>([])
-  console.log(selectedIndex)
 
   const handleCategoryClick = (index: number) => {
     setSelectedIndex(index)

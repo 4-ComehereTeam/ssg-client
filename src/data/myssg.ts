@@ -3,7 +3,7 @@ export const freqMenu = [
     id: 1,
     src: "https://sui.ssgcdn.com/ui/m_ssg/img/myssg_main/img_like.svg",
     alt: "좋아요",
-    href: "/myssg/clip",
+    href: "/myssg/clip/item",
   },
   {
     id: 2,

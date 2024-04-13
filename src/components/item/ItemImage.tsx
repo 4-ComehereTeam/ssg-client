@@ -4,19 +4,9 @@ import Image from "next/image"
 import { Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 import "swiper/css"
+import { ItemImageType } from "@/actions/item"
 
-export type ItemImageProps = {
-  images: ItemImageType[]
-}
-
-export type ItemImageType = {
-  imageId: number
-  url: string
-  alt: string
-  thumbnail: boolean
-}
-
-export default function ItemImage({ images }: ItemImageProps) {
+export default function ItemImage({ images }: { images: ItemImageType[] }) {
   const sortedImages = images.sort(
     (a: ItemImageType, b: ItemImageType) =>
       Number(b.thumbnail) - Number(a.thumbnail),

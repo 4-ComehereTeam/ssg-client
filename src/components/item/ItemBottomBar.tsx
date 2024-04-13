@@ -1,6 +1,6 @@
 "use client"
 
-import { deleteClip, postClip } from "@/actions/clip"
+import { deleteClip, postClip } from "@/actions/itemClip"
 import {
   getItemNoneOption,
   getItemOption,

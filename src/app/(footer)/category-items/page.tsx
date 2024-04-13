@@ -1,7 +1,7 @@
 import SubCategorySlideButton from "@/components/category/SubCategorySlideButton"
 import ProductList from "@/components/category/ProductList"
 import SuperSubCategoryTable from "@/components/category/SuperSubCategoryTable"
-import CategoryProductListToolBar from "@/components/category/CategoryProductListToolBar"
+import CategoryToolBar from "@/components/category/CategoryToolBar"
 import {
   getBigCategoryName,
   getMidCategoryName,
@@ -101,10 +101,10 @@ export default async function CategoryProductListPage({
     <div className="min-h-screen">
       <HeaderWithSearchBar />
       <div className="contents">
-        <CategoryProductListToolBar
-          bigCategoryName={categoryNames.big}
-          midCategoryName={categoryNames.mid}
-          smallCategoryName={categoryNames.small}
+        <CategoryToolBar
+          bigCategory={categoryNames.big}
+          midCategory={categoryNames.mid}
+          smallCategory={categoryNames.small}
         />
         {subCategories && (
           <SubCategorySlideButton

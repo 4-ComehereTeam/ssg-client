@@ -1,13 +1,24 @@
+import { getClipCategoryIds } from "@/actions/categoryClip"
+import { getClipItemIds } from "@/actions/itemClip"
+import ClipHeader from "@/components/clip/ClipHeader"
+import ClipNavbar from "@/components/clip/ClipNavbar"
 import HeaderToBackNotSticky from "@/components/ui/Headers/HeaderToBackNotSticky"
 
-export default function layout({
+export default async function layout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const itemIds = await getClipItemIds()
+  const clipCategoryIds = await getClipCategoryIds()
   return (
     <>
       <HeaderToBackNotSticky title="좋아요" />
+      <ClipHeader />
+      <ClipNavbar
+        clipNums={itemIds.length}
+        categoryNums={clipCategoryIds.length}
+      />
       {children}
     </>
   )

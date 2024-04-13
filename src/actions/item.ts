@@ -61,7 +61,14 @@ export async function getItemDescription(itemId: string | number) {
   }
 }
 
-export async function getItemCalc(itemId: string | number) {
+export type ItemCalcData = {
+  reviewCount: number
+  averageStar: number
+}
+
+export async function getItemCalc(
+  itemId: string | number,
+): Promise<ItemCalcData | null> {
   try {
     const res = await fetch(
       `${process.env.API_BASE_URL}/items/calc/${itemId}`,
@@ -73,21 +80,23 @@ export async function getItemCalc(itemId: string | number) {
         },
       },
     )
-    if (res.ok) {
-      const data = await res.json()
-      console.log("getItemCalc success:", data.httpStatus)
-      return data.result
-    } else {
-      console.log("getItemCalc fail:", res.status)
-      return null
-    }
+    const data = await res.json()
+    console.log("getItemCalc success:", data.httpStatus)
+    return data.result
   } catch (error) {
     console.log("getItemCalc fail:", error)
     return null
   }
 }
 
-export async function getItemBrand(itemId: string | number) {
+export type ItemBrandData = {
+  id: number
+  name: string
+}
+
+export async function getItemBrand(
+  itemId: string | number,
+): Promise<ItemBrandData | null> {
   try {
     const res = await fetch(
       `${process.env.API_BASE_URL}/items/brand/${itemId}`,
@@ -99,21 +108,30 @@ export async function getItemBrand(itemId: string | number) {
         },
       },
     )
-    if (res.ok) {
-      const data = await res.json()
-      console.log("getItemBrand success:", data.httpStatus)
-      return data.result
-    } else {
-      console.log("getItemBrand fail:", res.status)
-      return null
-    }
+    const data = await res.json()
+    console.log("getItemBrand success:", data.httpStatus)
+    return data.result
   } catch (error) {
     console.log("getItemBrand fail:", error)
     return null
   }
 }
 
-export async function getItemImages(itemId: string | number) {
+export type ItemImagesData = {
+  itemId: number
+  itemImages: ItemImageType[]
+}
+
+export type ItemImageType = {
+  imageId: number
+  url: string
+  alt: string
+  thumbnail: boolean
+}
+
+export async function getItemImages(
+  itemId: string | number,
+): Promise<ItemImagesData | null> {
   try {
     const res = await fetch(
       `${process.env.API_BASE_URL}/items/images/${itemId}`,
@@ -125,21 +143,25 @@ export async function getItemImages(itemId: string | number) {
         },
       },
     )
-    if (res.ok) {
-      const data = await res.json()
-      console.log("getItemImages success:", data.httpStatus)
-      return data.result
-    } else {
-      console.log("getItemImages fail:", res.status)
-      return null
-    }
+    const data = await res.json()
+    console.log("getItemImages success:", data.httpStatus)
+    return data.result
   } catch (error) {
     console.log("getItemImages fail:", error)
     return null
   }
 }
 
-export async function getItemThumbnail(itemId: string | number) {
+export type ThumbnailData = {
+  itemId: number
+  imageId: number
+  url: string
+  alt: string
+}
+
+export async function getItemThumbnail(
+  itemId: string | number,
+): Promise<ThumbnailData | null> {
   try {
     const res = await fetch(
       `${process.env.API_BASE_URL}/items/thumbnail/${itemId}`,
@@ -165,19 +187,16 @@ export async function getItemThumbnail(itemId: string | number) {
   }
 }
 
-export async function getItemList(){
-  try{
-    const res = await fetch(
-      `${process.env.API_BASE_URL}/items`,
-      {
-        cache : "force-cache",
-        method : "GET",
-        headers : {
-          "Content-Type" : "application/json",
-        },
-      }
-    )
-    if(res.ok) {
+export async function getItemList() {
+  try {
+    const res = await fetch(`${process.env.API_BASE_URL}/items`, {
+      cache: "force-cache",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    if (res.ok) {
       const data = await res.json()
       console.log("getItemList success :", data.httpStatus)
       return data.result
@@ -185,7 +204,7 @@ export async function getItemList(){
       console.log("getItemList fail :", res.status)
       return null
     }
-  } catch (error){
+  } catch (error) {
     console.log("getItemList fail(erroe) :", error)
     return null
   }
