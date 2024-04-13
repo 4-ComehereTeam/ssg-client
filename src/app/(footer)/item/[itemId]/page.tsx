@@ -1,4 +1,4 @@
-import { getClip } from "@/actions/clip"
+import { getClip } from "@/actions/itemClip"
 import { getItemBasicInfo, getItemImages } from "@/actions/item"
 import { getItemOptionExist } from "@/actions/itemOption"
 import ItemBottomBar from "@/components/item/ItemBottomBar"
@@ -8,6 +8,7 @@ import ItemInfo from "@/components/item/ItemInfo"
 import ReviewCntOfItem from "@/components/item/review/ReviewCntOfItem"
 import ReviewContainer from "@/components/item/review/ReviewContainer"
 import HeaderOfItem from "@/components/ui/Headers/HeaderOfItem"
+import { Skeleton } from "@/components/ui/Skeleton"
 import { notFound } from "next/navigation"
 
 export type convertedOptionExistType = {
@@ -40,7 +41,13 @@ export default async function ItemDetailPage({
       <HeaderOfItem>
         <ReviewCntOfItem itemId={params.itemId} />
       </HeaderOfItem>
-      <ItemImage images={itemImages.itemImages} />
+      {itemImages ? (
+        <ItemImage images={itemImages.itemImages} />
+      ) : (
+        <div className="flex space-y-5">
+          <Skeleton className="w-full h-[300px]" />
+        </div>
+      )}
       <ItemInfo itemId={params.itemId} />
       <div className=" bg-[#F5F5F5] h-4 mb-2 mt-4"></div>
       <ItemDescription itemId={params.itemId} />
