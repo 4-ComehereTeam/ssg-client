@@ -1,6 +1,6 @@
 "use client"
 
-import { deleteClip, postClip } from "@/actions/clip"
+import { deleteClip, postClip } from "@/actions/itemClip"
 import Image from "next/image"
 import { useState } from "react"
 import heartFill from "@/public/asset/images/heart-fill.png"
@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { SIGNIN_WITH_CALLBACK } from "@/routes"
 
-export default function Heart({
+export default function ItemHeart({
   itemId,
   clicked,
 }: {
