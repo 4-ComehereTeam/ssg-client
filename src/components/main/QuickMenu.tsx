@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import QuickMenuItem from "./ui/QuickMenuItem";
-import QuickMenuItemLong from "./ui/QuickMenuItemLong";
+import QuickMenuItem from "./QuickMenuItem";
+import QuickMenuItemLong from "./QuickMenuItemLong";
 
 export default function QuickMenu(){
     const [scrollPercent, setScrollPercent] = useState(0);
@@ -33,7 +33,7 @@ return(
         <div className="overflow-auto scrollbar-hide" onScroll={progress}>
             <div className="w-fit mx-4 my-10" >
 
-                <div className="flex ">
+                <div className="flex">
                     <QuickMenuItem name="쓱배송" path="https://m.ssg.com/page/dvstore_emart.ssg?mGnbYn=N" src="https://simg.ssgcdn.com/trans.ssg?src=/cmpt/banner/202401/2024010509051067186177991717_407.png&amp;w=128&amp;h=128"/>
                     <QuickMenuItem name="새벽배송" path="https://m.ssg.com/page/dvstore_morning.ssg?mGnbYn=N" src="https://simg.ssgcdn.com/trans.ssg?src=/cmpt/banner/202401/2024010509053385538505647850_845.png&amp;w=128&amp;h=128"/>
                     <QuickMenuItem name="쓱1DAY 배송" path="https://m.ssg.com/page/dvstore_oneday.ssg?mGnbYn=N" src="https://simg.ssgcdn.com/trans.ssg?src=/cmpt/banner/202401/2024010509125498828183756818_909.png&amp;w=128&amp;h=128"/>

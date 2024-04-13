@@ -4,26 +4,20 @@ import { Categories } from "@/actions/category/category"
 import Image from "next/image"
 import Link from "next/link"
 import React, { useState, useRef } from "react"
-import SubCategoryDrawer from "./SubCategoryDrawer"
+import CategoryDrawer from "./CategoryDrawer"
 
-export default function SubCategorySlideButton({
-  bigCtgId,
-  midCtgId,
-  existingSmall,
-  subCategories,
+export default function CategorySlideButton({
+  categories,
 }: {
-  bigCtgId: number
-  midCtgId: number
-  existingSmall: boolean
-  subCategories: Categories
+  categories: Categories
 }) {
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  const [isOpenAllCategory, setIsOpenAllCategory] = useState(false)
+  const [selectedCtgId, setSelectedCtgId] = useState(0)
+  const [openDrawer, setOpenDrawer] = useState(false)
   const buttonRefs = useRef<HTMLButtonElement[]>([])
-  console.log(selectedIndex)
+  const totalCategories = [{ id: 0, name: "전체" }].concat(categories)
 
   const handleCategoryClick = (index: number) => {
-    setSelectedIndex(index)
+    setSelectedCtgId(index)
     if (buttonRefs.current[index]) {
       buttonRefs.current[index].scrollIntoView({
         behavior: "smooth",
@@ -37,13 +31,13 @@ export default function SubCategorySlideButton({
     buttonRefs.current[index] = element
   }
 
-  const handleOpenAllCategory = () => {
-    setIsOpenAllCategory(!isOpenAllCategory)
+  const handleOpenDrawer = () => {
+    setOpenDrawer(!openDrawer)
   }
 
   const handleDrawer = (index: number) => {
-    setIsOpenAllCategory(!isOpenAllCategory)
-    setSelectedIndex(index)
+    setOpenDrawer(!openDrawer)
+    setSelectedCtgId(index)
     if (buttonRefs.current[index]) {
       buttonRefs.current[index].scrollIntoView({
         behavior: "smooth",
@@ -54,29 +48,25 @@ export default function SubCategorySlideButton({
   }
   return (
     <>
-      <div className="col-start-2 col-end-auto ms-[(1rem)*-1] me-[(1rem)*-1] top-[46px] bg-white">
+      <div className="sticky z-20 col-start-2 col-end-auto ms-[(1rem)*-1] me-[(1rem)*-1] top-[46px] bg-white">
         <div className="flex-start flex-shrink-0 align-middle relative pr-[54px]">
           <div className="h-[56px] overflow-hidden text-nowrap flex">
             <div className="flex-nowrap pt-[10px] pb-[10px] ps-3 pe-1 overflow-scroll scrollbar-hide">
-              {subCategories.map((subCtg, index) => (
+              {totalCategories.map((ctg, index) => (
                 <Link
-                  key={subCtg.id}
-                  href={
-                    existingSmall
-                      ? `/category-items?big=${bigCtgId}&mid=${midCtgId}&small=${subCtg.id}`
-                      : `/category-items?big=${bigCtgId}&mid=${subCtg.id}`
-                  }
-                  onClick={() => handleCategoryClick(index)}
+                  key={ctg.id}
+                  href={`/best?big=${ctg.id}`}
+                  onClick={() => handleCategoryClick(ctg.id)}
                 >
                   <button
                     ref={(element) => element && setButtonRef(element, index)}
                     className={`min-w-min h-full text-xs font-semibold mr-[5px] pl-2 pr-2 ${
-                      selectedIndex === index
+                      selectedCtgId === index
                         ? "bg-black text-white"
-                        : "bg-gray-100 text-black"
+                        : "border-gray-200 border-[1px] text-black"
                     }`}
                   >
-                    {subCtg.name}
+                    {ctg.name}
                   </button>
                 </Link>
               ))}
@@ -84,7 +74,7 @@ export default function SubCategorySlideButton({
             <div className="flex flex-row top-[10px] absolute bottom-[10px] right-0 pr-4">
               <div className="w-[20px] h-[36px] bg-gradient-to-l from-white"></div>
               <button
-                onClick={handleOpenAllCategory}
+                onClick={handleOpenDrawer}
                 className="bg-white min-w-9 min-h-9 rotate-90 inline-flex items-center justify-center text-sm border border-gray-200"
               >
                 <div className="w-[18px] h-[18px] bg-white text-black font-bold">
@@ -101,14 +91,11 @@ export default function SubCategorySlideButton({
           </div>
         </div>
       </div>
-      <SubCategoryDrawer
-        bigCtgId={bigCtgId}
-        midCtgId={midCtgId}
-        existingSmall={existingSmall}
-        isOpenAllCategory={isOpenAllCategory}
-        selectedIndex={selectedIndex}
+      <CategoryDrawer
+        isOpenAllCategory={openDrawer}
+        selectedCtgId={selectedCtgId}
         handleDrawer={handleDrawer}
-        subCategories={subCategories}
+        categories={totalCategories}
       />
     </>
   )
