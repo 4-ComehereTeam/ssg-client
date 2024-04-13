@@ -59,7 +59,6 @@ export const options: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user, profile, account }) {
-      console.log(user)
       if (account?.provider !== "credentials") {
         //간편회원 아이디가 없으면 간편회원가입 페이지로 이동
         const isExistId = await idDuplCheck(user.id)
