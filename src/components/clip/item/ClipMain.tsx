@@ -1,15 +1,16 @@
 "use client"
 
 import { useState } from "react"
-import Checkbox from "../ui/Checkbox"
-import ClipCancleButton from "./ClipCancleButton"
-import ClipEditButton from "./ClipEditButton"
+import Checkbox from "../../ui/Checkbox"
+import ClipCancleButton from "../ClipCancleButton"
+import ClipEditButton from "../ClipEditButton"
 import EditBar from "./EditBar"
-import ClipInfoButton from "./ClipInfoButton"
+import ClipInfoButton from "../ClipInfoButton"
+import ClipItemCard from "./ClipItemCard"
 
 type ClipMainPropsType = {
   itemIds: number[]
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 export default function ClipMain({ itemIds, children }: ClipMainPropsType) {
@@ -102,23 +103,24 @@ export default function ClipMain({ itemIds, children }: ClipMainPropsType) {
             <ClipEditButton onEditMode={() => handleEditMode()} />
           </div>
         )}
-        {isEditMode && (
-          <div className="absolute px-4 py-2 left-0 w-full h-full grid grid-cols-2 sm:grid-cols-4 gap-2 justify-between">
-            {itemIds.map((itemId) => (
-              <Checkbox
-                key={itemId}
-                id={"item" + itemId.toString()}
-                text=""
-                onChange={() => handleClick(itemId)}
-                checked={allCheck || clicks[itemId]}
-                isDisabled={false}
-                checkboxShape="absolute square w-[19px] h-[19px]"
-              />
-            ))}
-          </div>
-        )}
+
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 justify-between">
-          {children}
+          {itemIds.map((itemId) => (
+            <div key={itemId}>
+              <ClipItemCard itemId={itemId}>
+                {isEditMode && (
+                  <Checkbox
+                    id={"item" + itemId.toString()}
+                    text=""
+                    onChange={() => handleClick(itemId)}
+                    checked={allCheck || clicks[itemId]}
+                    isDisabled={false}
+                    checkboxShape="absolute square mt-2 w-[19px] h-[19px]"
+                  />
+                )}
+              </ClipItemCard>
+            </div>
+          ))}
         </div>
       </div>
     </section>
