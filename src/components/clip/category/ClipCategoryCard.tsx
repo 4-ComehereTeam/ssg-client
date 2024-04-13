@@ -45,18 +45,22 @@ export default function ClipCategoryCard({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  let categoryPagePath = `/category-items?big=${clipCategory.bigCategoryId}`
+  if (clipCategory.middleCategoryId) {
+    categoryPagePath += `&mid=${clipCategory.middleCategoryId}`
+  }
+  if (clipCategory.smallCategoryId) {
+    categoryPagePath += `&small=${clipCategory.smallCategoryId}`
+  }
+
   return (
     <>
       {children}
-      <div
-        onClick={() =>
-          router.push(
-            `/category-items?big=${clipCategory.bigCategoryId}&mid=${clipCategory.middleCategoryId}&small=${clipCategory.smallCategoryId}`,
-          )
-        }
-        className="flex flex-row h-[60px] justify-between items-center text-center"
-      >
-        <div className="flex flex-row">
+      <div className="flex flex-row h-[60px] justify-between items-center text-center">
+        <div
+          className="flex flex-row"
+          onClick={() => router.push(categoryPagePath)}
+        >
           <span>{bigCategoryName}</span>
           {midCategoryName && (
             <Image
