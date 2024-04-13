@@ -16,7 +16,7 @@ type CategoryProductListToolBarProps = {
   smallCategory: Category
 }
 
-export default async function CategoryProductListToolBar({
+export default async function CategoryToolBar({
   bigCategory,
   midCategory,
   smallCategory,
