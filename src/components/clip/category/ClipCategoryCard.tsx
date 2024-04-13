@@ -7,6 +7,7 @@ import {
 } from "@/actions/category/category"
 import { ClipCategoryId, getIsClipedCategory } from "@/actions/categoryClip"
 import CategoryHeart from "@/components/category/CategoryHeart"
+import { Skeleton } from "@/components/ui/Skeleton"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -56,35 +57,39 @@ export default function ClipCategoryCard({
   return (
     <>
       {children}
-      <div className="flex flex-row h-[60px] justify-between items-center text-center">
-        <div
-          className="flex flex-row"
-          onClick={() => router.push(categoryPagePath)}
-        >
-          <span>{bigCategoryName}</span>
-          {midCategoryName && (
-            <Image
-              width="20"
-              height="20"
-              src="https://img.icons8.com/material-rounded/24/expand-arrow--v1.png"
-              alt="구분자"
-              className="-rotate-90"
-            />
-          )}
-          <span>{midCategoryName}</span>
-          {smallCategoryName && (
-            <Image
-              width="20"
-              height="20"
-              src="https://img.icons8.com/material-rounded/24/expand-arrow--v1.png"
-              alt="구분자"
-              className="-rotate-90"
-            />
-          )}
-          <span>{smallCategoryName}</span>
+      {!bigCategoryName ? (
+        <Skeleton className="h-[50px] my-[5px]" />
+      ) : (
+        <div className="ml-6 flex flex-row h-[60px] justify-between items-center text-center">
+          <div
+            className="flex flex-row"
+            onClick={() => router.push(categoryPagePath)}
+          >
+            <span>{bigCategoryName}</span>
+            {midCategoryName && (
+              <Image
+                width="20"
+                height="20"
+                src="https://img.icons8.com/material-rounded/24/expand-arrow--v1.png"
+                alt="구분자"
+                className="-rotate-90"
+              />
+            )}
+            <span>{midCategoryName}</span>
+            {smallCategoryName && (
+              <Image
+                width="20"
+                height="20"
+                src="https://img.icons8.com/material-rounded/24/expand-arrow--v1.png"
+                alt="구분자"
+                className="-rotate-90"
+              />
+            )}
+            <span>{smallCategoryName}</span>
+          </div>
+          <CategoryHeart clipCategoryId={clipCategory} isCliped={isCliped} />
         </div>
-        <CategoryHeart clipCategoryId={clipCategory} isCliped={isCliped} />
-      </div>
+      )}
     </>
   )
 }
