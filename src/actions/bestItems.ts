@@ -1,3 +1,5 @@
+"use server"
+
 export type BestItemsData = {
   items: number[]
 }
