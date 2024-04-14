@@ -14,6 +14,7 @@ export async function getBestItems(
   try {
     const res = await fetch(`${process.env.API_BASE_URL}/items/best?${path}`, {
       method: "GET",
+      cache: "no-store",
       headers: {
         "Content-Type": "application/json",
       },
