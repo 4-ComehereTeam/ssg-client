@@ -1,4 +1,4 @@
-import { getClipItemIds } from "@/actions/itemClip"
+import { getClipItemIds } from "@/actions/clip/itemClip"
 import ClipMain from "@/components/clip/item/ClipMain"
 
 export default async function ClipItemsPage() {

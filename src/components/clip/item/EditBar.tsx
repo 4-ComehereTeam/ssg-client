@@ -1,4 +1,4 @@
-import { deleteManyClips } from "@/actions/itemClip"
+import { deleteManyClips } from "@/actions/clip/itemClip"
 
 type EditBarProps = {
   clickItemIds: number[]

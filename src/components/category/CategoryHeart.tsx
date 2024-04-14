@@ -11,7 +11,7 @@ import {
   ClipCategoryId,
   deleteClipCategories,
   postClipCategory,
-} from "@/actions/categoryClip"
+} from "@/actions/clip/categoryClip"
 
 export default function CategoryHeart({
   clipCategoryId,

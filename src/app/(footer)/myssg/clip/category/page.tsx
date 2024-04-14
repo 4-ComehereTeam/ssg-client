@@ -1,6 +1,5 @@
-import { getClipCategoryIds } from "@/actions/categoryClip"
+import { getClipCategoryIds } from "@/actions/clip/categoryClip"
 import ClipCategoriesMain from "@/components/clip/category/ClipCategoriesMain"
-import React from "react"
 
 export default async function ClipCategoriesPage() {
   const clipCategoryIds = await getClipCategoryIds()

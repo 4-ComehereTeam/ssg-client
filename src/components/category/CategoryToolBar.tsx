@@ -2,7 +2,7 @@ import backArrow from "@/asset/images/backArrow.svg"
 import Link from "next/link"
 import Image from "next/image"
 import CategoryHeart from "./CategoryHeart"
-import { getIsClipedCategory } from "@/actions/categoryClip"
+import { getIsClipedCategory } from "@/actions/clip/categoryClip"
 
 export type Category = {
   id: number | undefined
