@@ -44,7 +44,9 @@ export default function ClipCategoryCard({
         setSmallCategoryName(smallResult ? smallResult.categoryName : "")
       }
       const isClipedResult = await getIsClipedCategory(clipCategory)
-      setIsCliped(isClipedResult)
+      if (isClipedResult) {
+        setIsCliped(isClipedResult.isCliped)
+      }
     })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
