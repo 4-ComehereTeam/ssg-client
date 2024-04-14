@@ -1,13 +1,29 @@
+'use client'
+
 import Link from "next/link"
 import AddressList from "./AddressList"
 import Buttons from "../ui/Buttons/buttons"
 import Image from "next/image"
+import { getAddressList } from "@/actions/address/addressList"
+import { useEffect, useState } from "react"
+import { any } from "zod"
 
 interface AddressModalProps {
   modalOpen: boolean
   setModalOpen: (value: boolean) => void
 }
 function AddressModal({ modalOpen, setModalOpen }: AddressModalProps) {
+  const [address, setAddress] = useState<any>([]);
+
+  useEffect(() => {
+    (async () => {
+      const addressList = await getAddressList();
+      setAddress(addressList);
+      console.log("addressList >>", address);
+    })()
+  }, [])
+  
+  
   return modalOpen ? (
     <div className="bg-black/60 absolute inset-0 z-50">
       <div className="fixed inset-x-0 top-7 bottom-0 flex flex-col border rounded-t-lg bg-white">

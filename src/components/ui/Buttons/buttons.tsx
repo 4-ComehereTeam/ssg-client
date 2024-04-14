@@ -19,13 +19,14 @@ export default function Buttons({
     <div>
       <Link href={href}>
         <button
-          className="button-groups"
+          className="button-groups w-full h-14"
           style={{
             backgroundColor: color || "#ff5452",
             color: ftcolor || "#fff",
           }}
           onClick={click}
           disabled={disabled}
+
         >
           {title}
         </button>

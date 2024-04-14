@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import trash from '@/asset/images/Trash.png'
 import '@/app/(nofooter)/cart/cart.css'
@@ -7,9 +7,39 @@ import Buttons from '@/components/ui/Buttons/buttons'
 // import { useRecoilState } from 'recoil'
 // import { CartCheckedListAtom } from '@/state/CartCheckedListAtom'
 import { productData } from "@/lib/CartList"
+import { useSearchParams } from 'next/navigation'
+import { cartAdd } from '@/actions/cart/cartAdd'
+import { getCartList } from '@/actions/cart/cartList'
+
+type cartList = {
+  itemId: number | string
+  itemOptionId: number | string
+  itemCount: number | string
+  pinStatus: boolean | string
+  itemCheck: boolean | string
+}
 
 export default function CartList() {
   // const [recoilSample, setRecoilSample] = useRecoilState<number[]>(CartCheckedListAtom)
+
+  const Params = useSearchParams()
+  const itemId = Params.get("itemId")
+  const itemOptionIds = Params.get("itemOptionId")
+  const counts = Params.get("count")
+  const [cart, setCart] = useState<any>({});
+
+  // console.log("itemId >> ", itemId , "itemOptionIds >> ", itemOptionIds, "counts >> ", counts)
+  // cartAdd(itemId , itemOptionIds, counts);
+
+  
+  useEffect(() => {
+    (async () => {
+      const cartList = await getCartList()
+      setCart(cartList);
+      console.log("cart >>", cart);
+    })()
+  }, [])
+  
 
   const [filteredProductList, setFilteredProductList] = useState(
     productData.filter((product) => product.isIncluded === 11),
@@ -99,7 +129,7 @@ export default function CartList() {
   }
 
   return (
-    <>
+    <section className='font-[Pretendard-Light]'>
       <div className="my-3 mx-4 flex items-center">
         <span className="min-w-5 min-h-5 leading-5">
           <input
@@ -108,24 +138,22 @@ export default function CartList() {
             checked={
               checkedItem.length === filteredProductList.length ? true : false
             }
-            className="w-5 h-5"
+            className="w-4 h-4 accent-red-500"
           />
         </span>
         <label>
-          <span className="mx-3 "> 전체</span>
+          <span className="mx-1 text-sm flex border-r-[1px] pr-2"> 전체</span>
         </label>
-        |
         <button
-          className="ml-3 px-2 py-1"
+          className="mx-1 text-sm border-r-[1px] pr-2"
           onClick={() => {
             checkDeletedProduct(checkedItem)
           }}
         >
           선택삭제
         </button>
-        |
         <div className="flex ">
-          <label className="mx-3">
+          <label className="mx-1 text-sm">
             선택상품만 보기{" "}
             <input
               type="checkbox"
@@ -164,7 +192,7 @@ export default function CartList() {
                         )
                       }
                       checked={checkedItem.includes(product.productId)}
-                      className="absolute top-0 left-0 w-4 h-4"
+                      className="absolute top-0 left-0 w-4 h-4 accent-red-500"
                     />
                     <Image
                       src={product.imageUrl}
@@ -257,40 +285,40 @@ export default function CartList() {
         )}
       </ul>
 
-      <div className="border-t-4 px-4 pl-4 pr-5 m">
-        <h3 className="text-xl font-bold m-3 "> 결제 예정금액</h3>
-        <div className="flex justify-between m-1">
+      <div className="border-t-4 px-4  mb-32 mt-2 pt-2">
+        <h3 className="text-lg font-extrabold my-2"> 결제 예정금액</h3>
+        <div className="flex justify-between m-1 text-sm">
           <span>주문금액</span>
-          <span>{totalMoney.toLocaleString()} </span>
+          <span>+ {totalMoney.toLocaleString()} 원 </span>
         </div>
-        <div className="flex justify-between m-1">
+        <div className="flex justify-between m-1 text-sm">
           <span>상품할인 </span>
           <span style={{ color: "red" }}>
-            {discountMoney.toLocaleString()}{" "}
+            {discountMoney.toLocaleString()}{" "} 원
           </span>
         </div>
-        <div className="flex justify-between m-1">
+        <div className="flex justify-between m-1 text-sm">
           <span>배송비</span>
           <span>0 원 </span>
         </div>
-        <div className="flex justify-between m-1 border-t  mb-7 ">
-          <span className="text-base font-bold mt-2">총 결제예정금액</span>
+        <div className="flex justify-between m-1 border-t-[0.5px] mt-2 py-2 mb-7 ">
+          <span className="text-sm font-bold mt-2">총 결제예정금액</span>
           <span className="text-lg font-bold mt-2">
             {(totalMoney + discountMoney).toLocaleString()} 원
           </span>
         </div>
       </div>
-      <div className="fixed bottom-0 left-0 right-0 z-[1] bg-white">
+      <div className="fixed bottom-0 left-0 right-0 z-[1] bg-white shadow-2xl border-t-[1px] rounded-t-xl">
         <div className="relative p-4 ">
-          <p className="text-xs text-black">
+          <p className="text-xs text-black mb-1">
             전체상품 {filteredProductList.length}개{" "}
             {(totalMoney + discountMoney).toLocaleString()} 원 + 배송비 0원 ={" "}
-            {(totalMoney + discountMoney).toLocaleString()} 원
+            <span className='font-extrabold'>{(totalMoney + discountMoney).toLocaleString()} 원</span>
           </p>
           <p className="text-rose-600 text-xs">할인혜택 없음</p>
         </div>
-        <Buttons title="주문하기" href="/cart" />
+        <Buttons title="주문하기" href="/order" />
       </div>
-    </>
+    </section>
   )
 }

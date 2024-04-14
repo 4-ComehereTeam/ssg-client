@@ -1,3 +1,5 @@
+'use client'
+
 import HeaderToBack from "@/components/ui/Headers/HeaderToBack"
 import DeliveryAddress from "@/components/order/DeliveryAddress"
 import DeliveryRequest from "@/components/order/DeliveryRequest"
@@ -8,8 +10,10 @@ import InformationOfOrderer from "@/components/order/InformationOfOrderer"
 import DeliveryItemList from "@/components/order/DeliveryItemList"
 import ButtonOfOrder from "@/components/ui/Buttons/ButtonOfOrder"
 import { Suspense } from "react"
+import { useSearchParams } from "next/navigation"
 
 export default function OrderPage() {
+
   return (
     <>
       <HeaderToBack title="결제하기" />

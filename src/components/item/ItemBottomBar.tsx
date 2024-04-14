@@ -33,6 +33,7 @@ import {
 } from "../shadcnUI/alert-dialog"
 import SelectedItemCard from "./option/SelectedItemCard"
 import { SIGNIN_WITH_CALLBACK } from "@/routes"
+import { cartAdd } from "@/actions/cart/cartAdd"
 // import SeletedItemCard from "./option/SeletedItemCard"
 
 type ItemBottomBarProps = {
@@ -274,6 +275,26 @@ export default function ItemBottomBar({
     }
   }
 
+  const cart = async () => {
+    if (status == "unauthenticated") {
+      router.push("/member/signin")
+    } else {
+      if (itemOptions.length > 0) {
+        const queryString =
+          `?itemId=${itemId}&` +
+          itemOptions
+            .map(
+              (itemOption) =>
+                `itemOptionId=${itemOption.itemOptionId}&count=${itemOption.count}`,
+            )
+            .join("&")
+        router.push("/cart" + queryString)
+      } else {
+        setPurchaseResponseMessage("옵션을 선택해주세요.")
+      }
+    }
+  }
+
   return (
     <div className="relative z-10">
       <div className={`fixed bottom-0 w-full ${showOptions ? "z-20" : "z-10"}`}>
@@ -292,7 +313,28 @@ export default function ItemBottomBar({
               )}
 
             <div className="grid grid-cols-2 w-full h-[52px] text-white">
-              <button className="bg-black">장바구니</button>
+            <AlertDialog>
+                <AlertDialogTrigger 
+                  className="bg-black"
+                  onClick={() => cart()}
+                  >
+                  장바구니
+                </AlertDialogTrigger>
+                {purchaseResponseMessage.length !== 0 && (
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogDescription>
+                        {purchaseResponseMessage}
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel className="bg-[#ff5452] text-white">
+                        확인
+                      </AlertDialogCancel>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                )}
+              </AlertDialog>
 
               <AlertDialog>
                 <AlertDialogTrigger
