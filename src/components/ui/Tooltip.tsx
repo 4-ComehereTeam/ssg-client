@@ -11,8 +11,7 @@ export default function Tooltip({
 }: TootipPropsType) {
   return (
     <div className={`${className}`}>
-      <span className="absolute right-2 text-lg">X</span>
-      <div className="absolute top-6 px-2.5 mt-1">• {text}</div>
+      <div className="top-1 px-2.5 mt-1">• {text}</div>
       {children}
     </div>
   )
