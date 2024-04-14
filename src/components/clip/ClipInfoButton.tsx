@@ -35,7 +35,7 @@ export default function ClipInfoButton() {
       </div>
       {isClickInfo && (
         <Tooltip
-          className="absolute top-[100%]  w-52 bg-[rgba(0,0,0,0.9)] text-white col-start-1 col-end-3"
+          className="absolute rounded-sm pb-2 top-[100%] w-52 bg-[rgba(0,0,0,0.9)] text-white col-start-1 col-end-3"
           text="좋아요에 담긴 상품은 최대 5년 보관합니다."
         />
       )}
