@@ -1,9 +1,8 @@
 import backArrow from "@/asset/images/backArrow.svg"
 import Link from "next/link"
-import React, { useEffect, useState } from "react"
 import Image from "next/image"
 import CategoryHeart from "./CategoryHeart"
-import { ClipCategoryId, getIsClipedCategory } from "@/actions/categoryClip"
+import { getIsClipedCategory } from "@/actions/clip/categoryClip"
 
 export type Category = {
   id: number | undefined
@@ -33,7 +32,6 @@ export default async function CategoryToolBar({
   if (smallCategory.id) {
     subPath = `/category-items?big=${bigCategory.id}&mid=${midCategory.id}&small=${smallCategory.id}`
   }
-
   let isCliped = false
   if (bigCategory.id) {
     isCliped = await getIsClipedCategory({
@@ -42,7 +40,6 @@ export default async function CategoryToolBar({
       smallCategoryId: smallCategory.id,
     })
   }
-
   return (
     <div className="flex flex-row w-full h-[46px] bg-white items-center pl-3 pr-3 sticky top-0 z-10">
       <div className="items-center h-full">

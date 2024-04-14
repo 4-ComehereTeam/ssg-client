@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import heartFill from "@/public/asset/images/heart-fill.png"
 import heartBorder from "@/public/asset/images/heart-border.png"
 import { useSession } from "next-auth/react"
@@ -11,7 +11,7 @@ import {
   ClipCategoryId,
   deleteClipCategories,
   postClipCategory,
-} from "@/actions/categoryClip"
+} from "@/actions/clip/categoryClip"
 
 export default function CategoryHeart({
   clipCategoryId,
@@ -29,6 +29,10 @@ export default function CategoryHeart({
     middleCategoryId: clipCategoryId.middleCategoryId,
     smallCategoryId: clipCategoryId.smallCategoryId,
   }
+
+  useEffect(() => {
+    setClickHeart(isCliped)
+  }, [clipCategoryId, isCliped])
 
   const handleHeart = async () => {
     if (session?.user.accessToken) {

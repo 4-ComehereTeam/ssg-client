@@ -2,7 +2,7 @@
  * 로그인이 필요한 라우트들
  * @type {string[]} 전체 라우트 또는 공통 라우트
  */
-export const authRequeiredRoutes = ["/myssg/"]
+export const authRequeiredRoutes = ["/myssg/", "/member/resign"]
 
 /**
  * 인증된 사용자는 접근할 수 없는 라우트들

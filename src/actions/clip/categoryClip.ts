@@ -58,7 +58,11 @@ export async function getIsClipedCategory(
       },
     )
     const data = await res.json()
-    console.log("getIsClipedCategory success", data)
+    if (data.isSuccess) {
+      console.log("getIsClipedCategory success", data.httpStatus)
+    } else {
+      throw data
+    }
     return data.result
   } catch (error) {
     console.log("getIsClipedCategory error", error)
@@ -94,11 +98,10 @@ export async function postClipCategory(categoryId: ClipCategoryId) {
 }
 
 export async function deleteClipCategories(categoryClipIds: ClipCategoryIds) {
-  console.log(categoryClipIds)
   revalidateTag("getClipCategoryIds")
   const session = await getSession()
   try {
-    const res = await fetch(`${process.env.API_BASE_URL}/clip/items`, {
+    const res = await fetch(`${process.env.API_BASE_URL}/clip/categories`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -110,7 +113,7 @@ export async function deleteClipCategories(categoryClipIds: ClipCategoryIds) {
     })
     if (res.ok) {
       const data = await res.json()
-      console.log("deleteClipCategories success:", data)
+      console.log("deleteClipCategories success:", data.httpStatus)
       return data
     }
   } catch (error) {

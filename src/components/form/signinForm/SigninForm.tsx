@@ -7,6 +7,15 @@ import { signin } from "@/actions/signin"
 import { socialSignin } from "@/data/social"
 import SocialButton from "@/components/form/signinForm/SocialButton"
 import { useSearchParams } from "next/navigation"
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTrigger,
+} from "@/components/shadcnUI/alert-dialog"
 
 function SigninForm() {
   const searchParams = useSearchParams()
@@ -80,13 +89,29 @@ function SigninForm() {
         <span className=" pl-2">아이디 저장</span>
       </div>
       {/* --------아이디 저장--------- */}
-      <p>{state?.error}</p>
-      <button
-        className="mt-[33px] justify-center items-center px-16 py-5 leading-[10px] font-medium text-white whitespace-nowrap bg-[#FF5452] h-[50px]"
-        type="submit"
-      >
-        로그인
-      </button>
+      <AlertDialog>
+        <AlertDialogTrigger
+          className="mt-[33px] justify-center items-center px-16 py-5 leading-[10px] font-medium text-white whitespace-nowrap bg-[#FF5452] h-[50px]"
+          type="submit"
+        >
+          로그인
+        </AlertDialogTrigger>
+        {state && state.error && (
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogDescription>
+                <span>{state?.error}</span>
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="bg-[#FF5452] text-white">
+                확인
+              </AlertDialogCancel>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        )}
+      </AlertDialog>
+
       <nav className="flex gap-1.5 self-center mt-4 text-sm text-center text-[13px] text-neutral-600">
         <Link href="/member/findIdPw?id" className="grow whitespace-nowrap">
           아이디 찾기

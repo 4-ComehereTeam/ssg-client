@@ -6,7 +6,7 @@ import {
   getItemThumbnail,
 } from "@/actions/item"
 import Link from "next/link"
-import { getClip } from "@/actions/itemClip"
+import { getClip } from "@/actions/clip/itemClip"
 import { SkeletonCard } from "../ui/SkeletonCard"
 import ItemHeart from "./ItemHeart"
 
