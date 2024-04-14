@@ -1,50 +1,47 @@
-import { ItemType } from "@/types/itemType"
 import Image from "next/image"
-import heartFill from "@/public/asset/images/heart-fill.png"
-import heartBorder from "@/public/asset/images/heart-border.png"
-import { useState } from "react"
-import { deleteClip } from "@/actions/clip"
-
-const item: ItemType = {
-  id: 11,
-  thumbnailUrl:
-    "https://sitem.ssgcdn.com/31/71/12/item/1000533127131_i1_500.jpg",
-  alt: "",
-  name: "[당일수확발송] 무농약 대추방울토마토 2kg (1-3번과/로얄과) 농협 로컬푸드",
-  brand: "달찐과일",
-  price: 29900,
-  discountRate: 10,
-  star: 4.5,
-  totalReviews: 61,
-}
+import {
+  getItemBasicInfo,
+  getItemBrand,
+  getItemCalc,
+  getItemThumbnail,
+} from "@/actions/item"
+import Link from "next/link"
+import { getClip } from "@/actions/clip/itemClip"
+import { SkeletonCard } from "../ui/SkeletonCard"
+import ItemHeart from "./ItemHeart"
 
 interface ItemCardPropsType {
   itemId: number
 }
 
-export default function ItemCard({ itemId }: ItemCardPropsType) {
-  const discountPrice =
-    item.discountRate !== 0
-      ? item.price * ((100 - item.discountRate) / 100)
-      : item.price
-  const finalPrice = new Intl.NumberFormat().format(Math.round(discountPrice))
-  const originalPrice = new Intl.NumberFormat().format(item.price)
-  const [clickHeart, setClickHeart] = useState(true)
+export default async function ItemCard({ itemId }: ItemCardPropsType) {
+  const thumbnail = await getItemThumbnail(itemId)
+  const basicInfo = await getItemBasicInfo(itemId)
+  const brand = await getItemBrand(itemId)
+  const calc = await getItemCalc(itemId)
+  const isCliped = await getClip(itemId)
 
-  const handleHeart = async () => {
-    setClickHeart(!clickHeart)
-    //좋아요 취소 서버액션
-    if (clickHeart) {
-      await deleteClip(itemId)
-    }
+  if (!thumbnail || !basicInfo || !calc) {
+    return <SkeletonCard />
   }
 
+  const itemName = basicInfo ? basicInfo.itemName : ""
+  const discountRate = basicInfo ? basicInfo.discountRate : 0
+  const price = basicInfo ? basicInfo.price : 0
+  const discountPrice =
+    discountRate !== 0 ? price * ((100 - discountRate) / 100) : price
+  const finalPrice = new Intl.NumberFormat().format(Math.round(discountPrice))
+  const originalPrice = new Intl.NumberFormat().format(price)
+
+  const averageStar = calc ? calc.averageStar : 0
+  const reviewCount = calc ? calc.reviewCount : 0
+
   return (
-    <div className={`flex flex-col pt-2 pb-5 w-full h-full`}>
-      <div className={`bg-violet-400`}>
+    <div className={`flex flex-col pt-2 pb-5`}>
+      <Link href={`/item/${itemId}`}>
         <Image
-          src={item.thumbnailUrl}
-          alt={item.alt}
+          src={thumbnail.url}
+          alt={`${itemId}-${thumbnail.alt}`}
           sizes="100vw"
           style={{
             width: "100%",
@@ -54,15 +51,10 @@ export default function ItemCard({ itemId }: ItemCardPropsType) {
           height={0}
           priority
         />
-      </div>
+      </Link>
       <div className="flex flex-row justify-end items-center">
-        <button className="w-[28px] h-[28px]" onClick={() => handleHeart()}>
-          {clickHeart ? (
-            <Image src={heartFill} alt={"싫어요"} width={20} height={20} />
-          ) : (
-            <Image src={heartBorder} alt={"싫어요"} width={20} height={20} />
-          )}
-        </button>
+        <ItemHeart itemId={itemId} clicked={isCliped} />
+        {/* 장바구니 담는 서버액션을 장바구니 컴포넌트로 분리 */}
         <button className="w-[28px] h-[28px]">
           <svg
             width="20px"
@@ -106,19 +98,21 @@ export default function ItemCard({ itemId }: ItemCardPropsType) {
             WebkitBoxOrient: "vertical",
           }}
         >
-          <span className="font-extrabold">{item.brand} </span>
-          {item.name}
+          <span className="font-extrabold">{brand && brand.name} </span>
+          {itemName}
         </p>
       </div>
       <div className="w-full">
-        {item.discountRate !== 0 && (
+        {discountRate !== 0 && (
           <span className="text-xs line-through">{originalPrice}원</span>
         )}
         <div className="text-base font-semibold">
-          <span className="text-[#FF5452]">{item.discountRate}%</span>
+          {discountRate !== 0 && (
+            <span className="text-[#FF5452]">{discountRate}%</span>
+          )}
           <span className="ml-1">{finalPrice}원</span>
         </div>
-        {item.star && item.totalReviews && (
+        {averageStar !== 0 && reviewCount !== 0 && (
           <div className="flex flex-row gap-1 text-xs">
             <svg
               width={11}
@@ -131,9 +125,9 @@ export default function ItemCard({ itemId }: ItemCardPropsType) {
                 d="m2.089 13 .906-4.073L0 6.205l3.94-.35L5.5 2l1.56 3.856 3.94.349-2.995 2.722L8.911 13 5.5 10.838 2.089 13Z"
               ></path>
             </svg>
-            <span className="text-[#777777]">{item.star}</span>
+            <span className="text-[#777777]">{averageStar}</span>
             <div className="bg-[#E5E5E5] border w-0 h-[12px] mt-[3px]"></div>
-            <span>{item.totalReviews}건</span>
+            <span>{reviewCount}건</span>
           </div>
         )}
       </div>

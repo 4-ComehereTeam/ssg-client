@@ -3,6 +3,8 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import NaverProvider from "next-auth/providers/naver"
 import KakaoProvider from "next-auth/providers/kakao"
 import GoogleProvider from "next-auth/providers/google"
+import { getIsdormancyMember } from "@/actions/getIsdormancyMember"
+import { idDuplCheck } from "@/actions/signup/idduplCheckAction"
 
 export const options: NextAuthOptions = {
   providers: [
@@ -16,15 +18,9 @@ export const options: NextAuthOptions = {
         if (!credentials?.signinId || !credentials?.password) {
           return null
         }
-        // console.log("credentials:", credentials)
-
-        /**
-         * 백엔드에서 받은 응답에 token있어야함
-         * user를 리턴하면 callbacks의 signIn에서 user로 전달되고
-         * 그 다음 jwt콜백의 user로 전달됨
-         */
         try {
-          const res = await fetch(`${process.env.API_BASE_URL}/auth/signIn`, {
+          const res = await fetch(`${process.env.API_BASE_URL}/auth/signin`, {
+            cache: "no-store",
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -34,15 +30,14 @@ export const options: NextAuthOptions = {
               password: credentials.password,
             }),
           })
-          console.log("signin api res status:", res.status)
-          if (res.ok) {
-            const data = await res.json()
-            console.log(data)
-            if (data.httpStatus === "OK") return data.result
-            throw data.message
+          const data = await res.json()
+          if (data.result) {
+            console.log("signin success:", data.httpStatus)
+            data.result.accessToken = res.headers.get("accessToken")
+            data.result.id = data.result.signinId
+            return data.result
           }
-
-          return null
+          throw data
         } catch (error) {
           console.log("signin error:", error)
           return null
@@ -63,58 +58,56 @@ export const options: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    //signIn: authorize후 추가 확인
     async signIn({ user, profile, account }) {
-      // console.log("user:", user.id)
-      // console.log("account:", account)
-      // 간편 로그인용 accessToken 발급 받기
-      // credentials는 authorize에서 발급 받았으니 바로 통과
       if (account?.provider !== "credentials") {
-        //TODO: 백엔드 통신 테스트하기
-        //   try {
-        //     const res = await fetch(`${process.env.API_BASE_URL}/auth/socialSignIn`, {
-        //       method: "GET",
-        //       headers: {
-        //         "Content-Type": "application/json",
-        //         "uuid": user.id
-        //       },
-        //     })
-        //     console.log("OAuth res status:", res.status)
-        //     if (res.ok) {
-        //       const member = await res.json()
-        //       return member.result
-        //     }
-
-        //     return "/member/signin"
-        //   } catch (error) {
-        //     console.log("OAuth error:", error)
-        //     return "/member/signin"
-        //   }
-        return true
+        //간편회원 아이디가 없으면 간편회원가입 페이지로 이동
+        const isExistId = await idDuplCheck(user.id)
+        if (isExistId) {
+          try {
+            const res = await fetch(
+              `${process.env.API_BASE_URL}/oauth/signin`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  signinId: user.id,
+                }),
+              },
+            )
+            const data = await res.json()
+            if (data.result) {
+              console.log("socialSignin success:", res.status)
+              user.accessToken = res.headers.get("accessToken")
+            } else {
+              throw data.message
+            }
+          } catch (error) {
+            console.log("socialSignin error:", error)
+            return "/member/signin"
+          }
+        }
       }
+      const signinId =
+        account?.provider === "credentials" ? user.signinId : user.id
 
+      //휴면여부 조회
+      const isDormancyMember = await getIsdormancyMember(signinId)
+      if (isDormancyMember) {
+        return "/member/certification"
+      }
       return true
     },
-
     async session({ session, token }) {
-      /**
-       * session.user에 jwt콜백에서 받은 token을 할당
-       * session을 리턴하면 브라우저의
-       * 클라이언트 컴포넌트에서 {data:session} = useSession()으로
-       * session.user.accessToken 접근 가능
-       */
       session.user = token
       return session
     },
     async jwt({ token, user }) {
-      /**
-       * authorize에서 return한 user에 들어있는 access_token을
-       * session에 저장하기 위해 동일 선상에 추가해서 return
-       */
       return { ...token, ...user }
     },
     async redirect({ url, baseUrl }) {
-      return url.startsWith(baseUrl) ? url : baseUrl
+      return url.startsWith(baseUrl) ? url : baseUrl + url
     },
   },
   pages: {

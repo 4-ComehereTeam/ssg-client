@@ -1,23 +1,22 @@
 "use server"
 
-export const idDuplCheck = async (signinId: string) => {
+export async function idDuplCheck(signinId: string): Promise<boolean> {
   try {
     const res = await fetch(
       `${process.env.API_BASE_URL}/auth/signInId/check?signinId=${signinId}`,
       {
+        cache: "no-store",
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
       },
     )
-    console.log(res.status)
-    if (res.ok) {
-      const data = await res.json()
-      console.log("check duplicated id success:", data)
-      return data.result
-    }
+    const data = await res.json()
+    console.log("idDuplCheck success:", data.httpStatus)
+    return data.result ? false : true //중복되지(존재하지) 않으면 false, 중복되면(존재하면) true 반환
   } catch (error) {
-    console.log("check duplicated id fail:", error)
+    console.log("idDuplCheck fail:", error)
+    return true
   }
 }

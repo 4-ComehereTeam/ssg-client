@@ -5,14 +5,17 @@ export default function BottomNav() {
   return (
     <nav className="sticky bottom-0 border-t border-slate-200 flex justify-between w-full bg-white z-50 h-[50px]">
       <div className="text-center flex items-center justify-center flex-grow">
-        <Link href="#" className="flex flex-col justify-center items-center">
+        <Link
+          href="/category"
+          className="flex flex-col justify-center items-center"
+        >
           <Image
             width="28"
             height="28"
             src="https://img.icons8.com/ios-glyphs/30/menu--v1.png"
             alt="categoryIcon"
           />
-          <span className="text-[#777777] text-[11px]">카테고리</span>
+          <span className="text-[#777777] text-[11px] font-[Pretendard-Light]">카테고리</span>
         </Link>
       </div>
       <div className="text-center flex items-center justify-center w-10 flex-grow">
@@ -23,7 +26,7 @@ export default function BottomNav() {
             src="https://img.icons8.com/windows/32/gift.png"
             alt="giftIcon"
           />
-          <span className="text-[#777777] text-[11px]">선물하기</span>
+          <span className="text-[#777777] text-[11px] font-[Pretendard-Light]">선물하기</span>
         </Link>
       </div>
       <div className="text-center flex items-center justify-center w-10 flex-grow">
@@ -38,7 +41,7 @@ export default function BottomNav() {
               ></path>
             </svg>
           </div>
-          <span className="text-[#777777] text-[11px]">홈</span>
+          <span className="text-[#777777] text-[11px] font-[Pretendard-Light]">홈</span>
         </Link>
       </div>
       <div className="text-center flex items-center justify-center w-10 flex-grow">
@@ -60,7 +63,7 @@ export default function BottomNav() {
               ></path>
             </svg>
           </div>
-          <span className="text-[#777777] text-[11px]">MY</span>
+          <span className="text-[#777777] text-[11px] font-[Pretendard-Light]">MY</span>
         </Link>
       </div>
       <div className="text-center flex items-center justify-center w-10 flex-grow">
@@ -81,7 +84,7 @@ export default function BottomNav() {
               ></path>
             </svg>
           </div>
-          <span className="text-[#777777] text-[11px]">최근본</span>
+          <span className="text-[#777777] text-[11px] font-[Pretendard-Light]">최근본</span>
         </Link>
       </div>
     </nav>

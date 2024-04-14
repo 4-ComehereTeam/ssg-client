@@ -1,13 +1,26 @@
-import Header from "@/components/ui/Headers/Header"
+import { options } from "@/app/api/auth/[...nextauth]/options"
 import SigninForm from "@/components/form/signinForm/SigninForm"
+import HeaderToBackNotSticky from "@/components/ui/Headers/HeaderToBackNotSticky"
+import { getServerSession } from "next-auth"
+import { redirect } from "next/navigation"
 
-function Page() {
-  return (
-    <>
-      <Header title={"로그인"} />
-      <SigninForm />
-    </>
-  )
+async function Page({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined }
+}) {
+  const session = await getServerSession(options)
+  const callbackUrl = searchParams?.callbackUrl
+  if (session) {
+    callbackUrl && callbackUrl !== undefined && redirect(callbackUrl)
+  } else {
+    return (
+      <>
+        <HeaderToBackNotSticky title={"로그인"} />
+        <SigninForm />
+      </>
+    )
+  }
 }
 
 export default Page
