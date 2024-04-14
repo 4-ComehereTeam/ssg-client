@@ -1,4 +1,4 @@
-import { getClip } from "@/actions/itemClip"
+import { getClip } from "@/actions/clip/itemClip"
 import { getItemBasicInfo, getItemImages } from "@/actions/item"
 import { getItemOptionExist } from "@/actions/itemOption"
 import ItemBottomBar from "@/components/item/ItemBottomBar"

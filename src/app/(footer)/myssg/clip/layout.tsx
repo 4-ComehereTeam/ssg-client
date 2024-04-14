@@ -1,5 +1,5 @@
-import { getClipCategoryIds } from "@/actions/categoryClip"
-import { getClipItemIds } from "@/actions/itemClip"
+import { getClipCategoryIds } from "@/actions/clip/categoryClip"
+import { getClipItemIds } from "@/actions/clip/itemClip"
 import ClipHeader from "@/components/clip/ClipHeader"
 import ClipNavbar from "@/components/clip/ClipNavbar"
 import HeaderToBackNotSticky from "@/components/ui/Headers/HeaderToBackNotSticky"

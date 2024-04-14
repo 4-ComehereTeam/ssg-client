@@ -5,7 +5,10 @@ import {
   getMidCategoryName,
   getSmallCategoryName,
 } from "@/actions/category/category"
-import { ClipCategoryId, getIsClipedCategory } from "@/actions/categoryClip"
+import {
+  ClipCategoryId,
+  getIsClipedCategory,
+} from "@/actions/clip/categoryClip"
 import CategoryHeart from "@/components/category/CategoryHeart"
 import { Skeleton } from "@/components/ui/Skeleton"
 import Image from "next/image"

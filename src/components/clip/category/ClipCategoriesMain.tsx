@@ -6,7 +6,7 @@ import ClipCancleButton from "../ClipCancleButton"
 import ClipEditButton from "../ClipEditButton"
 import ClipInfoButton from "../ClipInfoButton"
 import ClipCategoryCard from "./ClipCategoryCard"
-import { ClipCategoryIds } from "@/actions/categoryClip"
+import { ClipCategoryIds } from "@/actions/clip/categoryClip"
 import CategoryEditBar from "./CategoryEditBar"
 
 type ClipCategoriesProps = {

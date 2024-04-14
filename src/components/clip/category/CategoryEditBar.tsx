@@ -1,4 +1,7 @@
-import { ClipCategoryIds, deleteClipCategories } from "@/actions/categoryClip"
+import {
+  ClipCategoryIds,
+  deleteClipCategories,
+} from "@/actions/clip/categoryClip"
 
 export default function CategoryEditBar({
   clickCategoryIds,

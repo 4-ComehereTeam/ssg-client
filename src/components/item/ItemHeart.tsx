@@ -1,6 +1,6 @@
 "use client"
 
-import { deleteClip, postClip } from "@/actions/itemClip"
+import { deleteClip, postClip } from "@/actions/clip/itemClip"
 import Image from "next/image"
 import { useState } from "react"
 import heartFill from "@/public/asset/images/heart-fill.png"
