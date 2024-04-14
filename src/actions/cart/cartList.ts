@@ -1,11 +1,21 @@
-'use server'
+"use server"
 
 import { getSession } from "@/lib/getSession"
 
-export async function getCartList() {
+export type CartListType = {
+  itemOptions: CartItemType[]
+}
 
+export type CartItemType = {
+  itemId: number
+  itemOptionId: number
+  itemCount: number
+  pinStatus: boolean
+  itemCheck: boolean
+}
+
+export async function getCartList(): Promise<CartListType | null> {
   const session = await getSession()
-  console.log("session >>", session);
   try {
     const res = await fetch(`${process.env.API_BASE_URL}/cart/list`, {
       method: "GET",
@@ -14,16 +24,14 @@ export async function getCartList() {
         Authorization: session ? session.user.accessToken : null,
       },
     })
-    console.log("res >>", res);
+    const data = await res.json()
     if (res.ok) {
-      const data = await res.json()
-      console.log("getCartList success:", data.httpStatus)
+      console.log("getCartList success:", data)
       return data.result
     }
-    console.log("getCartList status", res.status)
-    return null
+    throw data
   } catch (error) {
     console.log("getCartList fail:", error)
-    return false
+    return null
   }
 }
