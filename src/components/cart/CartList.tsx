@@ -1,45 +1,33 @@
-'use client'
-import { useEffect, useState } from 'react'
-import Image from 'next/image'
-import trash from '@/asset/images/Trash.png'
-import '@/app/(nofooter)/cart/cart.css'
-import Buttons from '@/components/ui/Buttons/buttons'
+"use client"
+import { useEffect, useState } from "react"
+import Image from "next/image"
+import trash from "@/asset/images/Trash.png"
+import "@/app/(nofooter)/cart/cart.css"
+import Buttons from "@/components/ui/Buttons/buttons"
 // import { useRecoilState } from 'recoil'
 // import { CartCheckedListAtom } from '@/state/CartCheckedListAtom'
 import { productData } from "@/lib/CartList"
-import { useSearchParams } from 'next/navigation'
-import { cartAdd } from '@/actions/cart/cartAdd'
-import { getCartList } from '@/actions/cart/cartList'
-
-type cartList = {
-  itemId: number | string
-  itemOptionId: number | string
-  itemCount: number | string
-  pinStatus: boolean | string
-  itemCheck: boolean | string
-}
+import { useSearchParams } from "next/navigation"
+import { CartItemType, getCartList } from "@/actions/cart/cartList"
 
 export default function CartList() {
-  // const [recoilSample, setRecoilSample] = useRecoilState<number[]>(CartCheckedListAtom)
-
+  const [cartItems, setCartItems] = useState<CartItemType[]>([])
   const Params = useSearchParams()
   const itemId = Params.get("itemId")
   const itemOptionIds = Params.get("itemOptionId")
   const counts = Params.get("count")
-  const [cart, setCart] = useState<any>({});
 
-  // console.log("itemId >> ", itemId , "itemOptionIds >> ", itemOptionIds, "counts >> ", counts)
-  // cartAdd(itemId , itemOptionIds, counts);
-
-  
   useEffect(() => {
-    (async () => {
-      const cartList = await getCartList()
-      setCart(cartList);
-      console.log("cart >>", cart);
+    ;(async () => {
+      const cartListResult = await getCartList()
+      if (cartListResult) {
+        setCartItems(cartListResult.itemOptions)
+      }
     })()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  
+
+  console.log("cart >>", cartItems)
 
   const [filteredProductList, setFilteredProductList] = useState(
     productData.filter((product) => product.isIncluded === 11),
@@ -129,7 +117,7 @@ export default function CartList() {
   }
 
   return (
-    <section className='font-[Pretendard-Light]'>
+    <section className="font-[Pretendard-Light]">
       <div className="my-3 mx-4 flex items-center">
         <span className="min-w-5 min-h-5 leading-5">
           <input
@@ -294,7 +282,7 @@ export default function CartList() {
         <div className="flex justify-between m-1 text-sm">
           <span>상품할인 </span>
           <span style={{ color: "red" }}>
-            {discountMoney.toLocaleString()}{" "} 원
+            {discountMoney.toLocaleString()} 원
           </span>
         </div>
         <div className="flex justify-between m-1 text-sm">
@@ -313,7 +301,9 @@ export default function CartList() {
           <p className="text-xs text-black mb-1">
             전체상품 {filteredProductList.length}개{" "}
             {(totalMoney + discountMoney).toLocaleString()} 원 + 배송비 0원 ={" "}
-            <span className='font-extrabold'>{(totalMoney + discountMoney).toLocaleString()} 원</span>
+            <span className="font-extrabold">
+              {(totalMoney + discountMoney).toLocaleString()} 원
+            </span>
           </p>
           <p className="text-rose-600 text-xs">할인혜택 없음</p>
         </div>
