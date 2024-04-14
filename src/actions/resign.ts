@@ -1,3 +1,5 @@
+"use server"
+
 import { getSession } from "@/lib/getSession"
 
 export async function resign() {
