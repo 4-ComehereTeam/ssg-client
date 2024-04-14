@@ -1,23 +1,44 @@
 import { deleteManyClips } from "@/actions/clip/itemClip"
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTrigger,
+} from "@/components/shadcnUI/alert-dialog"
 
 type EditBarProps = {
   clickItemIds: number[]
 }
 
 export default function EditBar({ clickItemIds }: EditBarProps) {
-  //체크박스 클릭한 상품들 삭제 요청
   const handleDeleteButton = async () => {
     await deleteManyClips(clickItemIds)
-    //모달로 바꿀 예정
-    let confirm = window.confirm("정말 삭제하시겠습니까?")
-    confirm && alert("삭제되었습니다.")
   }
   return (
     <div className="z-10 right-0 fixed bottom-0 w-full grid grid-cols-2 h-12 text-white tracking-tighter">
-      <button className="bg-[#222222]">폴더에 추가</button>
-      <button className="bg-[#FF5452]" onClick={handleDeleteButton}>
-        삭제
-      </button>
+      <AlertDialog>
+        <AlertDialogTrigger className="bg-[#FF5452] size-full">
+          삭제
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogDescription>
+              정말 삭제하시겠습니까?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel
+              className="bg-[#FF5452] text-white"
+              onClick={handleDeleteButton}
+            >
+              확인
+            </AlertDialogCancel>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }
