@@ -280,15 +280,10 @@ export default function ItemBottomBar({
       router.push("/member/signin")
     } else {
       if (itemOptions.length > 0) {
-        const queryString =
-          `?itemId=${itemId}&` +
-          itemOptions
-            .map(
-              (itemOption) =>
-                `itemOptionId=${itemOption.itemOptionId}&count=${itemOption.count}`,
-            )
-            .join("&")
-        router.push("/cart" + queryString)
+        itemOptions.forEach(async (itemOption) => {
+          await cartAdd(itemId, itemOption.itemOptionId, itemOption.count)
+        })
+        router.push("/cart")
       } else {
         setPurchaseResponseMessage("옵션을 선택해주세요.")
       }
@@ -313,11 +308,8 @@ export default function ItemBottomBar({
               )}
 
             <div className="grid grid-cols-2 w-full h-[52px] text-white">
-            <AlertDialog>
-                <AlertDialogTrigger 
-                  className="bg-black"
-                  onClick={() => cart()}
-                  >
+              <AlertDialog>
+                <AlertDialogTrigger className="bg-black" onClick={() => cart()}>
                   장바구니
                 </AlertDialogTrigger>
                 {purchaseResponseMessage.length !== 0 && (
