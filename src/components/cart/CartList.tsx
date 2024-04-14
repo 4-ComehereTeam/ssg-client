@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import trash from '@/asset/images/Trash.png'
 import '@/app/(nofooter)/cart/cart.css'
@@ -7,9 +7,39 @@ import Buttons from '@/components/ui/Buttons/buttons'
 // import { useRecoilState } from 'recoil'
 // import { CartCheckedListAtom } from '@/state/CartCheckedListAtom'
 import { productData } from "@/lib/CartList"
+import { useSearchParams } from 'next/navigation'
+import { cartAdd } from '@/actions/cart/cartAdd'
+import { getCartList } from '@/actions/cart/cartList'
+
+type cartList = {
+  itemId: number | string
+  itemOptionId: number | string
+  itemCount: number | string
+  pinStatus: boolean | string
+  itemCheck: boolean | string
+}
 
 export default function CartList() {
   // const [recoilSample, setRecoilSample] = useRecoilState<number[]>(CartCheckedListAtom)
+
+  const Params = useSearchParams()
+  const itemId = Params.get("itemId")
+  const itemOptionIds = Params.get("itemOptionId")
+  const counts = Params.get("count")
+  const [cart, setCart] = useState<any>({});
+
+  // console.log("itemId >> ", itemId , "itemOptionIds >> ", itemOptionIds, "counts >> ", counts)
+  // cartAdd(itemId , itemOptionIds, counts);
+
+  
+  useEffect(() => {
+    (async () => {
+      const cartList = await getCartList()
+      setCart(cartList);
+      console.log("cart >>", cart);
+    })()
+  }, [])
+  
 
   const [filteredProductList, setFilteredProductList] = useState(
     productData.filter((product) => product.isIncluded === 11),

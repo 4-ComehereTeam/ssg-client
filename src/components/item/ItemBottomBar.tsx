@@ -33,6 +33,7 @@ import {
 } from "../shadcnUI/alert-dialog"
 import SelectedItemCard from "./option/SelectedItemCard"
 import { SIGNIN_WITH_CALLBACK } from "@/routes"
+import { cartAdd } from "@/actions/cart/cartAdd"
 // import SeletedItemCard from "./option/SeletedItemCard"
 
 type ItemBottomBarProps = {

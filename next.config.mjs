@@ -6,6 +6,14 @@ const nextConfig = {
       fullUrl: true,
     },
   },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: "/cart/",
+  //       destination: "https://comhere.store/api/v1/cart/",
+  //     },
+  //   ];
+  // },
   images: {
     remotePatterns: [
       {
