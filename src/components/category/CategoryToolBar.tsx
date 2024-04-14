@@ -34,11 +34,12 @@ export default async function CategoryToolBar({
   }
   let isCliped = false
   if (bigCategory.id) {
-    isCliped = await getIsClipedCategory({
+    const result = await getIsClipedCategory({
       bigCategoryId: bigCategory.id,
       middleCategoryId: midCategory.id,
       smallCategoryId: smallCategory.id,
     })
+    isCliped = result ? result.isCliped : false
   }
   return (
     <div className="flex flex-row w-full h-[46px] bg-white items-center pl-3 pr-3 sticky top-0 z-10">

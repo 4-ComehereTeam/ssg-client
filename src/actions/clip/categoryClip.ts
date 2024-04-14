@@ -34,9 +34,14 @@ export async function getClipCategoryIds(): Promise<ClipCategoryIds | []> {
   }
 }
 
+export type IsClipedCategory = {
+  id: number
+  isCliped: boolean
+}
+
 export async function getIsClipedCategory(
   categoryId: ClipCategoryId,
-): Promise<boolean> {
+): Promise<IsClipedCategory | null> {
   revalidateTag("getClipCategoryIds")
   let path = `bigCategoryId=${categoryId.bigCategoryId}`
   if (categoryId.middleCategoryId) {
@@ -66,7 +71,7 @@ export async function getIsClipedCategory(
     return data.result
   } catch (error) {
     console.log("getIsClipedCategory error", error)
-    return false
+    return null
   }
 }
 
