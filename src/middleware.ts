@@ -23,9 +23,10 @@ export async function middleware(req: NextRequest, event: NextFetchEvent) {
   }
 
   if (!accessToken && isRequiredAuth) {
-    return NextResponse.redirect(
-      new URL(`/member/signin?callbackUrl=${nextUrl.href}`, nextUrl),
-    )
+    const signinUrl = new URL("/member/signin", req.url)
+    signinUrl.searchParams.set("callbackUrl", nextUrl.pathname)
+    console.log(signinUrl.href)
+    return NextResponse.redirect(signinUrl)
   }
 }
 
