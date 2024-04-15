@@ -1,3 +1,5 @@
+"use server"
+
 export type BigCategoriesData = {
   count: number
   bigCategories: Categories
