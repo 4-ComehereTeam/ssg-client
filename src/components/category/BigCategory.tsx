@@ -18,9 +18,14 @@ export default function BigCategory({
       <div className="flex flex-col items-center">
         <Image
           src={src}
-          width={64}
-          height={64}
           alt={bigCategoryName}
+          sizes="100vw"
+          style={{
+            width: "100%",
+            height: "100%",
+          }}
+          width={0}
+          height={0}
           priority
         />
         <p className="text-[11px] text-gray-500 text-center">
