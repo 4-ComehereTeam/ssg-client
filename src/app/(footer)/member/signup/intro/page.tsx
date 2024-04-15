@@ -6,8 +6,14 @@ import benefit3 from "@/asset/images/total-member-benefit3.png"
 import Link from "next/link"
 import SocialButton from "@/components/form/signinForm/SocialButton"
 import { socialSignup } from "@/data/social"
+import { getSession } from "@/lib/getSession"
+import { redirect } from "next/navigation"
 
 export default async function SignupIntroPage() {
+  const session = await getSession()
+  if (session?.user.accessToken) {
+    redirect("/not-found")
+  }
   return (
     <div>
       <div className="tracking-tighter leading-5">

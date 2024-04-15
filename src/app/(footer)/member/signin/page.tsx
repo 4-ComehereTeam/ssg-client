@@ -11,8 +11,12 @@ async function Page({
 }) {
   const session = await getServerSession(options)
   const callbackUrl = searchParams?.callbackUrl
-  if (session) {
-    callbackUrl && callbackUrl !== undefined && redirect(callbackUrl)
+  if (session?.user.accessToken) {
+    if (callbackUrl && callbackUrl !== undefined) {
+      redirect(callbackUrl)
+    } else {
+      redirect("/")
+    }
   } else {
     return (
       <>
