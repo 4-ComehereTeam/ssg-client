@@ -46,9 +46,7 @@ export default async function ProductList({
       </div>
       <div className="grid grid-cols-2 gap-2">
         {categoryItemsData.itemIds.map((itemId) => (
-          <Suspense key={`${itemId}-categoryItemId`} fallback={<Loading />}>
-            <ItemCard itemId={itemId} />
-          </Suspense>
+          <ItemCard key={`${itemId}-categoryItemId`} itemId={itemId} />
         ))}
       </div>
     </div>
