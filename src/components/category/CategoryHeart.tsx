@@ -10,6 +10,7 @@ import { SIGNIN_WITH_CALLBACK } from "@/routes"
 import {
   ClipCategoryId,
   deleteClipCategories,
+  NoneIdClipCategoryId,
   postClipCategory,
 } from "@/actions/clip/categoryClip"
 
@@ -17,14 +18,14 @@ export default function CategoryHeart({
   clipCategoryId,
   isCliped,
 }: {
-  clipCategoryId: ClipCategoryId
+  clipCategoryId: NoneIdClipCategoryId
   isCliped: boolean
 }) {
   const [clickHeart, setClickHeart] = useState(isCliped)
   const { data: session } = useSession()
   const router = useRouter()
 
-  const categoryId: ClipCategoryId = {
+  const categoryId: NoneIdClipCategoryId = {
     bigCategoryId: clipCategoryId.bigCategoryId,
     middleCategoryId: clipCategoryId.middleCategoryId,
     smallCategoryId: clipCategoryId.smallCategoryId,

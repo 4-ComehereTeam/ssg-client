@@ -12,6 +12,12 @@ export type ClipCategoryId = {
   smallCategoryId: number | null | undefined
 }
 
+export type NoneIdClipCategoryId = {
+  bigCategoryId: number
+  middleCategoryId: number | null | undefined
+  smallCategoryId: number | null | undefined
+}
+
 export async function getClipCategoryIds(): Promise<ClipCategoryIds | []> {
   const session = await getSession()
   try {
@@ -41,7 +47,7 @@ export type IsClipedCategory = {
 }
 
 export async function getIsClipedCategory(
-  categoryId: ClipCategoryId,
+  categoryId: NoneIdClipCategoryId,
 ): Promise<IsClipedCategory | null> {
   revalidateTag("getClipCategoryIds")
   let path = `bigCategoryId=${categoryId.bigCategoryId}`
@@ -74,12 +80,6 @@ export async function getIsClipedCategory(
     console.log("getIsClipedCategory error", error)
     return null
   }
-}
-
-export type NoneIdClipCategoryId = {
-  bigCategoryId: number
-  middleCategoryId: number | null | undefined
-  smallCategoryId: number | null | undefined
 }
 
 export async function postClipCategory(categoryId: NoneIdClipCategoryId) {
