@@ -1,7 +1,6 @@
 import ItemCard from "../item/ItemCard"
 import Image from "next/image"
 import { Suspense } from "react"
-import Loading from "@/app/loading"
 import { getBestItems } from "@/actions/bestItems"
 import { SkeletonCard } from "../ui/SkeletonCard"
 
