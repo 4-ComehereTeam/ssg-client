@@ -1,3 +1,5 @@
+"use server"
+
 export type CategoryItemsData = {
   itemIds: number[]
   currentPage: number

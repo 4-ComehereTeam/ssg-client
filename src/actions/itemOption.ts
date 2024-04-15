@@ -1,3 +1,5 @@
+"use server"
+
 export type OptionExist = {
   itemId: number
   hasColor: boolean
