@@ -22,8 +22,6 @@ export async function signin(initialState: any, formData: FormData) {
     await signIn("credentials", {
       signinId: signinId,
       password: password,
-      redirect: true,
-      callbackUrl: initialState.callbackUrl,
     })
   } catch (error) {
     if (error instanceof AuthError) {

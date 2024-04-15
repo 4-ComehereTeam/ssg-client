@@ -3,7 +3,6 @@ import { options } from "@/app/api/auth/[...nextauth]/options"
 import SocialSignupForm from "@/components/form/signupForm/SocialSignupForm"
 import HeaderToBack from "@/components/ui/Headers/HeaderToBack"
 import { getSession } from "@/lib/getSession"
-import { SIGNIN_WITH_CALLBACK } from "@/routes"
 import { getServerSession } from "next-auth"
 import { redirect } from "next/navigation"
 
@@ -13,7 +12,7 @@ export default async function SimpleSignupFormPage() {
     const session = await getSession()
     const isExistId = await idDuplCheck(session?.user.id)
     if (isExistId) {
-      redirect(SIGNIN_WITH_CALLBACK)
+      redirect("/not-found")
     }
   }
   return (
