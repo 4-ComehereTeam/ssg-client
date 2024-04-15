@@ -38,7 +38,7 @@ export default function HeaderOfCart({ title }: { title: string }) {
       </Link>
       <Link
         className="w-[50px] h-full items-center flex justify-center"
-        href={"/"}
+        href={"/home"}
       >
         <Image
           width="24"
