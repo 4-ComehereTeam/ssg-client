@@ -12,7 +12,7 @@ export default function Spinner() {
           stroke="none"
           strokeWidth="1"
           fill="none"
-          fill-rule="evenodd"
+          fillRule="evenodd"
         >
           <g
             id="ic_fluent_spinner_ios_20_regular"
