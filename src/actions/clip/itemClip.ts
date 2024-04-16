@@ -34,12 +34,8 @@ export async function getClip(itemId: number | string): Promise<boolean> {
       },
     })
     const data = await res.json()
-    if (data.httpStatus) {
-      console.log("getClip success:", data.httpStatus)
-    }
     return data.result.isCliped
   } catch (error) {
-    console.log("getClip fail:", error)
     return false
   }
 }
