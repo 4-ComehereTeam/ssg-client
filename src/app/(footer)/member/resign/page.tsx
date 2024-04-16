@@ -1,5 +1,6 @@
 import { getCategoryItemsCount } from "@/actions/category/categoryItems"
 import ResignButton from "@/components/ResignButton"
+import Counter from "@/components/ui/Counter"
 import { getSession } from "@/lib/getSession"
 
 export default async function ResignPage() {
@@ -11,7 +12,7 @@ export default async function ResignPage() {
       {result && (
         <div>
           <p className="text-sm">
-            <span className="font-bold text-md">{result.count}</span>
+            <Counter targetNumber={result.count} />
             개의 상품이 <span>{session?.user.name}</span>님을 기다리고 있어요
           </p>
         </div>
