@@ -20,10 +20,8 @@ export async function getBestItems(
       },
     })
     const data = await res.json()
-    console.log("getBestItems success:", data.httpStatus)
     return data.result
   } catch (error) {
-    console.log("getBestItems error:", error)
     return null
   }
 }

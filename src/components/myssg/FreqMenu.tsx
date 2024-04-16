@@ -2,7 +2,7 @@ import { freqMenu } from "@/data/myssg"
 import Image from "next/image"
 import Link from "next/link"
 
-function Menu() {
+export default function FreqMenu() {
   return (
     <section className="p-4">
       <p className="font-extrabold text-base">자주찾는 메뉴</p>
@@ -25,12 +25,16 @@ function Menu() {
         ))}
       </div>
       <div className="flex items-center border py-2 rounded-xl text-[11px]">
-        <p className="flex-1 text-center ">고객센터</p>
-        <p className="text-gray-200 text-sm">|</p>
-        <p className="flex-1 text-center">e-mail 상담/답변</p>
+        <Link href={"/not-found"} className="flex-1 text-center ">
+          고객센터
+        </Link>
+        <Link href={"/not-found"} className="text-gray-200 text-sm">
+          |
+        </Link>
+        <Link href={"/not-found"} className="flex-1 text-center">
+          e-mail 상담/답변
+        </Link>
       </div>
     </section>
   )
 }
-
-export default Menu

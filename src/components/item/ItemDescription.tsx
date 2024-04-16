@@ -34,7 +34,7 @@ export default async function ItemDescription({ itemId }: ItemIdType) {
             </p>
           </div>
           <Link
-            href={"#"}
+            href={"/not-found"}
             className="rounded-full border border-solid h-[41px] w-[100px] text-center text-[13px] flex justify-center items-center"
           >
             신고하기

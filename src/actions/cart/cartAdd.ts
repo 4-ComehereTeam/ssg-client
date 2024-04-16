@@ -22,9 +22,8 @@ export async function cartAdd(
         itemCount: itemCount,
       }),
     })
-    const data = await res.json()
-    console.log("cartAdd success:", data)
+    return
   } catch (error) {
-    console.log("cartAdd fail:", error)
+    return
   }
 }

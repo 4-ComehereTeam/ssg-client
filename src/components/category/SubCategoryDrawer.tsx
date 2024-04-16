@@ -59,8 +59,8 @@ export default function SubCategoryDrawer({
                 className="w-full h-[44px] flex flex-row gap-2 items-center"
                 href={
                   existingSmall
-                    ? `/category-items?big=${bigCtgId}&mid=${midCtgId}&small=${subCtg.id}`
-                    : `/category-items?big=${bigCtgId}&mid=${subCtg.id}`
+                    ? `/categoryItems?big=${bigCtgId}&mid=${midCtgId}&small=${subCtg.id}`
+                    : `/categoryItems?big=${bigCtgId}&mid=${subCtg.id}`
                 }
                 onClick={() => handleDrawer(index)}
               >

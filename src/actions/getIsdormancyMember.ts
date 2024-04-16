@@ -13,10 +13,8 @@ export async function getIsdormancyMember(signinId: string) {
       }),
     })
     const data = await res.json()
-    console.log("getIsdormancyMember success:", data.httpStatus)
     return data.result
   } catch (error) {
-    console.log("getIsdormancyMember error:", error)
     return null
   }
 }

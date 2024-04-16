@@ -1,8 +1,6 @@
 import { getCategoryItems } from "@/actions/category/categoryItems"
 import ItemCard from "../item/ItemCard"
 import Image from "next/image"
-import { Suspense } from "react"
-import Loading from "@/app/loading"
 
 export default async function ProductList({
   categoryIds,

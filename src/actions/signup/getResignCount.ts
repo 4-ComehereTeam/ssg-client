@@ -11,10 +11,9 @@ export async function getResignCount(email: string) {
 
     if (res.ok) {
       const data = await res.json()
-      console.log("getResignCount success:", data.code)
       return data.result
     }
   } catch (error) {
-    console.log("getResignCount fail:", error)
+    return
   }
 }

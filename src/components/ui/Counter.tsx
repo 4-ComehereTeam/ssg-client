@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react"
 
-function Counter({ targetNumber }: { targetNumber: number }) {
+export default function Counter({ targetNumber }: { targetNumber: number }) {
   const [number, setNumber] = useState(0)
 
   useEffect(() => {
@@ -14,5 +14,3 @@ function Counter({ targetNumber }: { targetNumber: number }) {
 
   return <span className="font-bold text-lg text-[#ff5452]">{number}</span>
 }
-
-export default Counter

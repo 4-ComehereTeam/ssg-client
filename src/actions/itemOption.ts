@@ -37,14 +37,11 @@ export async function getItemOptionExist(
     )
     if (res.ok) {
       const data = await res.json()
-      console.log("getItemOptionExist success:", data.httpStatus)
       return data.result
     } else {
-      console.log("getItemOptionExist fail:", res.status)
       return null
     }
   } catch (error) {
-    console.log("getItemOptionExist error:", error)
     return null
   }
 }
@@ -65,7 +62,6 @@ export async function getItemOptionColor(
     )
     if (res.ok) {
       const data = await res.json()
-      console.log("getItemOptionColor success:", data.httpStatus)
 
       const transformedData: Options = {
         itemId: data.result.itemId,
@@ -79,11 +75,9 @@ export async function getItemOptionColor(
 
       return transformedData
     } else {
-      console.log("getItemOptionColor fail:", res.status)
       return null
     }
   } catch (error) {
-    console.log("getItemOptionColor error:", error)
     return null
   }
 }
@@ -109,7 +103,6 @@ export async function getItemOptionSize(
     )
     if (res.ok) {
       const data = await res.json()
-      console.log("getItemOptionSize success:", data.httpStatus)
       const transformedData: Options = {
         itemId: data.result.itemId,
         superOptionId: data.result.colorId,
@@ -123,11 +116,9 @@ export async function getItemOptionSize(
 
       return transformedData
     } else {
-      console.log("getItemOptionSize fail:", res.status)
       return null
     }
   } catch (error) {
-    console.log("getItemOptionSize error:", error)
     return null
   }
 }
@@ -155,7 +146,6 @@ export async function getItemOptionEtc(
     )
     if (res.ok) {
       const data = await res.json()
-      console.log("getItemOptionEtc success:", data.httpStatus)
       const transformedData: Options = {
         itemId: data.result.itemId,
         superOptionId: data.result.colorId,
@@ -170,11 +160,9 @@ export async function getItemOptionEtc(
 
       return transformedData
     } else {
-      console.log("getItemOptionEtc fail:", res.status)
       return null
     }
   } catch (error) {
-    console.log("getItemOptionEtc error:", error)
     return null
   }
 }
@@ -200,14 +188,11 @@ export async function getItemOption(
     })
     if (res.ok) {
       const data = await res.json()
-      console.log("getItemOption success:", data.httpStatus)
       return data.result
     } else {
-      console.log("getItemOption fail:", res.status)
       return null
     }
   } catch (error) {
-    console.log("getItemOption error:", error)
     return null
   }
 }
@@ -233,14 +218,11 @@ export async function getItemNoneOption(
     )
     if (res.ok) {
       const data = await res.json()
-      console.log("getItemNoneOption success:", data.httpStatus)
       return data.result
     } else {
-      console.log("getItemNoneOption fail:", res.status)
       return null
     }
   } catch (error) {
-    console.log("getItemNoneOption error:", error)
     return null
   }
 }

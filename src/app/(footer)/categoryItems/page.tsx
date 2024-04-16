@@ -26,16 +26,21 @@ export async function generateMetadata({
 }: {
   searchParams: searchParamsType
 }) {
-  let title = "카테고리"
+  let title = ""
   const categoryNames = await categoryNameFilter(searchParams)
   if (categoryNames.big.name) {
-    title += " > " + categoryNames.big.name
+    title += categoryNames.big.name
   }
   if (categoryNames.mid.name) {
     title += " > " + categoryNames.mid.name
   }
   if (categoryNames.small.name) {
     title += " > " + categoryNames.small.name
+  }
+  if (!title) {
+    title += "믿고 사는 즐거움 SSG.COM"
+  } else {
+    title += ", 믿고 사는 즐거움 SSG.COM"
   }
   return {
     title: title,
@@ -89,7 +94,6 @@ export default async function CategoryProductListPage({
 }: {
   searchParams: { big: number; mid: number; small: number }
 }) {
-  await generateMetadata({ searchParams })
   const categoryItemsCountData = await getCategoryItemsCount(
     searchParams.big,
     searchParams.mid,

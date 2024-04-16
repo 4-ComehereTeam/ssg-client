@@ -2,6 +2,15 @@ import { getCategoryItemsCount } from "@/actions/category/categoryItems"
 import ResignButton from "@/components/ResignButton"
 import Counter from "@/components/ui/Counter"
 import { getSession } from "@/lib/getSession"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "MY SSG, 믿고 사는 즐거움 SSG.COM",
+  description: "MY SSG, 믿고 사는 즐거움 SSG.COM",
+  icons: {
+    icon: "https://sui.ssgcdn.com/ui/mssgmall-ssg/favicon/ssg/icon_72x72.png?q=f323cd4fb4bb4db63ae1e7055690d6316ba74006",
+  },
+}
 
 export default async function ResignPage() {
   const session = await getSession()

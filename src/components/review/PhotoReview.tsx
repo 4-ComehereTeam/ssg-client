@@ -5,7 +5,7 @@ type PhotoReviewProps = {
 }
 
 export default function PhotoReview({ openModal }: PhotoReviewProps) {
-  const items = new Array(10).fill(null) // 이 배열의 길이를 li 요소의 개수로 사용합니다.
+  const items = new Array(10).fill(null)
 
   return (
     <div className="overflow-hidden">

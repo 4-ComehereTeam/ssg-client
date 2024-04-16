@@ -27,7 +27,6 @@ export default function ClipCategoriesMain({
   const [allCheck, setAllCheck] = useState(false)
   const [isEditMode, setIsEditMode] = useState(false)
 
-  //개별 체크박스 클릭
   const handleClick = (id: number) => {
     const updatedClicks = { ...clicks, [id]: !clicks[id] }
     const newCount = Object.values(updatedClicks).filter(
@@ -41,7 +40,6 @@ export default function ClipCategoriesMain({
     setClicks(updatedClicks)
   }
 
-  //전체 체크박스 클릭
   const handleAllClicks = () => {
     const newAllCheck = !allCheck
     const updatedClicks = clipCategories.reduce((acc, ctg) => {
@@ -53,7 +51,6 @@ export default function ClipCategoriesMain({
     setCount(newAllCheck ? clipCategories.length : 0)
   }
 
-  //편집 클릭
   const handleEditMode = () => {
     setCount(0)
     const iniClicks = clipCategories.reduce(
