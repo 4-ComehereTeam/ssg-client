@@ -12,6 +12,8 @@ import {
 import { redirect } from "next/navigation"
 import { getCategoryItemsCount } from "@/actions/category/categoryItems"
 import HeaderWithSearchBar from "@/components/ui/Headers/HeaderWithSearchBar"
+import { Suspense } from "react"
+import Spinner from "@/components/ui/Spinner"
 
 type searchParamsType = {
   big?: number
@@ -19,12 +21,30 @@ type searchParamsType = {
   small?: number
 }
 
-/**
- * 하위 카테고리 id만으로 접근 불가
- * big -> 전체보기
- * big & mid -> 중분류까지
- * big & mid & small -> 소분류까지
- */
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: searchParamsType
+}) {
+  let title = "카테고리"
+  const categoryNames = await categoryNameFilter(searchParams)
+  if (categoryNames.big.name) {
+    title += " > " + categoryNames.big.name
+  }
+  if (categoryNames.mid.name) {
+    title += " > " + categoryNames.mid.name
+  }
+  if (categoryNames.small.name) {
+    title += " > " + categoryNames.small.name
+  }
+  return {
+    title: title,
+    icons: {
+      icon: "https://sui.ssgcdn.com/ui/mssgmall-ssg/favicon/ssg/icon_72x72.png?q=f323cd4fb4bb4db63ae1e7055690d6316ba74006",
+    },
+  }
+}
+
 function validSearchParams(searchParams: searchParamsType): boolean {
   if (searchParams.mid && !searchParams.big) {
     return false
@@ -69,6 +89,7 @@ export default async function CategoryProductListPage({
 }: {
   searchParams: { big: number; mid: number; small: number }
 }) {
+  await generateMetadata({ searchParams })
   const categoryItemsCountData = await getCategoryItemsCount(
     searchParams.big,
     searchParams.mid,
@@ -123,10 +144,12 @@ export default async function CategoryProductListPage({
           />
         )}
       </div>
-      <ProductList
-        categoryIds={searchParams}
-        categoryItemsCount={categoryItemsCountData.count}
-      />
+      <Suspense fallback={<Spinner />}>
+        <ProductList
+          categoryIds={searchParams}
+          categoryItemsCount={categoryItemsCountData.count}
+        />
+      </Suspense>
     </div>
   )
 }
