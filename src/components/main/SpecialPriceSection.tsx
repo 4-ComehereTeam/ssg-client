@@ -1,12 +1,9 @@
 import { getSpecialPrice } from "@/actions/specialPrice/specialPrice"
-import SpecailPrice from "../SpecailPrice"
 import SpecialPriceAdBox from "./SpecialPriceAdBox"
 import SpecialCard from "../SpecialCard"
-import { cookies } from "next/headers"
 
 export default async function SpecialPriceSection() {
   const data = await getSpecialPrice()
-  // console.log("SpecialPriceSection.getSpecialPrice() >>", data);
 
   return (
     <section className="mt-14">
