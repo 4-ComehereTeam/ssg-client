@@ -1,8 +1,8 @@
 import ItemCard from "../item/ItemCard"
 import Image from "next/image"
 import { Suspense } from "react"
-import Loading from "@/app/loading"
 import { getBestItems } from "@/actions/bestItems"
+import { SkeletonCard } from "../ui/SkeletonCard"
 
 export default async function BestItems({
   categoryId,
@@ -30,7 +30,7 @@ export default async function BestItems({
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 px-3">
       {bestItemsData.items.map((itemId, index) => (
         <div key={`${itemId}-bestItemId`}>
-          <Suspense fallback={<Loading />}>
+          <Suspense fallback={<SkeletonCard />}>
             <span className="absolute w-[20px] h-[20px] bg-[#666666] text-white text-[11px] text-center leading-[20px] mt-2">
               {Math.floor(index / 10) < 1
                 ? (index + 1).toString().padStart(2, "0")

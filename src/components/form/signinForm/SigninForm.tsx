@@ -6,7 +6,6 @@ import { useFormState } from "react-dom"
 import { signin } from "@/actions/signin"
 import { socialSignin } from "@/data/social"
 import SocialButton from "@/components/form/signinForm/SocialButton"
-import { useSearchParams } from "next/navigation"
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -18,15 +17,10 @@ import {
 } from "@/components/shadcnUI/alert-dialog"
 
 function SigninForm() {
-  const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get("callbackUrl")
-    ? searchParams.get("callbackUrl")
-    : ""
   const [isKeepId, setIsKeepId] = useState<boolean>(false)
   const [signinId, setSigninId] = useState<String>("")
   const [state, formAction] = useFormState(signin, {
     error: "",
-    callbackUrl: callbackUrl,
   })
 
   useEffect(() => {

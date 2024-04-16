@@ -15,7 +15,7 @@ export default function SigninStateBar() {
         {loading ? (
           <Skeleton className="h-[16px]" />
         ) : session?.user.accessToken ? (
-          <Link href={"/"}>홈</Link>
+          <Link href={"/home"}>홈</Link>
         ) : (
           <Link href={"/member/signin"}>로그인</Link>
         )}

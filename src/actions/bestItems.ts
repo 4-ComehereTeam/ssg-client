@@ -14,15 +14,14 @@ export async function getBestItems(
   try {
     const res = await fetch(`${process.env.API_BASE_URL}/items/best?${path}`, {
       method: "GET",
+      cache: "no-store",
       headers: {
         "Content-Type": "application/json",
       },
     })
     const data = await res.json()
-    console.log("getBestItems success:", data.httpStatus)
     return data.result
   } catch (error) {
-    console.log("getBestItems error:", error)
     return null
   }
 }

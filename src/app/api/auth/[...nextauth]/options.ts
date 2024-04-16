@@ -14,7 +14,7 @@ export const options: NextAuthOptions = {
         signinId: { label: "signinId", type: "text" },
         password: { label: "password", type: "password" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         if (!credentials?.signinId || !credentials?.password) {
           return null
         }
@@ -32,14 +32,12 @@ export const options: NextAuthOptions = {
           })
           const data = await res.json()
           if (data.result) {
-            console.log("signin success:", data.httpStatus)
             data.result.accessToken = res.headers.get("accessToken")
             data.result.id = data.result.signinId
             return data.result
           }
           throw data
         } catch (error) {
-          console.log("signin error:", error)
           return null
         }
       },
@@ -58,9 +56,8 @@ export const options: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user, profile, account }) {
+    async signIn({ user, account }) {
       if (account?.provider !== "credentials") {
-        //간편회원 아이디가 없으면 간편회원가입 페이지로 이동
         const isExistId = await idDuplCheck(user.id)
         if (isExistId) {
           try {
@@ -78,21 +75,20 @@ export const options: NextAuthOptions = {
             )
             const data = await res.json()
             if (data.result) {
-              console.log("socialSignin success:", res.status)
               user.accessToken = res.headers.get("accessToken")
             } else {
               throw data.message
             }
           } catch (error) {
-            console.log("socialSignin error:", error)
             return "/member/signin"
           }
+        } else {
+          return "/member/signup/social"
         }
       }
       const signinId =
         account?.provider === "credentials" ? user.signinId : user.id
 
-      //휴면여부 조회
       const isDormancyMember = await getIsdormancyMember(signinId)
       if (isDormancyMember) {
         return "/member/certification"

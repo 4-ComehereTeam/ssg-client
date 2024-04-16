@@ -13,10 +13,8 @@ export async function idDuplCheck(signinId: string): Promise<boolean> {
       },
     )
     const data = await res.json()
-    console.log("idDuplCheck success:", data.httpStatus)
-    return data.result ? false : true //중복되지(존재하지) 않으면 false, 중복되면(존재하면) true 반환
+    return data.result ? false : true
   } catch (error) {
-    console.log("idDuplCheck fail:", error)
     return true
   }
 }

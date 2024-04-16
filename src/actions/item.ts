@@ -23,14 +23,11 @@ export async function getItemBasicInfo(
     )
     if (res.ok) {
       const data = await res.json()
-      console.log("getItemBasicInfo success:", data.httpStatus)
       return data.result
     } else {
-      console.log("getItemBasicInfo fail:", res.status)
       return null
     }
   } catch (error) {
-    console.log("getItemBasicInfo fail:", error)
     return null
   }
 }
@@ -49,14 +46,11 @@ export async function getItemDescription(itemId: string | number) {
     )
     if (res.ok) {
       const data = await res.json()
-      console.log("getItemDescription success:", data.httpStatus)
       return data.result
     } else {
-      console.log("getItemDescription fail:", res.status)
       return null
     }
   } catch (error) {
-    console.log("getItemDescription fail:", error)
     return null
   }
 }
@@ -81,10 +75,8 @@ export async function getItemCalc(
       },
     )
     const data = await res.json()
-    console.log("getItemCalc success:", data.httpStatus)
     return data.result
   } catch (error) {
-    console.log("getItemCalc fail:", error)
     return null
   }
 }
@@ -109,10 +101,8 @@ export async function getItemBrand(
       },
     )
     const data = await res.json()
-    console.log("getItemBrand success:", data.httpStatus)
     return data.result
   } catch (error) {
-    console.log("getItemBrand fail:", error)
     return null
   }
 }
@@ -144,10 +134,8 @@ export async function getItemImages(
       },
     )
     const data = await res.json()
-    console.log("getItemImages success:", data.httpStatus)
     return data.result
   } catch (error) {
-    console.log("getItemImages fail:", error)
     return null
   }
 }
@@ -175,14 +163,11 @@ export async function getItemThumbnail(
     )
     if (res.ok) {
       const data = await res.json()
-      console.log("getItemThumbnail success:", data.httpStatus)
       return data.result
     } else {
-      console.log("getItemThumbnail fail:", res.status)
       return null
     }
   } catch (error) {
-    console.log("getItemThumbnail fail(error):", error)
     return null
   }
 }
@@ -198,14 +183,11 @@ export async function getItemList() {
     })
     if (res.ok) {
       const data = await res.json()
-      console.log("getItemList success :", data.httpStatus)
       return data.result
     } else {
-      console.log("getItemList fail :", res.status)
       return null
     }
   } catch (error) {
-    console.log("getItemList fail(erroe) :", error)
     return null
   }
 }

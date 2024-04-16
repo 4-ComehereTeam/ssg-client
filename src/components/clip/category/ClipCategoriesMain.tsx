@@ -18,17 +18,17 @@ export default function ClipCategoriesMain({
 }: ClipCategoriesProps) {
   const [count, setCount] = useState(0)
   const [clicks, setClicks] = useState<{ [key: number]: boolean }>(
-    Array(clipCategories.length).reduce((obj, e, index) => {
-      obj[index] = false
-      return obj
-    }, {}),
+    clipCategories.reduce((acc, ctg) => {
+      acc[ctg.id] = false
+      return acc
+    }, {} as { [key: number]: boolean }),
   )
+
   const [allCheck, setAllCheck] = useState(false)
   const [isEditMode, setIsEditMode] = useState(false)
 
-  //개별 체크박스 클릭
-  const handleClick = (index: number) => {
-    const updatedClicks = { ...clicks, [index]: !clicks[index] }
+  const handleClick = (id: number) => {
+    const updatedClicks = { ...clicks, [id]: !clicks[id] }
     const newCount = Object.values(updatedClicks).filter(
       (click) => click,
     ).length
@@ -40,31 +40,37 @@ export default function ClipCategoriesMain({
     setClicks(updatedClicks)
   }
 
-  //전체 체크박스 클릭
   const handleAllClicks = () => {
     const newAllCheck = !allCheck
-    const updatedClicks = Object.keys(clicks).reduce((acc, key) => {
-      acc[parseInt(key)] = newAllCheck
+    const updatedClicks = clipCategories.reduce((acc, ctg) => {
+      acc[ctg.id] = newAllCheck
       return acc
-    }, {} as { [key: number]: boolean })
+    }, {} as { [key: string]: boolean })
     setAllCheck(newAllCheck)
     setClicks(updatedClicks)
     setCount(newAllCheck ? clipCategories.length : 0)
   }
 
-  //편집 클릭
   const handleEditMode = () => {
-    const updatedMode = !isEditMode
     setCount(0)
-    const iniClicks = Object.keys(clicks).reduce((acc, key) => {
-      acc[parseInt(key)] = false
-      return acc
-    }, {} as { [key: number]: boolean })
+    const iniClicks = clipCategories.reduce(
+      (acc, { bigCategoryId, middleCategoryId, smallCategoryId }) => {
+        const key = `${bigCategoryId}-${middleCategoryId ?? ""}-${
+          smallCategoryId ?? ""
+        }`
+        acc[key] = false
+        return acc
+      },
+      {} as { [key: string]: boolean },
+    )
     setClicks(iniClicks)
-    setIsEditMode(updatedMode)
+    setIsEditMode(!isEditMode)
+    if (isEditMode) {
+      setAllCheck(false)
+    }
   }
 
-  const clickItemIds = Object.keys(clicks)
+  const clickCategoryIds = Object.keys(clicks)
     .filter((index) => clicks[parseInt(index)] === true)
     .map((index) => clipCategories[parseInt(index)])
 
@@ -79,7 +85,7 @@ export default function ClipCategoriesMain({
       </section>
     )
   }
-  console.log(clicks)
+
   return (
     <section className="relative">
       <div className="mt-3 px-4 text-sm">
@@ -96,7 +102,7 @@ export default function ClipCategoriesMain({
               />
               <ClipCancleButton onEditMode={() => handleEditMode()} />
             </div>
-            <CategoryEditBar clickCategoryIds={clickItemIds} />
+            <CategoryEditBar clickCategoryIds={clickCategoryIds} />
           </>
         ) : (
           <div className="flex flex-row justify-between items-center">
@@ -114,9 +120,9 @@ export default function ClipCategoriesMain({
                     id={`${ctg.bigCategoryId}-${ctg.middleCategoryId}-${ctg.smallCategoryId}`}
                     text=""
                     onChange={() => handleClick(index)}
-                    checked={clicks[index]}
+                    checked={allCheck || clicks[index] || false}
                     isDisabled={false}
-                    checkboxShape="square ml-6 w-[19px] h-[19px]"
+                    checkboxShape="absolute mt-5 square w-[19px] h-[19px]"
                   />
                 )}
               </ClipCategoryCard>

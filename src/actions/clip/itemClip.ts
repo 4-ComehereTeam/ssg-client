@@ -16,15 +16,12 @@ export async function getClipItemIds(): Promise<number[]> {
     })
 
     const data = await res.json()
-    console.log("getClipItemIds success", data.httpStatus)
     return data.result.itemIds
   } catch (error) {
-    console.log("getClipItemIds error", error)
     return []
   }
 }
 
-//개별 상품 좋아요 조회
 export async function getClip(itemId: number | string): Promise<boolean> {
   revalidateTag("getClipItemIds")
   const session = await getSession()
@@ -37,17 +34,12 @@ export async function getClip(itemId: number | string): Promise<boolean> {
       },
     })
     const data = await res.json()
-    if (data.httpStatus) {
-      console.log("getClip success:", data.httpStatus)
-    }
     return data.result.isCliped
   } catch (error) {
-    console.log("getClip fail:", error)
     return false
   }
 }
 
-//좋아요 등록
 export async function postClip(itemId: number | string) {
   revalidateTag("getClipItemIds")
   const session = await getSession()
@@ -61,16 +53,14 @@ export async function postClip(itemId: number | string) {
     })
     if (res.ok) {
       const data = await res.json()
-      console.log("postClip success:", data.httpStatus)
+      return
     }
-    console.log("postClip status", res.status)
     return null
   } catch (error) {
-    console.log("postClip fail:", error)
+    return null
   }
 }
 
-//좋아요 취소
 export async function deleteClip(itemId: number | string) {
   revalidateTag("getClipItemIds")
   const session = await getSession()
@@ -85,17 +75,14 @@ export async function deleteClip(itemId: number | string) {
 
     if (res.ok) {
       const data = await res.json()
-      console.log("deleteClip success:", data.httpStatus)
-      return data
+      return data.isSuccess
     }
-    console.log("deleteClip status", res.status)
     return null
   } catch (error) {
-    console.log("deleteClip fail:", error)
+    return null
   }
 }
 
-//좋아요 여러 개 취소
 export async function deleteManyClips(itemIds: number[] | string[]) {
   revalidateTag("getClipItemIds")
   const session = await getSession()
@@ -112,10 +99,9 @@ export async function deleteManyClips(itemIds: number[] | string[]) {
     })
     if (res.ok) {
       const data = await res.json()
-      console.log("delete many clips success:", data.httpStatus)
-      return data
+      return data.isSuccess
     }
   } catch (error) {
-    console.log("delete many clips fail:", error)
+    return null
   }
 }

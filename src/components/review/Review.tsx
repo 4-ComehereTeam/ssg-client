@@ -12,7 +12,7 @@ export default function Review() {
   const [scrollPosition, setScrollPosition] = useState(0)
 
   const handleScroll = () => {
-    const position = window.pageYOffset
+    const position = window.pageYOffset || window.scrollY
     setScrollPosition(position)
   }
 
@@ -72,10 +72,6 @@ export default function Review() {
             </SwiperSlide>
           ))}
         </Swiper>
-        {/* <div className='swiper-pagination absolute w-[50px] h-[22px] rounded-xl bg-slate-500 opacity-50 text-center text-white text-[13px] font-bold right-8 top-2'><span>1</span>/<span>10</span></div> */}
-        {/* <div className='absolute right-0 top-1/2 transform -translate-y-1/2 w-[40px] h-[40px] z-20'>
-                    <span className='w-full h-full'><SmallArrowIcon /></span>
-                </div> */}
       </div>
       <div className="mt-[15px]">
         <p className="whitespace-nowrap text-sm">내용</p>

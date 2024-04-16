@@ -3,7 +3,6 @@
 import SmallArrowIcon from "@/asset/images/SmallArrowIcon"
 import { lCategoryDummy } from "@/lib/lCategoryDummy"
 import React, { useState, useRef, useEffect } from "react"
-// import LargeCategoryList from '../modal/LargeCategoryList';
 
 export default function LargeCategorySlideButton() {
   const buttonRefs = useRef<HTMLButtonElement[]>([])

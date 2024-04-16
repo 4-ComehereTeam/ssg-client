@@ -1,8 +1,3 @@
-interface IdentityCertifiButtonProps {
-  label: string
-  onClick: () => void
-}
-
 export default function IdentityCertifiButton() {
   const handleClick = () => {
     console.log("Identity verification button clicked")

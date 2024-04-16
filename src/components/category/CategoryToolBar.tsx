@@ -23,36 +23,28 @@ export default async function CategoryToolBar({
   const superCategory = smallCategory.id ? midCategory : bigCategory
   const subCategory = smallCategory.id ? smallCategory : midCategory
 
-  let superPath = `/category-items?big=${superCategory.id}`
+  let superPath = `/categoryItems?big=${superCategory.id}`
   if (smallCategory.id) {
-    superPath = `/category-items?big=${bigCategory.id}&mid=${midCategory.id}`
+    superPath = `/categoryItems?big=${bigCategory.id}&mid=${midCategory.id}`
   }
 
-  let subPath = `/category-items?big=${bigCategory.id}&mid=${midCategory.id}`
+  let subPath = `/categoryItems?big=${bigCategory.id}&mid=${midCategory.id}`
   if (smallCategory.id) {
-    subPath = `/category-items?big=${bigCategory.id}&mid=${midCategory.id}&small=${smallCategory.id}`
+    subPath = `/categoryItems?big=${bigCategory.id}&mid=${midCategory.id}&small=${smallCategory.id}`
   }
   let isCliped = false
   if (bigCategory.id) {
-    isCliped = await getIsClipedCategory({
+    const result = await getIsClipedCategory({
       bigCategoryId: bigCategory.id,
       middleCategoryId: midCategory.id,
       smallCategoryId: smallCategory.id,
     })
+    isCliped = result ? result.isCliped : false
   }
+
   return (
     <div className="flex flex-row w-full h-[46px] bg-white items-center pl-3 pr-3 sticky top-0 z-10">
-      <div className="items-center h-full">
-        <Link
-          href="#"
-          className="h-full flex flex-wrap justify-center items-center"
-        >
-          <div className="w-5 h-5 inline-block flex-shrink-0 align-middle">
-            <Image alt="이전 페이지" src={backArrow} width={30} height={30} />
-          </div>
-        </Link>
-      </div>
-      <div className="pl-5 pr-3 items-center flex">
+      <div className="pr-3 items-center flex">
         {subCategory.id ? (
           <Link
             href={superPath}

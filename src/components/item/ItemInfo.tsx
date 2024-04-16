@@ -1,7 +1,6 @@
 import ItemBasicInfo from "./ItemBasicInfo"
 import ItemBrand from "./ItemBrand"
 import ItemCalc from "./ItemCalc"
-import ItemOrderInfo from "./ItemOrderInfo"
 
 export type ItemIdType = {
   itemId: string
@@ -13,7 +12,6 @@ export default function ItemInfo({ itemId }: ItemIdType) {
       <ItemBrand itemId={itemId} />
       <ItemBasicInfo itemId={itemId} />
       <ItemCalc itemId={itemId} />
-      <ItemOrderInfo />
     </section>
   )
 }

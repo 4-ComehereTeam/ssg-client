@@ -8,7 +8,6 @@ import { certificationAgreements } from "@/data/agreements"
 
 export default function CertificationForm() {
   const [showVerificationInput, setShowVerificationInput] = useState(false)
-  //TODO: 인증번호 입력 제한시간(3분) 구현하기
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()

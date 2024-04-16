@@ -39,7 +39,7 @@ export default function Description({ description }: DescriptionProps) {
   }
 
   return (
-    <div className="relative mt-5 mb-10 flex flex-col justify-center">
+    <div className="comhere-detail relative mt-5 mb-10 flex flex-col justify-center">
       <div
         ref={ref}
         dangerouslySetInnerHTML={{ __html: description }}
