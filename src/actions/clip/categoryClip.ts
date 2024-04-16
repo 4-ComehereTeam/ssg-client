@@ -6,6 +6,13 @@ import { revalidateTag } from "next/cache"
 export type ClipCategoryIds = ClipCategoryId[]
 
 export type ClipCategoryId = {
+  id: number
+  bigCategoryId: number
+  middleCategoryId: number | null | undefined
+  smallCategoryId: number | null | undefined
+}
+
+export type NoneIdClipCategoryId = {
   bigCategoryId: number
   middleCategoryId: number | null | undefined
   smallCategoryId: number | null | undefined
@@ -40,7 +47,7 @@ export type IsClipedCategory = {
 }
 
 export async function getIsClipedCategory(
-  categoryId: ClipCategoryId,
+  categoryId: NoneIdClipCategoryId,
 ): Promise<IsClipedCategory | null> {
   revalidateTag("getClipCategoryIds")
   let path = `bigCategoryId=${categoryId.bigCategoryId}`
@@ -75,7 +82,7 @@ export async function getIsClipedCategory(
   }
 }
 
-export async function postClipCategory(categoryId: ClipCategoryId) {
+export async function postClipCategory(categoryId: NoneIdClipCategoryId) {
   revalidateTag("getClipCategoryIds")
   const session = await getSession()
   try {
@@ -102,7 +109,9 @@ export async function postClipCategory(categoryId: ClipCategoryId) {
   }
 }
 
-export async function deleteClipCategories(categoryClipIds: ClipCategoryIds) {
+export async function deleteClipCategories(
+  categoryClipIds: NoneIdClipCategoryId[],
+) {
   revalidateTag("getClipCategoryIds")
   const session = await getSession()
   try {

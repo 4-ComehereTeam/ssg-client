@@ -50,9 +50,10 @@ export default function CategoryDrawer({
             {categories.map((ctg, index) => (
               <Link
                 key={ctg.id}
+                href={`?big=${ctg.id}`}
                 className="w-full h-[44px] flex flex-row gap-2 items-center"
-                href={`/best?big=${ctg.id}`}
                 onClick={() => handleDrawer(ctg.id)}
+                scroll={false}
               >
                 <input
                   id={`bigCategory-${ctg.id}`}

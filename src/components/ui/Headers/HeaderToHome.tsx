@@ -8,7 +8,7 @@ export default function HeaderToHome({ title }: { title: string }) {
       <div className="flex justify-center items-center relative left-[25px] w-full ">
         {title}
       </div>
-      <Link href="/" className="w-[50px] flex item-center justify-center">
+      <Link href="/home" className="w-[50px] flex item-center justify-center">
         <Image loading="lazy" src={home} width={24} height={22} alt="홈으로" />
       </Link>
     </header>

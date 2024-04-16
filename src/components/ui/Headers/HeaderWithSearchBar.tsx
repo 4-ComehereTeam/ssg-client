@@ -11,7 +11,7 @@ export default function HeaderWithSearchBar() {
   return (
     <header className="flex flex-row justify-between items-center py-[8px] px-[14px] h-[56px] w-full">
       <div className="flex flex-shrink-0">
-        <a href="/">
+        <Link href="/home">
           <Image
             loader={imageLoader}
             alt="SSG.COM"
@@ -19,7 +19,7 @@ export default function HeaderWithSearchBar() {
             width={86}
             height={40}
           />
-        </a>
+        </Link>
         <button
           aria-label="몰 목록 보기"
           className="rounded-full border h-4 my-auto m-[4px]"

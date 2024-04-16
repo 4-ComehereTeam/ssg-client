@@ -1,16 +1,16 @@
-import ItemCard from "../item/ItemCard"
-import Image from "next/image"
-import { Suspense } from "react"
 import { getBestItems } from "@/actions/bestItems"
-import { SkeletonCard } from "../ui/SkeletonCard"
+import { SkeletonCard } from "@/components/ui/SkeletonCard"
+import { Suspense } from "react"
+import ItemCard from "@/components/item/ItemCard"
+import Image from "next/image"
 
-export default async function BestItems({
-  categoryId,
+export default async function page({
+  searchParams,
 }: {
-  categoryId: number | null
+  searchParams: { big: number }
 }) {
-  const bestItemsData = await getBestItems(categoryId)
-
+  console.log("searchParams: ", searchParams)
+  const bestItemsData = await getBestItems(searchParams.big)
   if (!bestItemsData || !bestItemsData.items.length) {
     return (
       <div className="h-[100vw] overflow-hidden">

@@ -1,3 +1,5 @@
+"use server"
+
 type ReviewIdsResponse = {
   reviews: number[]
   hasNext: boolean

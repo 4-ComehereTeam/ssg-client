@@ -9,7 +9,7 @@ export default function HeaderOfCategory() {
   }
   return (
     <header className="py-2 px-2.5">
-      <Link href={"/"}>
+      <Link href={"/home"}>
         <Image
           loader={imageLoader}
           alt="SSG.COM"
