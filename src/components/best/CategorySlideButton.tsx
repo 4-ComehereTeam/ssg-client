@@ -16,10 +16,13 @@ export default function CategorySlideButton({
   const buttonRefs = useRef<HTMLButtonElement[]>([])
   const totalCategories = [{ id: 0, name: "전체" }].concat(categories)
 
-  const handleCategoryClick = (index: number) => {
-    setSelectedCtgId(index)
-    if (buttonRefs.current[index]) {
-      buttonRefs.current[index].scrollIntoView({
+  const handleCategoryClick = (ctgId: number) => {
+    setSelectedCtgId(ctgId)
+    const clickedButton = buttonRefs.current.find(
+      (button) => parseInt(button.id) === ctgId,
+    )
+    if (clickedButton) {
+      clickedButton.scrollIntoView({
         behavior: "smooth",
         block: "nearest",
         inline: "center",
@@ -46,6 +49,7 @@ export default function CategorySlideButton({
       })
     }
   }
+
   return (
     <>
       <div className="sticky z-20 col-start-2 col-end-auto ms-[(1rem)*-1] me-[(1rem)*-1] top-[46px] bg-white">
@@ -53,15 +57,13 @@ export default function CategorySlideButton({
           <div className="h-[56px] overflow-hidden text-nowrap flex">
             <div className="flex-nowrap pt-[10px] pb-[10px] ps-3 pe-1 overflow-scroll scrollbar-hide">
               {totalCategories.map((ctg, index) => (
-                <Link
-                  key={ctg.id}
-                  href={`/best?big=${ctg.id}`}
-                  onClick={() => handleCategoryClick(ctg.id)}
-                >
+                <Link key={ctg.id} href={`?big=${ctg.id}`} scroll={false}>
                   <button
+                    id={ctg.id.toString()}
                     ref={(element) => element && setButtonRef(element, index)}
+                    onClick={() => handleCategoryClick(ctg.id)}
                     className={`min-w-min h-full text-xs font-semibold mr-[5px] pl-2 pr-2 ${
-                      selectedCtgId === index
+                      selectedCtgId === ctg.id
                         ? "bg-black text-white"
                         : "border-gray-200 border-[1px] text-black"
                     }`}

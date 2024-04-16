@@ -51,10 +51,10 @@ export default function TotalReview({
           )
         })}
         <Link
-          href={`/review/${itemId}`}
+          href={`/not-found`}
           className="flex gap-2 h-10 mt-2 w-[90%] text-sm text-[#888888] items-center justify-center rounded-md border border-solid"
         >
-          <span>더보기 ({reviewCount - 5})</span>
+          <span>더보기 ({reviewCount})</span>
           <div className="w-3">
             <Image
               width="12"

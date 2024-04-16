@@ -17,29 +17,18 @@ export default function ClipCategoriesMain({
   clipCategories,
 }: ClipCategoriesProps) {
   const [count, setCount] = useState(0)
-  const [clicks, setClicks] = useState<{ [key: string]: boolean }>(
-    clipCategories.reduce(
-      (acc, { bigCategoryId, middleCategoryId, smallCategoryId }) => {
-        const key = `${bigCategoryId}-${middleCategoryId ?? ""}-${
-          smallCategoryId ?? ""
-        }`
-        acc[key] = false
-        return acc
-      },
-      {} as { [key: string]: boolean },
-    ),
+  const [clicks, setClicks] = useState<{ [key: number]: boolean }>(
+    clipCategories.reduce((acc, ctg) => {
+      acc[ctg.id] = false
+      return acc
+    }, {} as { [key: number]: boolean }),
   )
 
   const [allCheck, setAllCheck] = useState(false)
   const [isEditMode, setIsEditMode] = useState(false)
 
-  //개별 체크박스 클릭
-  const handleClick = (index: number) => {
-    const category = clipCategories[index]
-    const key = `${category.bigCategoryId}-${category.middleCategoryId ?? ""}-${
-      category.smallCategoryId ?? ""
-    }`
-    const updatedClicks = { ...clicks, [key]: !clicks[key] }
+  const handleClick = (id: number) => {
+    const updatedClicks = { ...clicks, [id]: !clicks[id] }
     const newCount = Object.values(updatedClicks).filter(
       (click) => click,
     ).length
@@ -51,25 +40,17 @@ export default function ClipCategoriesMain({
     setClicks(updatedClicks)
   }
 
-  //전체 체크박스 클릭
   const handleAllClicks = () => {
     const newAllCheck = !allCheck
-    const updatedClicks = clipCategories.reduce(
-      (acc, { bigCategoryId, middleCategoryId, smallCategoryId }) => {
-        const key = `${bigCategoryId}-${middleCategoryId ?? ""}-${
-          smallCategoryId ?? ""
-        }`
-        acc[key] = newAllCheck
-        return acc
-      },
-      {} as { [key: string]: boolean },
-    )
+    const updatedClicks = clipCategories.reduce((acc, ctg) => {
+      acc[ctg.id] = newAllCheck
+      return acc
+    }, {} as { [key: string]: boolean })
     setAllCheck(newAllCheck)
     setClicks(updatedClicks)
     setCount(newAllCheck ? clipCategories.length : 0)
   }
 
-  //편집 클릭
   const handleEditMode = () => {
     setCount(0)
     const iniClicks = clipCategories.reduce(
@@ -104,7 +85,7 @@ export default function ClipCategoriesMain({
       </section>
     )
   }
-  console.log(clipCategories)
+
   return (
     <section className="relative">
       <div className="mt-3 px-4 text-sm">

@@ -1,3 +1,5 @@
+"use server"
+
 export type CategoryItemsData = {
   itemIds: number[]
   currentPage: number
@@ -35,10 +37,8 @@ export async function getCategoryItems(
       },
     })
     const data = await res.json()
-    console.log("getCategoryItems success:", data.httpStatus)
     return data.result
   } catch (error) {
-    console.log("getCategoryItems error:", error)
     return null
   }
 }
@@ -66,10 +66,8 @@ export async function getCategoryItemsCount(
       },
     })
     const data = await res.json()
-    console.log("getCategoryItemsCount success:", data.httpStatus)
     return data.result
   } catch (error) {
-    console.log("getCategoryItemsCount error:", error)
     return null
   }
 }

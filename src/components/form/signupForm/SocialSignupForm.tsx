@@ -35,7 +35,6 @@ export default function SocialSignupForm() {
     error: "",
   })
 
-  //마케팅수신동의 - 쓱닷컴
   const handleSsgcomChange = (
     type: keyof MktReceiveMethodsType,
     isChecked: boolean,
@@ -43,7 +42,6 @@ export default function SocialSignupForm() {
     setSsgcomAgrees((prevState) => ({ ...prevState, [type]: isChecked }))
   }
 
-  // 동의한 수신 방법 항목의 text를 결합하여 문자열 생성
   const generateAgreementString = (
     agrees: MktReceiveMethodsType,
     methods: AgreementsType,

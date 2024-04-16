@@ -77,7 +77,6 @@ export default function SignupForm() {
     })
   }
 
-  //아이디 중복 확인
   const checkIdDuplicate = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
@@ -89,7 +88,6 @@ export default function SignupForm() {
     }
   }
 
-  //주소 검색
   const handleAddressBtn = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
@@ -101,7 +99,6 @@ export default function SignupForm() {
     setAddress(newAddress)
   }
 
-  //마케팅수신동의 - 신세계포인트
   const handleSsgPointChange = (
     type: keyof MktReceiveMethodsType,
     isChecked: boolean,
@@ -109,7 +106,6 @@ export default function SignupForm() {
     setSsgPointAgrees((prevState) => ({ ...prevState, [type]: isChecked }))
   }
 
-  //마케팅수신동의 - 쓱닷컴
   const handleSsgcomChange = (
     type: keyof MktReceiveMethodsType,
     isChecked: boolean,
@@ -117,7 +113,6 @@ export default function SignupForm() {
     setSsgcomAgrees((prevState) => ({ ...prevState, [type]: isChecked }))
   }
 
-  // 동의한 수신 방법 항목의 text를 결합하여 문자열 생성
   const generateAgreementString = (
     agrees: MktReceiveMethodsType,
     methods: AgreementsType,
@@ -399,7 +394,7 @@ export default function SignupForm() {
               className="bg-[#FF5452] text-white"
               onClick={() => handleRoute()}
             >
-              확인
+              {state?.error ? "확인" : "로그인"}
             </AlertDialogCancel>
           </AlertDialogFooter>
         </AlertDialogContent>

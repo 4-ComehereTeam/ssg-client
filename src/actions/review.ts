@@ -1,3 +1,5 @@
+"use server"
+
 type ReviewIdsResponse = {
   reviews: number[]
   hasNext: boolean
@@ -19,14 +21,11 @@ export async function getItemReviewIds(
     )
     if (res.ok) {
       const data = await res.json()
-      console.log("getItemReviewIds success:", data.httpStatus)
       return data.result
     } else {
-      console.log("getItemReviewIds fail:", res.status)
       return null
     }
   } catch (error) {
-    console.log("getItemReviewIds fail:", error)
     return null
   }
 }
@@ -45,14 +44,11 @@ export async function getItemAllReviewImages(itemCode: string) {
     )
     if (res.ok) {
       const data = await res.json()
-      console.log("getItemReviewImages success:", data.httpStatus)
       return data.result
     } else {
-      console.log("getItemReviewImages fail:", res.status)
       return null
     }
   } catch (error) {
-    console.log("getItemReviewImages fail:", error)
     return null
   }
 }
@@ -71,14 +67,11 @@ export async function getItemReview(reviewId: string) {
     )
     if (res.ok) {
       const data = await res.json()
-      console.log("getItemReview success:", data.httpStatus)
       return data.result
     } else {
-      console.log("getItemReview fail:", res.status)
       return null
     }
   } catch (error) {
-    console.log("getItemReview fail:", error)
     return null
   }
 }
@@ -97,14 +90,11 @@ export async function getOneReviewImages(reviewId: string) {
     )
     if (res.ok) {
       const data = await res.json()
-      console.log("getReviewImages success:", data.httpStatus)
       return data.result
     } else {
-      console.log("getReviewImages fail:", res.status)
       return null
     }
   } catch (error) {
-    console.log("getReviewImages fail:", error)
     return null
   }
 }

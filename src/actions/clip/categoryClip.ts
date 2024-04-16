@@ -6,6 +6,13 @@ import { revalidateTag } from "next/cache"
 export type ClipCategoryIds = ClipCategoryId[]
 
 export type ClipCategoryId = {
+  id: number
+  bigCategoryId: number
+  middleCategoryId: number | null | undefined
+  smallCategoryId: number | null | undefined
+}
+
+export type NoneIdClipCategoryId = {
   bigCategoryId: number
   middleCategoryId: number | null | undefined
   smallCategoryId: number | null | undefined
@@ -24,12 +31,8 @@ export async function getClipCategoryIds(): Promise<ClipCategoryIds | []> {
     })
 
     const data = await res.json()
-    if (data.isSuccess) {
-      console.log("getClipCategoryIds success", data.httpStatus)
-    }
     return data.result.categoryClip
   } catch (error) {
-    console.log("getClipCategoryIds error", error)
     return []
   }
 }
@@ -40,7 +43,7 @@ export type IsClipedCategory = {
 }
 
 export async function getIsClipedCategory(
-  categoryId: ClipCategoryId,
+  categoryId: NoneIdClipCategoryId,
 ): Promise<IsClipedCategory | null> {
   revalidateTag("getClipCategoryIds")
   let path = `bigCategoryId=${categoryId.bigCategoryId}`
@@ -63,19 +66,16 @@ export async function getIsClipedCategory(
       },
     )
     const data = await res.json()
-    if (data.isSuccess) {
-      console.log("getIsClipedCategory success", data.httpStatus)
-    } else {
+    if (!data.isSuccess) {
       throw data
     }
     return data.result
   } catch (error) {
-    console.log("getIsClipedCategory error", error)
     return null
   }
 }
 
-export async function postClipCategory(categoryId: ClipCategoryId) {
+export async function postClipCategory(categoryId: NoneIdClipCategoryId) {
   revalidateTag("getClipCategoryIds")
   const session = await getSession()
   try {
@@ -92,17 +92,17 @@ export async function postClipCategory(categoryId: ClipCategoryId) {
       }),
     })
     const data = await res.json()
-    if (data.isSuccess) {
-      console.log("postClipCategory success:", data.httpStatus)
-    } else {
+    if (!data.isSuccess) {
       throw data
     }
   } catch (error) {
-    console.log("postClipCategory fail:", error)
+    return
   }
 }
 
-export async function deleteClipCategories(categoryClipIds: ClipCategoryIds) {
+export async function deleteClipCategories(
+  categoryClipIds: NoneIdClipCategoryId[],
+) {
   revalidateTag("getClipCategoryIds")
   const session = await getSession()
   try {
@@ -118,10 +118,9 @@ export async function deleteClipCategories(categoryClipIds: ClipCategoryIds) {
     })
     if (res.ok) {
       const data = await res.json()
-      console.log("deleteClipCategories success:", data.httpStatus)
-      return data
+      return data.isSuccess
     }
   } catch (error) {
-    console.log("deleteClipCategories fail:", error)
+    return
   }
 }

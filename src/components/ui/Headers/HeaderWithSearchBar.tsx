@@ -8,10 +8,14 @@ export default function HeaderWithSearchBar() {
     return "https://sui.ssgcdn.com/ui/mssgmall-ssg/images/badge/mall/logo/ssg.svg?q=d0e074aad3aee3ba776c3af1f3848117a67005b4"
   }
 
+  const handleAlert = () => {
+    alert("현재 개발 중입니다.")
+  }
+
   return (
     <header className="flex flex-row justify-between items-center py-[8px] px-[14px] h-[56px] w-full">
       <div className="flex flex-shrink-0">
-        <a href="/">
+        <Link href="/home">
           <Image
             loader={imageLoader}
             alt="SSG.COM"
@@ -19,7 +23,7 @@ export default function HeaderWithSearchBar() {
             width={86}
             height={40}
           />
-        </a>
+        </Link>
         <button
           aria-label="몰 목록 보기"
           className="rounded-full border h-4 my-auto m-[4px]"
@@ -46,7 +50,10 @@ export default function HeaderWithSearchBar() {
         </button>
       </div>
 
-      <div className=" flex h-full w-full ml-[20px] mr-[10px] bg-[#F5F5F5] rounded-full relative">
+      <div
+        className=" flex h-full w-full ml-[20px] mr-[10px] bg-[#F5F5F5] rounded-full relative"
+        onClick={handleAlert}
+      >
         <input
           readOnly
           className="appearance-none bg-transparent h-full w-full  rounded-full"

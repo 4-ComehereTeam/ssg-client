@@ -9,12 +9,10 @@ export async function checkExistingUserByEmail(email: string) {
     })
     if (res.ok) {
       const data = await res.json()
-      console.log("checkExistingUserByEmail success:", data.httpStatus)
       return data.result ? true : false
     }
     return false
   } catch (error) {
-    console.log("checkExistingUserByEmail error:", error)
     return false
   }
 }

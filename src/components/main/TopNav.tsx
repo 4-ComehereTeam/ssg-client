@@ -16,7 +16,7 @@ export default function TopNav({ index }: { index: string }) {
         <ul className="flex justify-between text-[15px] leading-3 font-normal  whitespace-nowrap">
           <li className="text-center my-auto flex-grow font-[Pretendard-Light] ">
             <Link
-              href="/"
+              href="/home"
               className={
                 underline == "홈"
                   ? "border-b-[3px] border-black pb-[10px] font-bold"

@@ -32,7 +32,6 @@ export async function findUserByEmail(initialState: any, formData: FormData) {
     })
     if (res.ok) {
       const data = await res.json()
-      console.log("findUserByEmail success:", data)
       if (data.result) {
         return { error: "존재하지 않는 회원입니다.", isExistingMember: false }
       } else {
@@ -40,7 +39,6 @@ export async function findUserByEmail(initialState: any, formData: FormData) {
       }
     }
   } catch (error) {
-    console.log("findUserByEmail error:", error)
     return { error: "존재하지 않는 회원입니다.", isExistingMember: false }
   }
 }
@@ -71,12 +69,10 @@ export async function findId(initialState: any, formData: FormData) {
     })
     const data = await res.json()
     if (data.result) {
-      console.log("findSigninId success:", data.httpStatus)
       return { ...initialState, signinId: data.result.signinId }
     }
     throw data.httpStatus
   } catch (error) {
-    console.log("findSigninId error:", error)
     return { ...initialState, error: "존재하지 않는 회원입니다." }
   }
 }
@@ -110,10 +106,7 @@ export async function findPwModify(initialState: any, formData: FormData) {
         newPassword: newPassword,
       }),
     })
-    const data = await res.json()
-    console.log("findPwModify success:", data.httpStatus)
   } catch (error) {
-    console.log("findPwModify error:", error)
     return { error: "비밀번호 변경에 실패했습니다." }
   }
 }
