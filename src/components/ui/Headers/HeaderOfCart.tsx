@@ -7,6 +7,11 @@ import { useRouter } from "next/navigation"
 
 export default function HeaderOfCart({ title }: { title: string }) {
   const router = useRouter()
+
+  const handleAlert = () => {
+    alert("현재 개발 중입니다.")
+  }
+
   return (
     <header className="h-[45px] flex items-center border-b-[1px] border-[rgba(0, 0, 0, 0.07)] sticky top-0 shadow-md bg-white z-50">
       <div
@@ -24,9 +29,9 @@ export default function HeaderOfCart({ title }: { title: string }) {
       <h3 className="text-[14px] w-full text-center mx-auto relative left-[10px]">
         {title}
       </h3>
-      <Link
+      <div
         className="w-[50px] h-full items-center flex justify-center"
-        href={"#"}
+        onClick={handleAlert}
       >
         <Image
           width="27"
@@ -35,7 +40,7 @@ export default function HeaderOfCart({ title }: { title: string }) {
           src="https://img.icons8.com/ios/27/search--v1.png"
           alt="searchIcon"
         />
-      </Link>
+      </div>
       <Link
         className="w-[50px] h-full items-center flex justify-center"
         href={"/home"}
