@@ -8,7 +8,6 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { SIGNIN_WITH_CALLBACK } from "@/routes"
 import {
-  ClipCategoryId,
   deleteClipCategories,
   NoneIdClipCategoryId,
   postClipCategory,

@@ -13,7 +13,7 @@ export default function MyOrder({ orderStepCnts, orderStateCnts }: OrderProps) {
       >
         <div className="p-4 mt-10">
           <div className="flex justify-between ">
-            <Link href={"#orderInfo"}>
+            <Link href={"/not-found"}>
               <h1 className="flex gap-1 items-center">
                 <span className="font-extrabold text-base">주문/배송 조회</span>
                 <Image
@@ -28,7 +28,7 @@ export default function MyOrder({ orderStepCnts, orderStateCnts }: OrderProps) {
               </h1>
             </Link>
             <Link
-              href="#"
+              href="/not-found"
               className="flex items-center justify-center border rounded-md px-3 text-xs whitespace-nowrap"
             >
               <Image
@@ -45,7 +45,7 @@ export default function MyOrder({ orderStepCnts, orderStateCnts }: OrderProps) {
         </div>
       </div>
 
-      <Link href={"#orderInfo"}>
+      <Link href={"/not-found"}>
         <p className="flex justify-center items-center mt-4  text-xs">
           주문/배송 조회 보러가기
           <Image

@@ -77,7 +77,6 @@ export default function SignupForm() {
     })
   }
 
-  //아이디 중복 확인
   const checkIdDuplicate = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {

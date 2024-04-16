@@ -21,7 +21,10 @@ export default function BottomNav() {
         </Link>
       </div>
       <div className="text-center flex items-center justify-center w-10 flex-grow">
-        <Link href="#" className="flex flex-col justify-center items-center">
+        <Link
+          href="/not-found"
+          className="flex flex-col justify-center items-center"
+        >
           <Image
             width="28"
             height="28"
@@ -78,7 +81,10 @@ export default function BottomNav() {
         </Link>
       </div>
       <div className="text-center flex items-center justify-center w-10 flex-grow">
-        <Link href="#" className="flex flex-col justify-center items-center">
+        <Link
+          href="/not-found"
+          className="flex flex-col justify-center items-center"
+        >
           <div className="w-[28px] h-[28px] mx-auto">
             <svg viewBox="0 0 24 24" focusable="false" name="RecentHistoryIcon">
               <path

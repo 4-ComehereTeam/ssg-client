@@ -31,12 +31,8 @@ export async function getClipCategoryIds(): Promise<ClipCategoryIds | []> {
     })
 
     const data = await res.json()
-    if (data.isSuccess) {
-      console.log("getClipCategoryIds success", data.httpStatus)
-    }
     return data.result.categoryClip
   } catch (error) {
-    console.log("getClipCategoryIds error", error)
     return []
   }
 }
@@ -70,14 +66,11 @@ export async function getIsClipedCategory(
       },
     )
     const data = await res.json()
-    if (data.isSuccess) {
-      console.log("getIsClipedCategory success", data.httpStatus)
-    } else {
+    if (!data.isSuccess) {
       throw data
     }
     return data.result
   } catch (error) {
-    console.log("getIsClipedCategory error", error)
     return null
   }
 }
@@ -99,13 +92,11 @@ export async function postClipCategory(categoryId: NoneIdClipCategoryId) {
       }),
     })
     const data = await res.json()
-    if (data.isSuccess) {
-      console.log("postClipCategory success:", data.httpStatus)
-    } else {
+    if (!data.isSuccess) {
       throw data
     }
   } catch (error) {
-    console.log("postClipCategory fail:", error)
+    return
   }
 }
 
@@ -127,10 +118,9 @@ export async function deleteClipCategories(
     })
     if (res.ok) {
       const data = await res.json()
-      console.log("deleteClipCategories success:", data.httpStatus)
-      return data
+      return data.isSuccess
     }
   } catch (error) {
-    console.log("deleteClipCategories fail:", error)
+    return
   }
 }

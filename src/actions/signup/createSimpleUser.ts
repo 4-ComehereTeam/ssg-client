@@ -45,7 +45,6 @@ export async function createSimpleUser(initialState: any, formData: FormData) {
     return { error: "3회 이상 탈퇴 시 30일 후에 가입할 수 있습니다." }
   }
 
-  //마케팅 동의 뽑아내기
   formData.forEach((value, key) => {
     if (ssgcomAgrees.hasOwnProperty(key)) {
       ssgcomAgrees[key] = true
@@ -70,12 +69,10 @@ export async function createSimpleUser(initialState: any, formData: FormData) {
     })
     const data = await res.json()
     if (data.isSuccess) {
-      console.log("socialSignup success:", data.httpStatus)
     } else {
       throw data
     }
   } catch (error) {
-    console.log("socialSignup error:", error)
     return { error: "회원가입에 실패했습니다." }
   }
 }

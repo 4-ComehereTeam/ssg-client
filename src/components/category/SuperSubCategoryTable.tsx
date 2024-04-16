@@ -22,7 +22,7 @@ export default function SuperSubCategoryTable({
           {superSubCategories.map((superSubCtg) => (
             <Link
               key={superSubCtg.id}
-              href={`category-items?big=${bigCtgId}&mid=${midCtgId}&small=${superSubCtg.id}`}
+              href={`categoryItems?big=${bigCtgId}&mid=${midCtgId}&small=${superSubCtg.id}`}
               className="relative flex text-[11px] items-center text-ellipsis ps-[13px] pe-[13px] h-[46px] overflow-hidden border-b-[1px] border-r-[1px]"
             >
               <span className="overflow-hidden text-ellipsis text-xs">

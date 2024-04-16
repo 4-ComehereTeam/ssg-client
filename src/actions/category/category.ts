@@ -21,12 +21,10 @@ export async function getBigCategories(): Promise<BigCategoriesData | null> {
 
     if (res.ok) {
       const data = await res.json()
-      console.log("getBigCategories success:", data.httpStatus)
       return data.result
     }
     return null
   } catch (error) {
-    console.log("getBigCategories error:", error)
     return null
   }
 }
@@ -52,12 +50,10 @@ export async function getMiddleCategories(
 
     if (res.ok) {
       const data = await res.json()
-      console.log("getMiddleCategories success:", data.httpStatus)
       return data.result
     }
     return null
   } catch (error) {
-    console.log("getMiddleCategories error:", error)
     return null
   }
 }
@@ -83,12 +79,10 @@ export async function getSmallCategories(
 
     if (res.ok) {
       const data = await res.json()
-      console.log("getSmallCategories success:", data.httpStatus)
       return data.result
     }
     return null
   } catch (error) {
-    console.log("getSmallCategories error:", error)
     return null
   }
 }
@@ -111,10 +105,8 @@ export async function getBigCategoryName(
       },
     )
     const data = await res.json()
-    console.log("getBigCategoryName success:", data.httpStatus)
     return data.result
   } catch (error) {
-    console.log("getBigCategoryName error:", error)
     return null
   }
 }
@@ -132,10 +124,8 @@ export async function getMidCategoryName(
       },
     )
     const data = await res.json()
-    console.log("getMidCategoryName success:", data.httpStatus)
     return data.result
   } catch (error) {
-    console.log("getMidCategoryName error:", error)
     return null
   }
 }
@@ -153,10 +143,8 @@ export async function getSmallCategoryName(
       },
     )
     const data = await res.json()
-    console.log("getSmallCategoryName success:", data.httpStatus)
     return data.result
   } catch (error) {
-    console.log("getSmallCategoryName error:", error)
     return null
   }
 }

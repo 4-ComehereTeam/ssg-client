@@ -35,11 +35,15 @@ export default function Footer() {
         <ul className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] flex flex-row justify-around w-[100%]">
           <SigninStateBar />
           <li>
-            <Link href={"#"}>앱다운로드</Link>
+            <Link
+              href={"https://m.ssg.com/comm/app/appLink.ssg?mobilAppSvcNo=3"}
+            >
+              앱다운로드
+            </Link>
           </li>
           <Separator className="w-[1px]" />
           <li className="pr-[20px]">
-            <Link href={"https://www.ssg.com/?usePCmode=Y"}>PC버전</Link>
+            <Link href={"/home"}>PC버전</Link>
           </li>
         </ul>
       </div>
@@ -51,7 +55,7 @@ export default function Footer() {
         </p>
         <p className="mt-1.5">
           통신판매업 신고번호: 제2022-서울강남-03751호
-          <Link href={"#"} className="underline decoration-solid">
+          <Link href={"/not-found"} className="underline decoration-solid">
             사업자 정보확인
           </Link>
         </p>

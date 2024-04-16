@@ -62,8 +62,8 @@ export default function SubCategorySlideButton({
                   key={subCtg.id}
                   href={
                     existingSmall
-                      ? `/category-items?big=${bigCtgId}&mid=${midCtgId}&small=${subCtg.id}`
-                      : `/category-items?big=${bigCtgId}&mid=${subCtg.id}`
+                      ? `/categoryItems?big=${bigCtgId}&mid=${midCtgId}&small=${subCtg.id}`
+                      : `/categoryItems?big=${bigCtgId}&mid=${subCtg.id}`
                   }
                   onClick={() => handleCategoryClick(index)}
                 >

@@ -12,6 +12,10 @@ export default function ItemImage({ images }: { images: ItemImageType[] }) {
       Number(b.thumbnail) - Number(a.thumbnail),
   )
 
+  const handleAlert = () => {
+    alert("현재 개발 중입니다.")
+  }
+
   return (
     <section>
       <div className="relative">
@@ -43,7 +47,7 @@ export default function ItemImage({ images }: { images: ItemImageType[] }) {
         </div>
       </div>
       <div className="flex justify-end border-b border-solid">
-        <button>
+        <button onClick={handleAlert}>
           <Image
             width="25"
             height="25"

@@ -15,7 +15,7 @@ export default function MiddleCategory({
       <ul className="text-xs flex w-full flex-wrap px-3 py-3 bg-gray-100 box-border">
         <li className="w-1/2 min-h-[38px] flex items-center pl-3 pr-[13px]">
           <p>
-            <Link href={`/category-items?big=${bigCategoryId}`} passHref>
+            <Link href={`/categoryItems?big=${bigCategoryId}`} passHref>
               상품 전체보기
             </Link>
           </p>
@@ -27,7 +27,7 @@ export default function MiddleCategory({
           >
             <p>
               <Link
-                href={`/category-items?big=${bigCategoryId}&mid=${mid.id}`}
+                href={`/categoryItems?big=${bigCategoryId}&mid=${mid.id}`}
                 passHref
               >
                 {mid.name}

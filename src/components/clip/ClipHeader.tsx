@@ -1,7 +1,6 @@
 import Link from "next/link"
 import "./clip.css"
 
-//추후 폴더 기능 추가시 <ul>{clipfolders.map(folder => <li>{...}</li>)}</ul>
 export default function ClipHeader() {
   return (
     <section>

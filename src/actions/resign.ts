@@ -14,13 +14,11 @@ export async function resign() {
     })
     const data = await res.json()
     if (data.isSuccess) {
-      console.log("resign success:", data.httpStatus)
       return true
     } else {
       throw data
     }
   } catch (error) {
-    console.log("resign fail:", error)
     return false
   }
 }

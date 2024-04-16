@@ -36,12 +36,6 @@ export default function SocialSignupAgree({}) {
     }
   }
 
-  const anyUnchecked = checkedState.some((state) => state === false)
-
-  const handleRoute = () => {
-    if (!anyUnchecked) router.push("/member/signup/form")
-  }
-
   return (
     <section className="flex flex-col px-5 text-xs leading-4">
       <div className="py-2">

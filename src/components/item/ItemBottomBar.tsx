@@ -33,7 +33,7 @@ import {
 } from "../shadcnUI/alert-dialog"
 import SelectedItemCard from "./option/SelectedItemCard"
 import { SIGNIN_WITH_CALLBACK } from "@/routes"
-// import SeletedItemCard from "./option/SeletedItemCard"
+import { cartAdd } from "@/actions/cart/cartAdd"
 
 type ItemBottomBarProps = {
   itemId: string
@@ -41,14 +41,9 @@ type ItemBottomBarProps = {
   isCliped: boolean
   optionExist: convertedOptionExistType
 }
-
 export type OptionName = "color" | "size" | "etc"
-
 export type ItemOptions = (ItemOption & { count: number })[]
-
 const optionOrder: OptionName[] = ["color", "size", "etc"]
-
-//옵션 종류별 기본 선택 값
 export const defaultOption = {
   color: { value: "선택하세요. (색상)", id: 0, optionId: 0, stock: 0 },
   size: { value: "선택하세요. (사이즈)", id: 0, optionId: 0, stock: 0 },
@@ -66,31 +61,20 @@ export default function ItemBottomBar({
   const lastOptionIdx = Object.values(optionExist).lastIndexOf(true)
   const [clickHeart, setClickHeart] = useState(isCliped)
   const [showOptions, setShowOptions] = useState(false)
-
-  //OptionSelector 열고 닫기
   const [showOptionSelector, setShowOptionSelector] = useState({
     color: false,
     size: false,
     etc: false,
   })
-
-  //OptionDrawer 열고 닫기
   const [showOptionDetail, setShowOptionDetail] = useState({
     color: false,
     size: false,
     etc: false,
   })
-
-  //상세 옵션
   const [optionDetail, setOptionDetail] = useState<Options | null>(null)
-
-  //선택된 옵션
   const [selectedOption, setSelectedOption] = useState(defaultOption)
-
-  //옵션 별 상품 담은 배열
   const [itemOptions, setItemOptions] = useState<ItemOptions>([])
 
-  //주문 요청 응답 메시지
   const [purchaseResponseMessage, setPurchaseResponseMessage] = useState("")
 
   const discountRate = itemBasicInfo ? itemBasicInfo.discountRate : 0
@@ -121,7 +105,6 @@ export default function ItemBottomBar({
     setClickHeart(isClick)
   }
 
-  //옵션 창 열고 닫기 & 옵션 없는 상품 데이터 페칭
   const toggleOptions = async () => {
     setShowOptions(!showOptions)
     if (!showOptions) {
@@ -150,7 +133,6 @@ export default function ItemBottomBar({
     }
   }
 
-  //상세 옵션 데이터 페칭
   const getOptionDetailData = async (optionName: OptionName) => {
     if (optionName === "color") {
       const colorData = await getItemOptionColor(itemId)
@@ -180,7 +162,6 @@ export default function ItemBottomBar({
     })
   }
 
-  //상세 옵션 선택 & 상세 옵션 창 열고 닫기
   const handleOptionDetail = async (
     optionName: OptionName,
     optionObject: OptionSepcific,
@@ -190,7 +171,6 @@ export default function ItemBottomBar({
       [optionName]: !showOptionDetail[optionName],
     })
 
-    // 이전과 다른 옵션 선택 시 뒤의 모든 옵션을 초기화
     const newSelectedOption = { ...selectedOption, [optionName]: optionObject }
 
     if (selectedOption[optionName].optionId !== optionObject.optionId) {
@@ -202,7 +182,6 @@ export default function ItemBottomBar({
     }
     setSelectedOption(newSelectedOption)
 
-    //마지막 옵션 선택 시 옵션 정보 데이터 페칭 & itemOptions에 추가
     if (optionOrder.indexOf(optionName) === lastOptionIdx) {
       const newItemOption = await getItemOption(
         newSelectedOption[optionName].optionId,
@@ -227,9 +206,7 @@ export default function ItemBottomBar({
     }
   }
 
-  //itemOptions 삭제 & selectedOption 초기화
   const deleteItemOption = (index: number) => {
-    //itemOptions배열에서 index번째 원소 삭제
     const newItemOptions = itemOptions.filter((_, i) => i !== index)
     setItemOptions(newItemOptions)
 
@@ -242,7 +219,6 @@ export default function ItemBottomBar({
     }
   }
 
-  //itemOption count 수정
   const handleItemOptionCount = (itemOptionId: number, count: number) => {
     const newItemOptions = itemOptions.map((itemOption) =>
       itemOption.itemOptionId === itemOptionId &&
@@ -274,6 +250,21 @@ export default function ItemBottomBar({
     }
   }
 
+  const cart = async () => {
+    if (status == "unauthenticated") {
+      router.push("/member/signin")
+    } else {
+      if (itemOptions.length > 0) {
+        itemOptions.forEach(async (itemOption) => {
+          await cartAdd(itemId, itemOption.itemOptionId, itemOption.count)
+        })
+        router.push("/cart")
+      } else {
+        setPurchaseResponseMessage("옵션을 선택해주세요.")
+      }
+    }
+  }
+
   return (
     <div className="relative z-10">
       <div className={`fixed bottom-0 w-full ${showOptions ? "z-20" : "z-10"}`}>
@@ -292,7 +283,25 @@ export default function ItemBottomBar({
               )}
 
             <div className="grid grid-cols-2 w-full h-[52px] text-white">
-              <button className="bg-black">장바구니</button>
+              <AlertDialog>
+                <AlertDialogTrigger className="bg-black" onClick={() => cart()}>
+                  장바구니
+                </AlertDialogTrigger>
+                {purchaseResponseMessage.length !== 0 && (
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogDescription>
+                        {purchaseResponseMessage}
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel className="bg-[#ff5452] text-white">
+                        확인
+                      </AlertDialogCancel>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                )}
+              </AlertDialog>
 
               <AlertDialog>
                 <AlertDialogTrigger

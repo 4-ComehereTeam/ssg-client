@@ -1,8 +1,27 @@
+import { getItemBasicInfo } from "@/actions/item"
 import { getItemReview, getOneReviewImages } from "@/actions/review"
 import { Review, ReviewImages } from "@/components/item/review/TotalReview"
 import ReviewImageSwiper from "@/components/review/ReviewImageSwiper"
 import Separator from "@/components/ui/Separator"
 import Image from "next/image"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { itemId: string; reviewId: string }
+}) {
+  let title = "일반 리뷰 상세"
+  const basicInfo = await getItemBasicInfo(params.itemId)
+  if (basicInfo) {
+    title += `: ${basicInfo.itemName}`
+  }
+  return {
+    title: title,
+    icons: {
+      icon: "https://sui.ssgcdn.com/ui/mssgmall-ssg/favicon/ssg/icon_72x72.png?q=f323cd4fb4bb4db63ae1e7055690d6316ba74006",
+    },
+  }
+}
 
 export default async function page({
   params,
@@ -47,7 +66,6 @@ export default async function page({
           <Separator className="w-[1px]" height="[10px]" />
           <span className="text-[13px] text-[#969696]">{coverSigninId}</span>
         </div>
-        {/* TODO: 상품 옵션 넣기 */}
         <p className="text-sm">{review.content}</p>
       </div>
     </main>
