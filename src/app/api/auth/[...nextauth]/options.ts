@@ -64,6 +64,7 @@ export const options: NextAuthOptions = {
             const res = await fetch(
               `${process.env.API_BASE_URL}/oauth/signin`,
               {
+                cache: "no-store",
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
