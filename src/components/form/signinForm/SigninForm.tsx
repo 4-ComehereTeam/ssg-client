@@ -36,7 +36,7 @@ function SigninForm() {
 
   useEffect(() => {
     localStorage.setItem("isKeepId", String(isKeepId))
-    localStorage.setItem("signinId", String(signinId)) //아이디 저장 안됨
+    localStorage.setItem("signinId", String(signinId))
   }, [isKeepId, signinId])
 
   return (
@@ -53,8 +53,6 @@ function SigninForm() {
         placeholder="비밀번호"
         className="justify-center items-start py-5 pr-16 pl-4 h-[48.5px] text-sm whitespace-nowrap border border-solid border-stone-300"
       />
-
-      {/* --------아이디 저장--------- */}
       <div
         className="mt-2 px-3 text-xs basis-3/4 flex flex-row leading-4"
         onClick={() => setIsKeepId(!isKeepId)}
@@ -82,7 +80,6 @@ function SigninForm() {
         />
         <span className=" pl-2">아이디 저장</span>
       </div>
-      {/* --------아이디 저장--------- */}
       <AlertDialog>
         <AlertDialogTrigger
           className="mt-[33px] justify-center items-center px-16 py-5 leading-[10px] font-medium text-white whitespace-nowrap bg-[#FF5452] h-[50px]"
