@@ -18,6 +18,10 @@ export default function MainEventSection() {
     setBackgroundImage(mainEventImageData[currentSlideIndex].src)
   }
 
+  const handleAlert = () => {
+    alert("현재 개발 중입니다.")
+  }
+
   return (
     <section className="relative">
       <Swiper
@@ -89,7 +93,10 @@ export default function MainEventSection() {
               <div className="swiper-pagination opacity-50"></div>
             </button>
           </div>
-          <div className="flex justify-center items-center bg-[#00000073] border-l-2 border-transparent">
+          <div
+            className="flex justify-center items-center bg-[#00000073] border-l-2 border-transparent"
+            onClick={handleAlert}
+          >
             <button className="text-xs text-white px-2 flex justify-center items-center font-semibold font-[Pretendard-Light]">
               <span>전체보기</span>
               <Image
