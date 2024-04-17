@@ -18,7 +18,7 @@ export default function EditBar({ clickItemIds }: EditBarProps) {
     await deleteManyClips(clickItemIds)
   }
   return (
-    <div className="z-10 right-0 fixed bottom-0 w-full grid grid-cols-2 h-12 text-white tracking-tighter">
+    <div className="z-10 right-0 fixed bottom-0 w-full h-12 text-white tracking-tighter">
       <AlertDialog>
         <AlertDialogTrigger className="bg-[#FF5452] size-full">
           삭제
