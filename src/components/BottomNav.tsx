@@ -82,7 +82,7 @@ export default function BottomNav() {
       </div>
       <div className="text-center flex items-center justify-center w-10 flex-grow">
         <Link
-          href="/not-found"
+          href="/recentItem"
           className="flex flex-col justify-center items-center"
         >
           <div className="w-[28px] h-[28px] mx-auto">

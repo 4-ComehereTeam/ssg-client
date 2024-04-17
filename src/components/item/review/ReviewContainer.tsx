@@ -32,7 +32,9 @@ export default async function ReviewContainer({ itemId }: { itemId: string }) {
           reviewCount={calc.reviewCount}
           averageStar={calc.averageStar}
         />
-        {allReviewImages && <ReviewPhotos allReviewImages={allReviewImages} />}
+        {allReviewImages && (
+          <ReviewPhotos allReviewImages={allReviewImages} itemId={itemId} />
+        )}
         <TotalReview
           itemId={itemId}
           reviewCount={calc.reviewCount}
