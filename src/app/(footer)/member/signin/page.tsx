@@ -24,7 +24,7 @@ async function Page({
     if (callbackUrl && callbackUrl !== undefined) {
       redirect(callbackUrl)
     } else {
-      redirect("/home")
+      redirect("/not-found")
     }
   } else {
     return (

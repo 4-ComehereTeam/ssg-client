@@ -107,6 +107,7 @@ export const options: NextAuthOptions = {
   },
   pages: {
     signIn: "/member/signin",
+    error: "/not-found",
   },
   secret: process.env.NEXTAUTH_SECRET,
 }
