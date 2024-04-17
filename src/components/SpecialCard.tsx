@@ -2,9 +2,7 @@ import { getSpecialPriceInfo } from "@/actions/specialPrice/specialPrice"
 import SpecialProduct from "./SpecailProduct"
 
 export default async function SpecialCard({ itemId }: { itemId: number }) {
-  console.log("itemId :", itemId)
   const data = await getSpecialPriceInfo(itemId)
-  console.log("getSpecialPriceInfo >>", data)
 
   return (
     <SpecialProduct

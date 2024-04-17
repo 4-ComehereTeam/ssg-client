@@ -4,10 +4,12 @@ import { AllReviewImages } from "./ReviewContainer"
 
 type ReviewPhotosProps = {
   allReviewImages: AllReviewImages
+  itemId: string
 }
 
 export default async function ReviewPhotos({
   allReviewImages,
+  itemId,
 }: ReviewPhotosProps) {
   return (
     <div className="mb-12">
@@ -18,7 +20,7 @@ export default async function ReviewPhotos({
             key={image.imageId}
             className="inline-block w-1/4 aspect-square h-auto oveflow-hidden mx-1.5"
           >
-            <Link href={"#"}>
+            <Link href={`/review/${itemId}/${image.reviewId}`}>
               <Image
                 src={image.url}
                 alt={image.alt}

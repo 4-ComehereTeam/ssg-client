@@ -20,7 +20,6 @@ export const options: NextAuthOptions = {
         }
         try {
           const res = await fetch(`${process.env.API_BASE_URL}/auth/signin`, {
-            cache: "no-store",
             method: "POST",
             headers: {
               "Content-Type": "application/json",
